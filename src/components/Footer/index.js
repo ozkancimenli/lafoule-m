@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "../Icons";
-import Link from "next/link";
 import siteMetadata from "@/src/utils/siteMetaData";
 import { supabase } from "@/src/utils/supabaseClient";
 import { sendNewsletterWelcomeEmail } from "@/src/utils/brevoEmail";
@@ -150,17 +149,8 @@ const Footer = () => {
         <span className="text-center">
           &copy;2023 ozkancimenli. All rights reserved.
         </span>
-        <Link
-          href="/sitemap.xml"
-          className="text-center underline my-4 md:my-0"
-        >
-          sitemap.xml
-        </Link>
         <div className="text-center">
-          Made with &hearts; by{" "}
-          <a href="https://devdreaming.com" className="underline" target="_blank">
-            ozkancimenli
-          </a>
+          Made with &hearts; by{" "} ozkancimenli
         </div>
       </div>
     </footer>
