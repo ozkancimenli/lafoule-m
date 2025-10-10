@@ -2,14 +2,16 @@ import InsightRoll from "@/src/components/About/InsightRoll";
 
 
 const insights = [
-    "20+ Projects Completed",
-    "3+ Years of Freelancing",
-    "99% Client Satisfaction",
-    "20K+ Subscribers",
-    "Authored In-Depth Course on Educative",
-    "Contributed as a Technical Course Reviewer 📝",
-    "Recipient of the Hackernoon Noonies Award 🏆",
-  ];
+  "5+ Full-Stack Projects Deployed",
+  "Software Engineering Graduate 🎓",
+  "Focused on Next.js, React & Flask",
+  "Portfolio-Driven Developer 💻",
+  "Building Real-World SaaS & API Projects",
+  "Passionate About Clean Code & UI Design",
+  "Currently Seeking Software Engineer Roles 🚀",
+  "Based in New York 🇺🇸",
+];
+
 
 export default function AboutLayout({ children }) {
   return (
