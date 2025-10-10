@@ -74,7 +74,7 @@ const Footer = () => {
               message: "Enter a valid email address",
             },
           })}
-          className="outline-none w-full bg-transparent pl-2 sm:pl-0 text-dark focus:border-gray focus:ring-0 border-0 border-b mr-2 pb-1 disabled:cursor-not-allowed"
+          className="outline-none w-full bg-transparent pl-2 sm:pl-0 text-dark dark:text-light focus:border-gray focus:ring-0 border-0 border-b mr-2 pb-1 disabled:cursor-not-allowed placeholder:text-gray-500 dark:placeholder:text-gray-400"
           disabled={isSubmitting}
           aria-invalid={errors.email ? "true" : "false"}
         />
