@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "../Icons";
 import Link from "next/link";
@@ -9,10 +9,43 @@ const Footer = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-  console.log(errors);
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackVariant, setFeedbackVariant] = useState("neutral");
+
+  const onSubmit = async (data) => {
+    try {
+      setFeedbackMessage("");
+      setFeedbackVariant("neutral");
+
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: data.email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result?.error || "Subscription failed.");
+      }
+
+      setFeedbackVariant("success");
+      setFeedbackMessage("Welcome aboard! You'll start receiving updates soon.");
+      reset();
+    } catch (error) {
+      setFeedbackVariant("error");
+      setFeedbackMessage(error.message || "We could not save your email. Try again later.");
+    }
+  };
 
   return (
     <footer className="mt-16 rounded-2xl bg-dark dark:bg-accentDark/90 m-2 sm:m-10 flex flex-col items-center text-light dark:text-dark">
@@ -31,15 +64,47 @@ const Footer = () => {
         <input
           type="email"
           placeholder="Enter your email"
-          {...register("email", { required: true, maxLength: 80 })}
-          className="outline-none  w-full bg-transparent pl-2 sm:pl-0 text-dark focus:border-gray focus:ring-0 border-0 border-b mr-2 pb-1"
+          {...register("email", {
+            required: "Email is required",
+            maxLength: {
+              value: 120,
+              message: "Please use a shorter email address",
+            },
+            pattern: {
+              value:
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\\.,;:\s@"]+\.)+[^<>()[\]\\.,;:\s@"]{2,})$/i,
+              message: "Enter a valid email address",
+            },
+          })}
+          className="outline-none w-full bg-transparent pl-2 sm:pl-0 text-dark focus:border-gray focus:ring-0 border-0 border-b mr-2 pb-1 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
+          aria-invalid={errors.email ? "true" : "false"}
         />
 
-        <input
+        <button
           type="submit"
-          className="bg-dark text-light dark:text-dark dark:bg-light cursor-pointer font-medium rounded px-3 sm:px-5 py-1"
-        />
+          className="bg-dark text-light dark:text-dark dark:bg-light cursor-pointer font-medium rounded px-3 sm:px-5 py-1 transition-colors duration-200 hover:bg-light hover:text-dark dark:hover:bg-dark dark:hover:text-light disabled:cursor-not-allowed disabled:opacity-70"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Joining..." : "Join"}
+        </button>
       </form>
+      <div className="mt-3 min-h-[1.5rem] text-sm font-light">
+        {errors.email && (
+          <p className="text-rose-300 dark:text-rose-200">{errors.email.message}</p>
+        )}
+        {feedbackMessage && (
+          <p
+            className={
+              feedbackVariant === "success"
+                ? "text-emerald-300 dark:text-emerald-200"
+                : "text-rose-300 dark:text-rose-200"
+            }
+          >
+            {feedbackMessage}
+          </p>
+        )}
+      </div>
       <div className="flex items-center mt-8">
         <a
           href={siteMetadata.linkedin}
