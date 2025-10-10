@@ -8,7 +8,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Liveblocks", "Clerk", "Shadcn-UI"],
     github: "https://github.com/ozkancimenli/collabcanvas",
     live: "https://colcanvas.vercel.app/",
-    year: "2025",
+    year: "2024",
     status: "Featured",
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Supabase", "Google API", "Clerk"],
     github: "https://github.com/ozkancimenli/teamsync",
     live: "https://team-sync-ashen.vercel.app",
-    year: "2024",
+    year: "2025",
     status: "In Progress",
   },
 ];
