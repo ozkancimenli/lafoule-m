@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { supabase } from "@/src/utils/supabaseClient";
+import { sendContactNotificationEmail, sendContactAutoReplyEmail } from "@/src/utils/brevoEmail";
 
 const defaultValues = {
   name: "",
@@ -36,6 +37,25 @@ export default function ContactForm() {
 
       if (error) {
         throw new Error("We could not send your message. Please try again.");
+      }
+
+      // Send emails
+      try {
+        const contactData = { 
+          name: data.name, 
+          email: data.email, 
+          phone: data.phone, 
+          details: data.details 
+        };
+        
+        // Send notification email to admin
+        await sendContactNotificationEmail(contactData);
+        
+        // Send auto-reply email to user
+        await sendContactAutoReplyEmail(contactData);
+      } catch (emailError) {
+        console.error("Email sending error:", emailError);
+        // Don't fail the form if email fails
       }
 
       setServerSuccess("Thanks for reaching out! I will get back to you shortly.");

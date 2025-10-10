@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import createSupabaseServerClient from "@/src/utils/supabaseServerClient";
+import { sendContactNotificationEmail, sendContactAutoReplyEmail } from "@/src/utils/brevoEmail";
 
 const sanitizeString = (value) =>
   typeof value === "string" ? value.trim() : "";
@@ -40,6 +41,20 @@ export async function POST(request) {
         { error: "Unable to save your message right now. Please try again." },
         { status: 500 }
       );
+    }
+
+    // Send emails
+    try {
+      const contactData = { name, email, phone, details };
+      
+      // Send notification email to admin
+      await sendContactNotificationEmail(contactData);
+      
+      // Send auto-reply email to user
+      await sendContactAutoReplyEmail(contactData);
+    } catch (emailError) {
+      console.error("Email sending error:", emailError);
+      // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json({ success: true });

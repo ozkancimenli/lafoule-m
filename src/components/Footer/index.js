@@ -5,6 +5,7 @@ import { GithubIcon, LinkedinIcon, TwitterIcon } from "../Icons";
 import Link from "next/link";
 import siteMetadata from "@/src/utils/siteMetaData";
 import { supabase } from "@/src/utils/supabaseClient";
+import { sendNewsletterWelcomeEmail } from "@/src/utils/brevoEmail";
 
 const Footer = () => {
   const {
@@ -34,6 +35,14 @@ const Footer = () => {
           throw new Error("Looks like you are already on the list!");
         }
         throw new Error("We couldn't save your email. Please try again.");
+      }
+
+      // Send welcome email
+      try {
+        await sendNewsletterWelcomeEmail(data.email);
+      } catch (emailError) {
+        console.error("Email sending error:", emailError);
+        // Don't fail the form if email fails
       }
 
       setFeedbackVariant("success");

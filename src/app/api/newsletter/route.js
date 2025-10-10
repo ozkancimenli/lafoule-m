@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import createSupabaseServerClient from "@/src/utils/supabaseServerClient";
+import { sendNewsletterWelcomeEmail } from "@/src/utils/brevoEmail";
 
 const sanitizeEmail = (value) =>
   typeof value === "string" ? value.trim().toLowerCase() : "";
@@ -35,6 +36,14 @@ export async function POST(request) {
         { error: "We couldn't save your email. Please try again." },
         { status: 500 }
       );
+    }
+
+    // Send welcome email
+    try {
+      await sendNewsletterWelcomeEmail(email);
+    } catch (emailError) {
+      console.error("Email sending error:", emailError);
+      // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json({ success: true });
