@@ -6,6 +6,7 @@ import Link from "next/link";
 import siteMetadata from "@/src/utils/siteMetaData";
 import { supabase } from "@/src/utils/supabaseClient";
 import { sendNewsletterWelcomeEmail } from "@/src/utils/brevoEmail";
+import { trackNewsletterSignup } from "@/src/hooks/useAnalytics";
 
 const Footer = () => {
   const {
@@ -37,17 +38,20 @@ const Footer = () => {
         throw new Error("We couldn't save your email. Please try again.");
       }
 
-      // Send welcome email
-      try {
-        await sendNewsletterWelcomeEmail(data.email);
-      } catch (emailError) {
-        console.error("Email sending error:", emailError);
-        // Don't fail the form if email fails
-      }
+          // Send welcome email
+          try {
+            await sendNewsletterWelcomeEmail(data.email);
+          } catch (emailError) {
+            console.error("Email sending error:", emailError);
+            // Don't fail the form if email fails
+          }
 
-      setFeedbackVariant("success");
-      setFeedbackMessage("Welcome aboard! You'll start receiving updates soon.");
-      reset();
+          // Track newsletter signup
+          trackNewsletterSignup();
+
+          setFeedbackVariant("success");
+          setFeedbackMessage("Welcome aboard! You'll start receiving updates soon.");
+          reset();
     } catch (error) {
       setFeedbackVariant("error");
       setFeedbackMessage(error.message || "We could not save your email. Try again later.");

@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { slug } from "github-slugger";
 import ViewCounter from "./ViewCounter";
+import SocialShare from "./SocialShare";
 
 const BlogDetails = ({ blog, slug: blogSlug }) => {
   return (
@@ -17,6 +18,13 @@ const BlogDetails = ({ blog, slug: blogSlug }) => {
       <Link href={`/categories/${slug(blog.tags[0])}`} className="m-3">
         #{blog.tags[0]}
       </Link>
+    </div>
+    <div className="px-2 md:px-10 mx-5 md:mx-10 mt-4">
+      <SocialShare 
+        title={blog.title}
+        url={`/blogs/${blogSlug}`}
+        description={blog.description}
+      />
     </div>
   );
 };

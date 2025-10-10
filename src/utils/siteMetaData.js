@@ -1,9 +1,9 @@
 const siteMetadata = {
-  title: 'Ozkan Cimenli | Full-Stack Developer',
+  title: 'Ozkan Cimenli | Full-Stack Developer & Web Developer',
   author: 'Ozkan Cimenli',
   headerTitle: 'Ozkan Cimenli',
   description:
-    'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask. Explore my projects and contact information.',
+    'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask. Explore my projects, blog posts, and contact information.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://ozkancimenli.com',
@@ -14,6 +14,36 @@ const siteMetadata = {
   twitter: 'https://twitter.com/cimenliozkan1',
   linkedin: 'https://www.linkedin.com/in/ozkancimenli/',
   locale: 'en-US',
+  keywords: [
+    'Ozkan Cimenli',
+    'Full-Stack Developer',
+    'Web Developer',
+    'React Developer',
+    'Next.js Developer',
+    'Python Developer',
+    'Flask Developer',
+    'JavaScript Developer',
+    'Frontend Developer',
+    'Backend Developer',
+    'Portfolio',
+    'Blog',
+    'Web Development',
+    'Software Development'
+  ],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://ozkancimenli.com',
+    title: 'Ozkan Cimenli | Full-Stack Developer',
+    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask.',
+    siteName: 'Ozkan Cimenli Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ozkan Cimenli | Full-Stack Developer',
+    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask.',
+    creator: '@cimenliozkan1',
+  },
 }
 
 module.exports = siteMetadata

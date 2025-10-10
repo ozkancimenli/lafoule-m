@@ -5,6 +5,11 @@ import Header from "@/src/components/Header";
 import Footer from "../components/Footer";
 import siteMetadata from "../utils/siteMetaData";
 import Script from "next/script";
+import GoogleAnalytics from "@/src/components/Analytics/GoogleAnalytics";
+import SchemaMarkup from "@/src/components/SEO/SchemaMarkup";
+import PWAInstallPrompt from "@/src/components/PWA/PWAInstallPrompt";
+import BackToTop from "@/src/components/UI/BackToTop";
+import { usePerformance } from "@/src/hooks/usePerformance";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,9 +75,19 @@ export default function RootLayout({ children }) {
     document.documentElement.classList.remove('dark')
   }`}
         </Script>
+        <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
+        <SchemaMarkup 
+          type="Person"
+          name={siteMetadata.author}
+          description={siteMetadata.description}
+          url={siteMetadata.siteUrl}
+          image={siteMetadata.socialBanner}
+        />
         <Header />
         {children}
         <Footer />
+        <PWAInstallPrompt />
+        <BackToTop />
       </body>
     </html>
   );
