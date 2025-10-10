@@ -3,6 +3,10 @@
 import Script from 'next/script';
 
 const GoogleAnalytics = ({ GA_TRACKING_ID }) => {
+  if (!GA_TRACKING_ID) {
+    return null;
+  }
+
   return (
     <>
       <Script
@@ -17,10 +21,7 @@ const GoogleAnalytics = ({ GA_TRACKING_ID }) => {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_title: document.title,
-              page_location: window.location.href,
-            });
+            gtag('config', '${GA_TRACKING_ID}');
           `,
         }}
       />
