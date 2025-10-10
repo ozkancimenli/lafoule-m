@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { supabase } from "@/src/utils/supabaseClient";
 
 const defaultValues = {
   name: "",
@@ -24,23 +25,17 @@ export default function ContactForm() {
       setServerError("");
       setServerSuccess("");
 
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const { error } = await supabase
+        .from("contact_requests")
+        .insert({
           name: data.name,
           email: data.email,
           phone: data.phone || null,
           details: data.details || null,
-        }),
-      });
+        });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result?.error || "We could not send your message.");
+      if (error) {
+        throw new Error("We could not send your message. Please try again.");
       }
 
       setServerSuccess("Thanks for reaching out! I will get back to you shortly.");

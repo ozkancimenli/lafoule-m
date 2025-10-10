@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "../Icons";
 import Link from "next/link";
 import siteMetadata from "@/src/utils/siteMetaData";
+import { supabase } from "@/src/utils/supabaseClient";
 
 const Footer = () => {
   const {
@@ -24,18 +25,15 @@ const Footer = () => {
       setFeedbackMessage("");
       setFeedbackVariant("neutral");
 
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: data.email }),
-      });
+      const { error } = await supabase
+        .from("newsletter_subscriptions")
+        .insert({ email: data.email });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result?.error || "Subscription failed.");
+      if (error) {
+        if (error.code === "23505") {
+          throw new Error("Looks like you are already on the list!");
+        }
+        throw new Error("We couldn't save your email. Please try again.");
       }
 
       setFeedbackVariant("success");
