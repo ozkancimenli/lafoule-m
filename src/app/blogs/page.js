@@ -85,9 +85,6 @@ const BlogsPage = () => {
         <div className="px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col gap-3">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
             <h2 className="text-xl md:text-2xl font-semibold">Browse by topic</h2>
-            <p className="text-sm text-dark/60 dark:text-light/60 max-w-lg">
-              Stay on track by jumping into curated categories covering product, performance, and productivity.
-            </p>
           </div>
         </div>
         <Categories
