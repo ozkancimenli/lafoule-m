@@ -2,7 +2,7 @@ export default function manifest() {
     return {
       name: 'Ozkan Cimenli - Full-Stack Developer',
       short_name: 'Ozkan Cimenli',
-      description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask.',
+      description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
       start_url: '/',
       display: 'standalone',
       background_color: '#ffffff',

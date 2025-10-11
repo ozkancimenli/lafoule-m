@@ -3,7 +3,7 @@ const siteMetadata = {
   author: 'Ozkan Cimenli',
   headerTitle: 'Ozkan Cimenli',
   description:
-    'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask. Explore my projects, blog posts, and contact information.',
+    'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python. Explore my projects, blog posts, and contact information.',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://ozkancimenli.com',
@@ -35,13 +35,13 @@ const siteMetadata = {
     locale: 'en_US',
     url: 'https://ozkancimenli.com',
     title: 'Ozkan Cimenli | Full-Stack Developer',
-    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask.',
+    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
     siteName: 'Ozkan Cimenli Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ozkan Cimenli | Full-Stack Developer',
-    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in React, Next.js, Python, and Flask.',
+    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
     creator: '@cimenliozkan1',
   },
 }
