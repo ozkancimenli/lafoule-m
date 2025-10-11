@@ -61,8 +61,8 @@ const BlogSearch = () => {
             <div className="py-2">
               {searchResults.map((blog) => (
                 <Link
-                  key={blog.slug}
-                  href={`/blogs/${blog.slug}`}
+                  key={blog._id}
+                  href={blog.url}
                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-dark dark:text-light"
                   onClick={() => setSearchTerm('')}
                 >
