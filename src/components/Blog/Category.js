@@ -3,6 +3,14 @@ import Link from "next/link";
 import React from "react";
 
 const Category = ({ link = "#", name, active, ...props }) => {
+  const toTitleCase = (value) =>
+    value
+      .split("-")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+
+  const displayName = toTitleCase(name);
+
   return (
     <Link
       href={link}
@@ -12,7 +20,7 @@ const Category = ({ link = "#", name, active, ...props }) => {
         active ? "bg-dark text-light dark:bg-light dark:text-dark" : "bg-light text-dark dark:bg-dark dark:text-light"
       )}
     >
-      #{name}
+      #{displayName}
     </Link>
   );
 };
