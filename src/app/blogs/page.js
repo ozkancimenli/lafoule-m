@@ -97,22 +97,7 @@ const BlogsPage = () => {
         />
       </section>
 
-      {featured && (
-        <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 grid grid-cols-1 xl:grid-cols-5 gap-12 items-start">
-          <article className="xl:col-span-3">
-            <h2 className="sr-only">Featured article</h2>
-            <BlogLayoutOne blog={featured} />
-          </article>
-          <div className="xl:col-span-2 flex flex-col gap-8">
-            <h2 className="text-xl font-semibold">Spotlight stories</h2>
-            <div className="flex flex-col gap-6">
-              {spotlight.map((blog) => (
-                <BlogLayoutThree key={blog._id} blog={blog} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      
 
       {archive.length > 0 && (
         <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 sm:mt-20 md:mt-24 space-y-12">
