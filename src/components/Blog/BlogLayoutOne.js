@@ -5,6 +5,11 @@ import Image from "next/image";
 import { slug } from "github-slugger";
 
 const BlogLayoutOne = ({ blog }) => {
+  const tags =
+    Array.isArray(blog.tags) && blog.tags.length > 0
+      ? blog.tags
+      : ["uncategorized"];
+
   return (
     <div className="group inline-block overflow-hidden rounded-xl">
       <div
@@ -24,9 +29,16 @@ const BlogLayoutOne = ({ blog }) => {
       />
 
       <div className="w-full absolute bottom-0 p-4 xs:p-6 sm:p-10 z-20">
-        <Tag link={`/categories/${slug(blog.tags[0])}`} name={blog.tags[0]}
-        className="px-6 text-xs  sm:text-sm py-1 sm:py-2 !border "
-        />
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Tag
+              key={tag}
+              link={`/categories/${slug(tag)}`}
+              name={tag}
+              className="px-6 text-xs  sm:text-sm py-1 sm:py-2 !border"
+            />
+          ))}
+        </div>
         <Link href={blog.url} className="mt-6">
           <h2 className="font-bold capitalize text-sm xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4">
             <span

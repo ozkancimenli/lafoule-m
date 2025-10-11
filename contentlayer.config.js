@@ -39,6 +39,7 @@ const Blog = defineDocumentType(() => ({
     tags: {
       type: "list",
       of: { type: "string" },
+      default: [],
     },
   },
   computedFields: {

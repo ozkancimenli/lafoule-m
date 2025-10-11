@@ -1,5 +1,6 @@
 import { allBlogs } from 'contentlayer/generated';
 import siteMetadata from '@/src/utils/siteMetaData';
+import { slug } from 'github-slugger';
 
 export default function sitemap() {
   const siteUrl = siteMetadata.siteUrl;
@@ -40,15 +41,21 @@ export default function sitemap() {
 
   // Blog posts
   const blogPages = allBlogs.map((blog) => ({
-    url: `${siteUrl}/blogs/${blog.slug}`,
-    lastModified: new Date(blog.publishedAt),
+    url: `${siteUrl}${blog.url}`,
+    lastModified: new Date(blog.updatedAt || blog.publishedAt),
     changeFrequency: 'weekly',
     priority: 0.7,
   }));
 
   // Categories
-  const categories = [...new Set(allBlogs.map(blog => blog.tags).flat())];
-  const categoryPages = categories.map((category) => ({
+  const categorySlugs = [
+    ...new Set(
+      allBlogs.flatMap((blog) =>
+        (blog.tags ?? []).map((tag) => slug(tag))
+      )
+    ),
+  ];
+  const categoryPages = categorySlugs.map((category) => ({
     url: `${siteUrl}/categories/${category}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',

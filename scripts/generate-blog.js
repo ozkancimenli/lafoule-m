@@ -25,15 +25,15 @@ const TOPIC_SOURCE = path.join(process.cwd(), "scripts", "topics.json");
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const LEGACY_AUTO_CONTENT_DIR = path.join(CONTENT_ROOT, "auto");
 const LEGACY_HISTORY_PATH = path.join(LEGACY_AUTO_CONTENT_DIR, "_history.json");
-const HISTORY_PATH = path.join(CONTENT_ROOT, "_auto-history.json");
-const IMAGE_OUTPUT_DIR = path.join(process.cwd(), "public", "images");
+const HISTORY_PATH = path.join(process.cwd(), "scripts", "_auto-history.json");
+const BLOG_IMAGE_OUTPUT_DIR = path.join(process.cwd(), "public", "blogs");
 
 const FALLBACK_IMAGE_BASE64 =
   "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEhITFhUVFRUWFxUVFRUVFhUVFRUWFhUVFhUYHSggGBolHRUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAKgBLAMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAFAAQGBwIDB//EADQQAAEDAgQDBgUDBAMAAAAAAAEAAgMEEQUSITEGEyJBUWFxgZGhByNCseEjMpLRFSNSYv/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACIRAQABAwMFAAAAAAAAAAAAAAABAgMRITEEEjJhBRQygf/aAAwDAQACEQMRAD8A9wAoiIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/2Q==";
 const DEFAULT_HF_MODEL_ID = "google/flan-t5-base";
 
 const DAYS_TO_AVOID_DUPLICATES = 30;
-const DEFAULT_TAGS = ["blog", "automation", "tech insights"];
+const DEFAULT_TAGS = ["web development", "productivity", "developer experience"];
 
 /**
  * Utility: ensure directory exists.
@@ -190,12 +190,14 @@ async function fetchUnsplashImage(topic, slug) {
       );
     }
     const arrayBuffer = await imageResponse.arrayBuffer();
-    await ensureDirectory(IMAGE_OUTPUT_DIR);
-    const imagePath = path.join(IMAGE_OUTPUT_DIR, `${slug}.jpg`);
+    await ensureDirectory(BLOG_IMAGE_OUTPUT_DIR);
+    const fileName = `${slug}.jpg`;
+    const imagePath = path.join(BLOG_IMAGE_OUTPUT_DIR, fileName);
     await fsp.writeFile(imagePath, Buffer.from(arrayBuffer));
 
     return {
-      imagePath: `/images/${slug}.jpg`,
+      src: `/blogs/${fileName}`,
+      frontMatterPath: `../../public/blogs/${fileName}`,
       credit: photoCredit,
     };
   } catch (error) {
@@ -207,13 +209,15 @@ async function fetchUnsplashImage(topic, slug) {
 }
 
 async function createFallbackImage(slug) {
-  await ensureDirectory(IMAGE_OUTPUT_DIR);
+  await ensureDirectory(BLOG_IMAGE_OUTPUT_DIR);
   const buffer = Buffer.from(FALLBACK_IMAGE_BASE64, "base64");
-  const imagePath = path.join(IMAGE_OUTPUT_DIR, `${slug}.jpg`);
+  const fileName = `${slug}.jpg`;
+  const imagePath = path.join(BLOG_IMAGE_OUTPUT_DIR, fileName);
   await fsp.writeFile(imagePath, buffer);
 
   return {
-    imagePath: `/images/${slug}.jpg`,
+    src: `/blogs/${fileName}`,
+    frontMatterPath: `../../public/blogs/${fileName}`,
     credit: {
       name: "Placeholder Image",
       profileUrl:
@@ -294,9 +298,9 @@ function buildArticleContent({
 }) {
   const heroMarkdown = `
 <Image
-  src="${heroImage.imagePath}"
-  width="1200"
-  height="628"
+  src="${heroImage.src}"
+  width="1920"
+  height="1080"
   alt="${topicTitle}"
   priority
   sizes="100vw"
@@ -312,39 +316,52 @@ function buildArticleContent({
 
   const introParagraph =
     aiParagraphs[0] ||
-    `Staying productive and shipping value consistently requires purposeful systems. This article breaks down how **${topicTitle}** fits into a modern workflow, with practical guidance you can action today.`;
+    `Staying focused on deep engineering work means removing the manual chores around **${topicTitle}**. This playbook shows you how to protect creative energy, keep delivery velocity high, and make the outcomes easy to measure.`;
 
   const whyParagraph =
     aiParagraphs[1] ||
-    `${topicTitle} directly influences how search engines interpret your authority and how readers experience your product. Treat it as a flywheel: every improvement strengthens your content quality, dwell time, and conversion signals in tandem.`;
+    `${topicTitle} creates leverage when it is documented, automated, and visible. The sooner you codify the workflow, the easier it is to onboard teammates, ship consistently, and defend the investment with real metrics.`;
 
-  const keyTakeaways = [
-    `Understand where ${topicTitle.toLowerCase()} drives the biggest SEO and UX impact.`,
-    "Apply quick-win tactics you can implement in under 30 minutes.",
-    "Measure success with lightweight analytics that give clear signals.",
+  const valueBullets = [
+    "Removes context switching triggered by frequent, low-skill steps.",
+    "Turns this focus into a reusable playbook anyone on the team can follow.",
+    "Surfaces the signals leaders need to know the work is paying off.",
   ];
 
   const checklist = [
-    "Map user intent to the primary keyword cluster.",
-    "Create content sections that answer top follow-up questions.",
-    "Add internal links to keep readers exploring related resources.",
-    "Review accessibility and performance before publishing.",
+    "Every step has a single command or documented API call.",
+    "Runbooks live with the codebase so updates ship together.",
+    "Automations log successes and failures where the team already looks.",
+    "Ownership and escalation paths are obvious to new contributors.",
+  ];
+
+  const toolStack = [
+    "**Task runners:** Keep the day-to-day steps reproducible locally with npm scripts, Make, or Turborepo.",
+    "**CI pipelines:** Validate, deploy, and notify from one place using GitHub Actions or GitLab CI.",
+    "**Observability:** Dashboards, alerts, or lightweight logs to highlight when things drift.",
+    "**Collaboration:** ChatOps bots or shared docs so updates stay transparent.",
   ];
 
   const qnaSection = [
     {
-      question: `How does ${topicTitle} improve organic visibility?`,
-      answer: `Search engines reward content that solves a specific problem comprehensively. ${topicTitle} aligns your page structure, copy, and performance signals with user expectations, boosting engagement metrics that feed ranking models.`,
+      question: `How does investing in ${topicTitle} accelerate delivery?`,
+      answer: `It reduces the cognitive overhead of repeating the same steps. Once the workflow is codified, engineers spend more cycles on problem solving instead of setup and teardown.`,
     },
     {
-      question: "Is this strategy only for large teams?",
+      question: "Will this slow down smaller teams?",
       answer:
-        "No. Solo makers and small teams can adopt a lightweight version by focusing on one measurable improvement per sprint and templating the process to stay consistent.",
+        "Start with tiny scripts—automate the riskiest or most annoying steps first. Expansion only happens when the team sees a clear payoff.",
+    },
+    {
+      question: "How do we keep the automation trustworthy?",
+      answer:
+        "Treat it like product code: add tests when possible, wire in alerts, and review changes alongside feature work.",
     },
   ];
 
-  const takeawaysList = keyTakeaways.map((item) => `- ${item}`).join("\n");
+  const valueList = valueBullets.map((item) => `- ${item}`).join("\n");
   const checklistList = checklist.map((item) => `- [ ] ${item}`).join("\n");
+  const toolStackList = toolStack.map((item) => `- ${item}`).join("\n");
   const qnaMarkdown = qnaSection
     .map(
       (item) => `**Q:** ${item.question}\n\n**A:** ${item.answer}\n`
@@ -360,7 +377,7 @@ author: "Ozkan Cimenli"
 isPublished: true
 tags:
 ${tags.map((tag) => `  - ${tag}`).join("\n")}
-image: "${heroImage.imagePath}"
+image: "${heroImage.frontMatterPath}"
 ---
 
 ${heroMarkdown}
@@ -369,25 +386,32 @@ ${introParagraph}
 
 ---
 
-## Why ${topicTitle} matters right now
+## Why ${topicTitle} should be on your roadmap
 
 ${whyParagraph}
 
-${takeawaysList}
+${valueList}
 
 ---
 
 ## Implementation roadmap
 
-1. **Discover intent:** Audit the current keyword landscape and prioritise the highest-impact subtopics.
-2. **Structure content:** Map headings to user questions and weave in scannable elements like checklists and code snippets.
-3. **Measure outcomes:** Track organic clicks, scroll depth, and conversion assists to prove ROI.
+1. **Discover intent:** Capture the scenarios and edge cases that make this work feel hard today.
+2. **Design the happy path:** Document inputs, outputs, and checkpoints so every run looks the same.
+3. **Automate iteratively:** Start with scripts or workflows that remove the noisiest manual effort.
+4. **Measure outcomes:** Track time saved, incidents avoided, and satisfaction to prove the value.
 
 ---
 
-## Publication Checklist
+## Productivity checklist
 
 ${checklistList}
+
+---
+
+## Tool stack to explore
+
+${toolStackList}
 
 ---
 
@@ -444,14 +468,14 @@ async function main() {
       slug,
       title: topic.title,
       createdAt: new Date().toISOString(),
-      image: heroImage.imagePath,
+      image: heroImage.src,
     },
     ...history.filter((entry) => entry.slug !== slug),
   ];
   await saveHistory(updatedHistory);
 
   console.log(`✅ Blog post generated under content/${slug}/index.mdx`);
-  console.log(`✅ Featured image saved to public${heroImage.imagePath}`);
+  console.log(`✅ Featured image saved to public${heroImage.src}`);
 }
 
 main().catch((error) => {

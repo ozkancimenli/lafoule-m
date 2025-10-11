@@ -15,7 +15,7 @@ const BlogSearch = () => {
       const results = allBlogs.filter(blog =>
         blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         blog.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+        (blog.tags ?? []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
       );
       setSearchResults(results);
       setIsSearching(false);
@@ -70,9 +70,11 @@ const BlogSearch = () => {
                   <div className="text-sm text-gray-500 dark:text-gray-400">
                     {blog.description}
                   </div>
-                  <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                    {blog.tags.join(', ')}
-                  </div>
+                  {blog.tags?.length ? (
+                    <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      {blog.tags.join(', ')}
+                    </div>
+                  ) : null}
                 </Link>
               ))}
             </div>

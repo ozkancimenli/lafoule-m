@@ -6,6 +6,11 @@ import ViewCounter from "./ViewCounter";
 import SocialShare from "./SocialShare";
 
 const BlogDetails = ({ blog, slug: blogSlug }) => {
+  const tags =
+    Array.isArray(blog.tags) && blog.tags.length > 0
+      ? blog.tags
+      : ["uncategorized"];
+
   return (
     <>
       <div className="px-2  md:px-10 bg-accent dark:bg-accentDark text-light dark:text-dark py-2 flex items-center justify-around flex-wrap text-lg sm:text-xl font-medium mx-5  md:mx-10 rounded-lg">
@@ -16,9 +21,17 @@ const BlogDetails = ({ blog, slug: blogSlug }) => {
           <ViewCounter slug={blogSlug} />
         </span>
         <div className="m-3">{blog.readingTime.text}</div>
-        <Link href={`/categories/${slug(blog.tags[0])}`} className="m-3">
-          #{blog.tags[0]}
-        </Link>
+        <div className="m-3 flex flex-wrap items-center justify-center gap-2">
+          {tags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/categories/${slug(tag)}`}
+              className="px-3 py-1 rounded-full border border-light text-sm sm:text-base"
+            >
+              #{tag}
+            </Link>
+          ))}
+        </div>
       </div>
       <div className="px-2 md:px-10 mx-5 md:mx-10 mt-4">
         <SocialShare 

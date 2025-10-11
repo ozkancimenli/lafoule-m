@@ -35,8 +35,6 @@ jobs:
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           HF_ACCESS_TOKEN: ${{ secrets.HF_ACCESS_TOKEN }}
-          HF_MODEL_ID: ${{ secrets.HF_MODEL_ID }}
-          HF_ENDPOINT: ${{ secrets.HF_ENDPOINT }}
 
       - name: Build site to validate content
         run: npm run build
@@ -49,6 +47,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content public/images
+          git add content public/blogs
           git commit -m "🤖 auto: new blog post"
           git push

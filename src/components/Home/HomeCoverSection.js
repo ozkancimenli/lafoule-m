@@ -10,6 +10,12 @@ const HomeCoverSection = ({blogs}) => {
     const sortedBlogs = sortBlogs(blogs);
     const blog = sortedBlogs[0];
 
+    if (!blog) {
+      return null;
+    }
+
+    const tags = Array.isArray(blog.tags) && blog.tags.length > 0 ? blog.tags : ["uncategorized"];
+
   return (
     <div className='w-full inline-block'>
         <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]'>
@@ -27,7 +33,16 @@ const HomeCoverSection = ({blogs}) => {
         />
 
         <div className='w-full lg:w-3/4 p-6 sm:p-8 md:p-12  lg:p-16 flex flex-col items-start justify-center z-0 text-light'>
-            <Tag link={`/categories/${slug(blog.tags[0])}`} name={blog.tags[0]} />
+            <div className='flex flex-wrap gap-2'>
+              {tags.map((tag) => (
+                <Tag
+                  key={tag}
+                  link={`/categories/${slug(tag)}`}
+                  name={tag}
+                  className="px-6 text-xs sm:text-sm py-1 sm:py-2"
+                />
+              ))}
+            </div>
             <Link href={blog.url} className='mt-6'>
             <h1 className='font-bold capitalize text-lg sm:text-xl md:text-3xl lg:text-4xl'>
                 <span className='bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 

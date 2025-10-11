@@ -1,9 +1,15 @@
 import { format } from "date-fns";
+import { slug } from "github-slugger";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const BlogLayoutTwo = ({ blog }) => {
+  const tags =
+    Array.isArray(blog.tags) && blog.tags.length > 0
+      ? blog.tags
+      : ["uncategorized"];
+
   return (
     <div className="group grid grid-cols-12 gap-4 items-center text-dark dark:text-light">
       <Link
@@ -23,9 +29,13 @@ const BlogLayoutTwo = ({ blog }) => {
       </Link>
 
       <div className="col-span-12  lg:col-span-8 w-full">
-        <span className="inline-block w-full uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
-          {blog.tags[0]}
-        </span>
+        <div className="inline-flex w-full flex-wrap gap-2 uppercase text-accent dark:text-accentDark font-semibold text-xs sm:text-sm">
+          {tags.map((tag) => (
+            <Link key={tag} href={`/categories/${slug(tag)}`} className="hover:underline">
+              {tag}
+            </Link>
+          ))}
+        </div>
         <Link href={blog.url} className="inline-block my-1">
           <h2 className="font-semibold capitalize text-base sm:text-lg">
             <span

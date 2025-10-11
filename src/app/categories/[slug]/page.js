@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 
   allBlogs.map((blog) => {
     if (blog.isPublished) {
-      blog.tags.map((tag) => {
+      (blog.tags ?? []).forEach((tag) => {
         let slugified = slugger.slug(tag);
         if (!categories.includes(slugified)) {
           categories.push(slugified);
@@ -36,7 +36,7 @@ const CategoryPage = ({ params }) => {
 // Separating logic to create list of categories from all blogs
 const allCategories = ["all"]; // Initialize with 'all' category
 allBlogs.forEach(blog => {
-  blog.tags.forEach(tag => {
+  (blog.tags ?? []).forEach(tag => {
     const slugified = slug(tag);
     if (!allCategories.includes(slugified)) {
       allCategories.push(slugified);
@@ -52,7 +52,7 @@ const blogs = allBlogs.filter(blog => {
   if (params.slug === "all") {
     return true; // Include all blogs if 'all' category is selected
   }
-  return blog.tags.some(tag => slug(tag) === params.slug);
+  return (blog.tags ?? []).some(tag => slug(tag) === params.slug);
 });
 
   return (
