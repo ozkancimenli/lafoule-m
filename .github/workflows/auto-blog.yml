@@ -1,0 +1,54 @@
+name: Auto Blog Generator
+
+on:
+  schedule:
+    - cron: "0 8 * * 1" # Every Monday at 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate blog post
+        run: node scripts/generate-blog.js
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          HF_ACCESS_TOKEN: ${{ secrets.HF_ACCESS_TOKEN }}
+          HF_MODEL_ID: ${{ secrets.HF_MODEL_ID }}
+          HF_ENDPOINT: ${{ secrets.HF_ENDPOINT }}
+
+      - name: Build site to validate content
+        run: npm run build
+
+      - name: Commit and push changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit. Exiting."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/auto public/images
+          if [ -f content/auto/_history.json ]; then
+            git add content/auto/_history.json
+          fi
+          git commit -m "🤖 auto: new blog post"
+          git push
