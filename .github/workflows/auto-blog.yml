@@ -49,9 +49,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/auto public/images
-          if [ -f content/auto/_history.json ]; then
-            git add content/auto/_history.json
-          fi
+          git add content public/images
           git commit -m "🤖 auto: new blog post"
           git push

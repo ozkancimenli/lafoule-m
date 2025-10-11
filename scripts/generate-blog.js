@@ -8,7 +8,7 @@
  * - Picks a fresh topic from scripts/topics.json and avoids recently used slugs.
  * - Pulls a royalty-free hero image from Unsplash (requires UNSPLASH_ACCESS_KEY).
  * - Optional Hugging Face text enrichment when HF_ACCESS_TOKEN + HF_MODEL_ID are set.
- * - Creates fully formatted MDX under content/auto/<slug>/index.mdx with SEO-friendly sections.
+ * - Creates fully formatted MDX under content/<slug>/index.mdx with SEO-friendly sections.
  * - Stores generation history to keep track of previously produced topics.
  */
 
@@ -23,8 +23,9 @@ const fetch =
 
 const TOPIC_SOURCE = path.join(process.cwd(), "scripts", "topics.json");
 const CONTENT_ROOT = path.join(process.cwd(), "content");
-const AUTO_CONTENT_DIR = path.join(CONTENT_ROOT, "auto");
-const HISTORY_PATH = path.join(AUTO_CONTENT_DIR, "_history.json");
+const LEGACY_AUTO_CONTENT_DIR = path.join(CONTENT_ROOT, "auto");
+const LEGACY_HISTORY_PATH = path.join(LEGACY_AUTO_CONTENT_DIR, "_history.json");
+const HISTORY_PATH = path.join(CONTENT_ROOT, "_auto-history.json");
 const IMAGE_OUTPUT_DIR = path.join(process.cwd(), "public", "images");
 
 const FALLBACK_IMAGE_BASE64 =
@@ -90,7 +91,17 @@ async function loadHistory() {
     return JSON.parse(raw);
   } catch (error) {
     if (error.code === "ENOENT") {
-      return [];
+      try {
+        const legacyRaw = await fsp.readFile(LEGACY_HISTORY_PATH, "utf8");
+        const legacyData = JSON.parse(legacyRaw);
+        await saveHistory(legacyData);
+        return legacyData;
+      } catch (legacyError) {
+        if (legacyError.code === "ENOENT") {
+          return [];
+        }
+        throw legacyError;
+      }
     }
     throw error;
   }
@@ -110,9 +121,9 @@ function isRecent(dateString, days = DAYS_TO_AVOID_DUPLICATES) {
 }
 
 function slugExists(slug) {
-  const manualPath = path.join(CONTENT_ROOT, slug);
-  const autoPath = path.join(AUTO_CONTENT_DIR, slug);
-  return fs.existsSync(manualPath) || fs.existsSync(autoPath);
+  const targetPath = path.join(CONTENT_ROOT, slug);
+  const legacyPath = path.join(LEGACY_AUTO_CONTENT_DIR, slug);
+  return fs.existsSync(targetPath) || fs.existsSync(legacyPath);
 }
 
 async function pickTopic(topics, history) {
@@ -393,13 +404,13 @@ _This post was automatically generated and reviewed for clarity before publishin
 }
 
 async function writeMdxFile(slug, content) {
-  const dir = path.join(AUTO_CONTENT_DIR, slug);
+  const dir = path.join(CONTENT_ROOT, slug);
   await ensureDirectory(dir);
   await fsp.writeFile(path.join(dir, "index.mdx"), content);
 }
 
 async function main() {
-  await ensureDirectory(AUTO_CONTENT_DIR);
+  await ensureDirectory(CONTENT_ROOT);
 
   const topics = await loadTopics();
   if (!topics.length) {
@@ -439,7 +450,7 @@ async function main() {
   ];
   await saveHistory(updatedHistory);
 
-  console.log(`✅ Blog post generated under content/auto/${slug}/index.mdx`);
+  console.log(`✅ Blog post generated under content/${slug}/index.mdx`);
   console.log(`✅ Featured image saved to public${heroImage.imagePath}`);
 }
 

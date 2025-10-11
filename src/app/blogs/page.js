@@ -63,13 +63,42 @@ const BlogsPage = () => {
             jump straight into a category below.
           </p>
         </div>
-        <div className="w-full max-w-2xl">
-          <BlogSearch />
+      </section>
+
+      <section className="mt-12 px-5 sm:px-10 md:px-24 sxl:px-32">
+        <div className="w-full rounded-3xl border border-dark/10 dark:border-light/10 bg-light/70 dark:bg-dark/60 shadow-sm backdrop-blur-sm p-6 sm:p-8 md:p-12">
+          <div className="flex flex-col gap-4">
+            <h2 className="text-xl md:text-2xl font-semibold text-dark dark:text-light">
+              Search the archive
+            </h2>
+            <p className="text-sm md:text-base text-dark/70 dark:text-light/70 max-w-3xl">
+              Filter posts by keyword, topic, or tag to uncover the exact insight you need.
+            </p>
+            <div className="w-full">
+              <BlogSearch />
+            </div>
+          </div>
         </div>
       </section>
 
+      <section className="mt-16">
+        <div className="px-5 sm:px-10 md:px-24 sxl:px-32 flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+            <h2 className="text-xl md:text-2xl font-semibold">Browse by topic</h2>
+            <p className="text-sm text-dark/60 dark:text-light/60 max-w-lg">
+              Stay on track by jumping into curated categories covering product, performance, and productivity.
+            </p>
+          </div>
+        </div>
+        <Categories
+          categories={categories}
+          currentSlug="all"
+          className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-6 border-t border-b border-dark/10 dark:border-light/10 py-4 flex items-start flex-wrap gap-3 text-dark dark:text-light"
+        />
+      </section>
+
       {featured && (
-        <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-12 grid grid-cols-1 xl:grid-cols-5 gap-12 items-start">
+        <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 grid grid-cols-1 xl:grid-cols-5 gap-12 items-start">
           <article className="xl:col-span-3">
             <h2 className="sr-only">Featured article</h2>
             <BlogLayoutOne blog={featured} />
@@ -84,11 +113,6 @@ const BlogsPage = () => {
           </div>
         </section>
       )}
-
-      <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-16">
-        <h2 className="text-xl font-semibold mb-4">Browse by topic</h2>
-        <Categories categories={categories} currentSlug="all" />
-      </section>
 
       {archive.length > 0 && (
         <section className="px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 sm:mt-20 md:mt-24 space-y-12">
