@@ -16,11 +16,20 @@ const fs = require("fs");
 const fsp = require("fs/promises");
 const path = require("path");
 
+const fetch =
+  global.fetch ||
+  ((...args) =>
+    import("node-fetch").then(({ default: nodeFetch }) => nodeFetch(...args)));
+
 const TOPIC_SOURCE = path.join(process.cwd(), "scripts", "topics.json");
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const AUTO_CONTENT_DIR = path.join(CONTENT_ROOT, "auto");
 const HISTORY_PATH = path.join(AUTO_CONTENT_DIR, "_history.json");
 const IMAGE_OUTPUT_DIR = path.join(process.cwd(), "public", "images");
+
+const FALLBACK_IMAGE_BASE64 =
+  "/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEhITFhUVFRUWFxUVFRUVFhUVFRUWFhUVFhUYHSggGBolHRUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGxAQGy0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAKgBLAMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAFAAQGBwIDB//EADQQAAEDAgQDBgUDBAMAAAAAAAEAAgMEEQUSITEGEyJBUWFxgZGhByNCseEjMpLRFSNSYv/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACIRAQABAwMFAAAAAAAAAAAAAAABAgMRITEEEjJhBRQygf/aAAwDAQACEQMRAD8A9wAoiIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/2Q==";
+const DEFAULT_HF_MODEL_ID = "google/flan-t5-base";
 
 const DAYS_TO_AVOID_DUPLICATES = 30;
 const DEFAULT_TAGS = ["blog", "automation", "tech insights"];
@@ -136,51 +145,75 @@ async function pickTopic(topics, history) {
 async function fetchUnsplashImage(topic, slug) {
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
   if (!accessKey) {
-    throw new Error(
-      "UNSPLASH_ACCESS_KEY is not set. Add it as an environment variable or GitHub Secret."
+    console.warn(
+      "UNSPLASH_ACCESS_KEY is not set. Using locally generated placeholder image."
     );
+    return createFallbackImage(slug);
   }
 
-  const query = encodeURIComponent(topic);
-  const url = `https://api.unsplash.com/photos/random?query=${query}&orientation=landscape&content_filter=high&client_id=${accessKey}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(
-      `Unsplash request failed: ${response.status} ${response.statusText}`
+  try {
+    const query = encodeURIComponent(topic);
+    const url = `https://api.unsplash.com/photos/random?query=${query}&orientation=landscape&content_filter=high&client_id=${accessKey}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Unsplash request failed: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+    const imageUrl = data?.urls?.regular;
+    if (!imageUrl) {
+      throw new Error("Unsplash response does not include an image URL.");
+    }
+
+    const photoCredit = {
+      name: data?.user?.name || "Unsplash Creator",
+      profileUrl: data?.user?.links?.html || "https://unsplash.com",
+    };
+
+    const imageResponse = await fetch(imageUrl);
+    if (!imageResponse.ok) {
+      throw new Error(
+        `Failed to download Unsplash image: ${imageResponse.status}`
+      );
+    }
+    const arrayBuffer = await imageResponse.arrayBuffer();
+    await ensureDirectory(IMAGE_OUTPUT_DIR);
+    const imagePath = path.join(IMAGE_OUTPUT_DIR, `${slug}.jpg`);
+    await fsp.writeFile(imagePath, Buffer.from(arrayBuffer));
+
+    return {
+      imagePath: `/images/${slug}.jpg`,
+      credit: photoCredit,
+    };
+  } catch (error) {
+    console.warn(
+      `Unsplash download failed (${error.message}). Falling back to placeholder image.`
     );
+    return createFallbackImage(slug);
   }
+}
 
-  const data = await response.json();
-  const imageUrl = data?.urls?.regular;
-  if (!imageUrl) {
-    throw new Error("Unsplash response does not include an image URL.");
-  }
-
-  const photoCredit = {
-    name: data?.user?.name || "Unsplash Creator",
-    profileUrl: data?.user?.links?.html || "https://unsplash.com",
-  };
-
-  const imageResponse = await fetch(imageUrl);
-  if (!imageResponse.ok) {
-    throw new Error(
-      `Failed to download Unsplash image: ${imageResponse.status}`
-    );
-  }
-  const arrayBuffer = await imageResponse.arrayBuffer();
+async function createFallbackImage(slug) {
   await ensureDirectory(IMAGE_OUTPUT_DIR);
+  const buffer = Buffer.from(FALLBACK_IMAGE_BASE64, "base64");
   const imagePath = path.join(IMAGE_OUTPUT_DIR, `${slug}.jpg`);
-  await fsp.writeFile(imagePath, Buffer.from(arrayBuffer));
+  await fsp.writeFile(imagePath, buffer);
 
   return {
     imagePath: `/images/${slug}.jpg`,
-    credit: photoCredit,
+    credit: {
+      name: "Placeholder Image",
+      profileUrl:
+        "https://github.com/ozkancimenli/lafoule-m/blob/main/scripts/generate-blog.js",
+    },
   };
 }
 
 async function optionalAiSection(topic) {
   const token = process.env.HF_ACCESS_TOKEN;
-  const modelId = process.env.HF_MODEL_ID;
+  const modelId = process.env.HF_MODEL_ID || DEFAULT_HF_MODEL_ID;
   const endpoint =
     process.env.HF_ENDPOINT ||
     (modelId ? `https://api-inference.huggingface.co/models/${modelId}` : null);
@@ -212,9 +245,19 @@ async function optionalAiSection(topic) {
     }
 
     const result = await response.json();
-    const text = Array.isArray(result)
-      ? result[0]?.generated_text || result[0]
-      : result.generated_text || result;
+    let text;
+    if (Array.isArray(result)) {
+      const candidate = result[0];
+      text =
+        candidate?.generated_text ??
+        candidate?.summary_text ??
+        (typeof candidate === "string" ? candidate : null);
+    } else {
+      text =
+        result.generated_text ??
+        result.summary_text ??
+        (typeof result === "string" ? result : null);
+    }
 
     if (!text) {
       return null;
