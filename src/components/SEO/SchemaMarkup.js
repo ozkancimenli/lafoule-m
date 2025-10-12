@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-const SchemaMarkup = ({ 
+const SchemaMarkup = ({
   type = 'WebSite',
   name,
   description,
@@ -9,70 +9,70 @@ const SchemaMarkup = ({
   author,
   datePublished,
   dateModified,
-  articleBody
+  articleBody,
 }) => {
   const getSchema = () => {
     const baseSchema = {
-      "@context": "https://schema.org",
-      "@type": type,
-      "name": name,
-      "description": description,
-      "url": url,
-      "image": image,
+      '@context': 'https://schema.org',
+      '@type': type,
+      name: name,
+      description: description,
+      url: url,
+      image: image,
     };
 
     if (type === 'Person') {
       return {
         ...baseSchema,
-        "@type": "Person",
-        "jobTitle": "Web Developer",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Freelance"
+        '@type': 'Person',
+        jobTitle: 'Web Developer',
+        worksFor: {
+          '@type': 'Organization',
+          name: 'Freelance',
         },
-        "sameAs": [
-          "https://github.com/ozkancimenli",
-          "https://linkedin.com/in/ozkancimenli",
-          "https://twitter.com/ozkancimenli"
-        ]
+        sameAs: [
+          'https://github.com/ozkancimenli',
+          'https://linkedin.com/in/ozkancimenli',
+          'https://twitter.com/ozkancimenli',
+        ],
       };
     }
 
     if (type === 'Article') {
       return {
         ...baseSchema,
-        "@type": "Article",
-        "author": {
-          "@type": "Person",
-          "name": author
+        '@type': 'Article',
+        author: {
+          '@type': 'Person',
+          name: author,
         },
-        "publisher": {
-          "@type": "Person",
-          "name": author,
-          "image": image
+        publisher: {
+          '@type': 'Person',
+          name: author,
+          image: image,
         },
-        "datePublished": datePublished,
-        "dateModified": dateModified,
-        "articleBody": articleBody,
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": url
-        }
+        datePublished: datePublished,
+        dateModified: dateModified,
+        articleBody: articleBody,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': url,
+        },
       };
     }
 
     if (type === 'WebSite') {
       return {
         ...baseSchema,
-        "@type": "WebSite",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": `${url}/search?q={search_term_string}`
+        '@type': 'WebSite',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${url}/search?q={search_term_string}`,
           },
-          "query-input": "required name=search_term_string"
-        }
+          'query-input': 'required name=search_term_string',
+        },
       };
     }
 
@@ -82,9 +82,9 @@ const SchemaMarkup = ({
   return (
     <Head>
       <script
-        type="application/ld+json"
+        type='application/ld+json'
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(getSchema())
+          __html: JSON.stringify(getSchema()),
         }}
       />
     </Head>

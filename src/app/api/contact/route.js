@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
-import createSupabaseServerClient from "@/src/utils/supabaseServerClient";
-import { sendContactNotificationEmail, sendContactAutoReplyEmail } from "@/src/utils/brevoEmail";
+import { NextResponse } from 'next/server';
+import createSupabaseServerClient from '../../../utils/supabaseServerClient';
+import {
+  sendContactNotificationEmail,
+  sendContactAutoReplyEmail,
+} from '../../../utils/brevoEmail';
 
-const sanitizeString = (value) =>
-  typeof value === "string" ? value.trim() : "";
+const sanitizeString = value => (typeof value === 'string' ? value.trim() : '');
 
-const sanitizeOptionalString = (value) => {
+const sanitizeOptionalString = value => {
   const cleaned = sanitizeString(value);
   return cleaned.length > 0 ? cleaned : null;
 };
@@ -21,14 +23,14 @@ export async function POST(request) {
 
     if (!name || !email) {
       return NextResponse.json(
-        { error: "Name and email are required." },
+        { error: 'Name and email are required.' },
         { status: 422 }
       );
     }
 
     const supabase = createSupabaseServerClient();
 
-    const { error } = await supabase.from("contact_requests").insert({
+    const { error } = await supabase.from('contact_requests').insert({
       name,
       email,
       phone,
@@ -36,9 +38,9 @@ export async function POST(request) {
     });
 
     if (error) {
-      console.error("Supabase insert error (contact):", error);
+      console.error('Supabase insert error (contact):', error);
       return NextResponse.json(
-        { error: "Unable to save your message right now. Please try again." },
+        { error: 'Unable to save your message right now. Please try again.' },
         { status: 500 }
       );
     }
@@ -46,22 +48,22 @@ export async function POST(request) {
     // Send emails
     try {
       const contactData = { name, email, phone, details };
-      
+
       // Send notification email to admin
       await sendContactNotificationEmail(contactData);
-      
+
       // Send auto-reply email to user
       await sendContactAutoReplyEmail(contactData);
     } catch (emailError) {
-      console.error("Email sending error:", emailError);
+      console.error('Email sending error:', emailError);
       // Don't fail the request if email fails, just log it
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Contact form submission error:", error);
+    console.error('Contact form submission error:', error);
     return NextResponse.json(
-      { error: "Unexpected error while submitting the form." },
+      { error: 'Unexpected error while submitting the form.' },
       { status: 500 }
     );
   }

@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
 
 let cachedClient = null;
 
@@ -13,16 +13,16 @@ const createSupabaseServerClient = () => {
 
   if (!supabaseUrl) {
     throw new Error(
-      "NEXT_PUBLIC_SUPABASE_URL is not set. Please add it to your environment configuration."
+      'NEXT_PUBLIC_SUPABASE_URL is not set. Please add it to your environment configuration.'
     );
   }
 
   // Use service role key if available, otherwise fall back to anon key
   const key = serviceRoleKey || anonKey;
-  
+
   if (!key) {
     throw new Error(
-      "Neither SUPABASE_SERVICE_ROLE_KEY nor NEXT_PUBLIC_SUPABASE_ANON_KEY is set."
+      'Neither SUPABASE_SERVICE_ROLE_KEY nor NEXT_PUBLIC_SUPABASE_ANON_KEY is set.'
     );
   }
 

@@ -27,7 +27,7 @@ export const trackEvent = (action, category, label, value) => {
   }
 };
 
-export const trackPageView = (url) => {
+export const trackPageView = url => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
       page_path: url,
@@ -35,7 +35,7 @@ export const trackPageView = (url) => {
   }
 };
 
-export const trackContactForm = (formType) => {
+export const trackContactForm = formType => {
   trackEvent('form_submit', 'contact', formType);
 };
 
@@ -43,6 +43,6 @@ export const trackNewsletterSignup = () => {
   trackEvent('sign_up', 'newsletter', 'email');
 };
 
-export const trackBlogView = (postTitle) => {
+export const trackBlogView = postTitle => {
   trackEvent('view_item', 'blog', postTitle);
 };

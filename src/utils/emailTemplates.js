@@ -1,7 +1,7 @@
 export const emailTemplates = {
   newsletter: {
-    subject: 'Welcome to Ozkan\'s Newsletter! 🎉',
-    template: (data) => `
+    subject: "Welcome to Ozkan's Newsletter! 🎉",
+    template: data => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333; text-align: center;">Welcome to Ozkan's Newsletter!</h2>
         <p>Thank you for subscribing to my personal newsletter! You'll now receive:</p>
@@ -20,11 +20,11 @@ export const emailTemplates = {
           <a href="${data.websiteUrl}" style="color: #666;">Visit Website</a>
         </p>
       </div>
-    `
+    `,
   },
   contact: {
     subject: 'Thank you for contacting Ozkan!',
-    template: (data) => `
+    template: data => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333;">Thank you for reaching out!</h2>
         <p>Hi ${data.name},</p>
@@ -42,11 +42,11 @@ export const emailTemplates = {
           <a href="${data.websiteUrl}" style="color: #666;">Visit Website</a>
         </p>
       </div>
-    `
+    `,
   },
   notification: {
     subject: 'New Contact Form Submission from {name}',
-    template: (data) => `
+    template: data => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: #333;">New Contact Form Submission</h2>
         <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
@@ -61,8 +61,8 @@ export const emailTemplates = {
         <p>Please respond to this inquiry as soon as possible.</p>
         <p>Best regards,<br>Website System</p>
       </div>
-    `
-  }
+    `,
+  },
 };
 
 export const getEmailTemplate = (type, data = {}) => {
@@ -70,9 +70,9 @@ export const getEmailTemplate = (type, data = {}) => {
   if (!template) {
     throw new Error(`Email template '${type}' not found`);
   }
-  
+
   return {
     subject: template.subject.replace('{name}', data.name || 'User'),
-    htmlContent: template.template(data)
+    htmlContent: template.template(data),
   };
 };

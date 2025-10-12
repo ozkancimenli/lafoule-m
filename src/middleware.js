@@ -13,7 +13,7 @@ export function middleware(request) {
     rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
   } else {
     const userLimit = rateLimitMap.get(ip);
-    
+
     if (now > userLimit.resetTime) {
       // Reset the window
       rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs });
@@ -27,7 +27,8 @@ export function middleware(request) {
   }
 
   // Clean up old entries periodically
-  if (Math.random() < 0.01) { // 1% chance
+  if (Math.random() < 0.01) {
+    // 1% chance
     for (const [key, value] of rateLimitMap.entries()) {
       if (now > value.resetTime) {
         rateLimitMap.delete(key);
@@ -39,8 +40,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: [
-    '/api/contact',
-    '/api/newsletter',
-  ],
+  matcher: ['/api/contact', '/api/newsletter'],
 };

@@ -28,22 +28,24 @@ const siteMetadata = {
     'Portfolio',
     'Blog',
     'Web Development',
-    'Software Development'
+    'Software Development',
   ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://ozkancimenli.com',
     title: 'Ozkan Cimenli | Full-Stack Developer',
-    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
+    description:
+      'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
     siteName: 'Ozkan Cimenli Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ozkan Cimenli | Full-Stack Developer',
-    description: 'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
+    description:
+      'Portfolio of Ozkan Cimenli — a Full-Stack Developer specializing in JavaScript, React, Next.js, and Python.',
     creator: '@cimenliozkan1',
   },
-}
+};
 
-module.exports = siteMetadata
+module.exports = siteMetadata;

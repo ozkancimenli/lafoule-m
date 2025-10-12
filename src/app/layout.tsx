@@ -1,26 +1,27 @@
-import "./globals.css";
-import { cx } from "@/src/utils";
-import { Inter, Manrope } from "next/font/google";
-import Header from "@/src/components/Header";
-import Footer from "../components/Footer";
-import siteMetadata from "../utils/siteMetaData";
-import Script from "next/script";
-import GoogleAnalytics from "@/src/components/Analytics/GoogleAnalytics";
-import SchemaMarkup from "@/src/components/SEO/SchemaMarkup";
-import PWAInstallPrompt from "@/src/components/PWA/PWAInstallPrompt";
-import BackToTop from "@/src/components/UI/BackToTop";
-import { usePerformance } from "@/src/hooks/usePerformance";
+import './globals.css';
+import { cx } from '../utils';
+import { Inter, Manrope } from 'next/font/google';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import siteMetadata from '../utils/siteMetaData';
+import Script from 'next/script';
+import GoogleAnalytics from '../components/Analytics/GoogleAnalytics';
+import SchemaMarkup from '../components/SEO/SchemaMarkup';
+import PWAInstallPrompt from '../components/PWA/PWAInstallPrompt';
+import BackToTop from '../components/UI/BackToTop';
+import { usePerformance } from '../hooks/usePerformance';
+import { ReactNode } from 'react';
 
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-in",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-in',
 });
 
 const manrope = Manrope({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-mr",
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mr',
 });
 
 export const metadata = {
@@ -36,8 +37,8 @@ export const metadata = {
     url: siteMetadata.siteUrl,
     siteName: siteMetadata.title,
     images: [siteMetadata.socialBanner],
-    locale: "en_US",
-    type: "website",
+    locale: 'en_US',
+    type: 'website',
   },
   robots: {
     index: true,
@@ -46,29 +47,33 @@ export const metadata = {
       index: true,
       follow: true,
       noimageindex: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
   twitter: {
-    card: "summary_large_image",
+    card: 'summary_large_image',
     title: siteMetadata.title,
     images: [siteMetadata.socialBanner],
   },
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={cx(
           inter.variable,
           manrope.variable,
-          "font-mr bg-light dark:bg-dark"
+          'font-mr bg-light dark:bg-dark'
         )}
       >
-        <Script id="theme-switcher" strategy="beforeInteractive">
+        <Script id='theme-switcher' strategy='beforeInteractive'>
           {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark')
   } else {
@@ -76,12 +81,16 @@ export default function RootLayout({ children }) {
   }`}
         </Script>
         <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
-        <SchemaMarkup 
-          type="Person"
+        <SchemaMarkup
+          type='Person'
           name={siteMetadata.author}
           description={siteMetadata.description}
           url={siteMetadata.siteUrl}
           image={siteMetadata.socialBanner}
+          author={siteMetadata.author}
+          datePublished={new Date().toISOString()}
+          dateModified={new Date().toISOString()}
+          articleBody={siteMetadata.description}
         />
         <Header />
         {children}

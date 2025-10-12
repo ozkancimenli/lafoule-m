@@ -1,15 +1,18 @@
-"use client";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { supabase } from "@/src/utils/supabaseClient";
-import { sendContactNotificationEmail, sendContactAutoReplyEmail } from "@/src/utils/brevoEmail";
-import { trackContactForm } from "@/src/hooks/useAnalytics";
+'use client';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { supabase } from '../../utils/supabaseClient';
+import {
+  sendContactNotificationEmail,
+  sendContactAutoReplyEmail,
+} from '../../utils/brevoEmail';
+import { trackContactForm } from '../../hooks/useAnalytics';
 
 const defaultValues = {
-  name: "",
-  email: "",
-  phone: "",
-  details: "",
+  name: '',
+  email: '',
+  phone: '',
+  details: '',
 };
 
 export default function ContactForm() {
@@ -19,128 +22,126 @@ export default function ContactForm() {
     formState: { errors, isSubmitting },
     reset,
   } = useForm({ defaultValues });
-  const [serverError, setServerError] = useState("");
-  const [serverSuccess, setServerSuccess] = useState("");
+  const [serverError, setServerError] = useState('');
+  const [serverSuccess, setServerSuccess] = useState('');
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     try {
-      setServerError("");
-      setServerSuccess("");
+      setServerError('');
+      setServerSuccess('');
 
-      const { error } = await supabase
-        .from("contact_requests")
-        .insert({
-          name: data.name,
-          email: data.email,
-          phone: data.phone || null,
-          details: data.details || null,
-        });
+      const { error } = await supabase.from('contact_requests').insert({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        details: data.details || null,
+      });
 
       if (error) {
-        throw new Error("We could not send your message. Please try again.");
+        throw new Error('We could not send your message. Please try again.');
       }
 
-          // Send emails
-          try {
-            const contactData = {
-              name: data.name,
-              email: data.email,
-              phone: data.phone,
-              details: data.details
-            };
+      // Send emails
+      try {
+        const contactData = {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          details: data.details,
+        };
 
-            // Send notification email to admin
-            await sendContactNotificationEmail(contactData);
+        // Send notification email to admin
+        await sendContactNotificationEmail(contactData);
 
-            // Send auto-reply email to user
-            await sendContactAutoReplyEmail(contactData);
-          } catch (emailError) {
-            console.error("Email sending error:", emailError);
-            // Don't fail the form if email fails
-          }
+        // Send auto-reply email to user
+        await sendContactAutoReplyEmail(contactData);
+      } catch (emailError) {
+        console.error('Email sending error:', emailError);
+        // Don't fail the form if email fails
+      }
 
-          // Track contact form submission
-          trackContactForm('contact_form');
+      // Track contact form submission
+      trackContactForm('contact_form');
 
-          setServerSuccess("Thanks for reaching out! I will get back to you shortly.");
-          reset(defaultValues);
+      setServerSuccess(
+        'Thanks for reaching out! I will get back to you shortly.'
+      );
+      reset(defaultValues);
     } catch (error) {
-      setServerError(error.message || "Unexpected error. Please try again.");
+      setServerError(error.message || 'Unexpected error. Please try again.');
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-12 text-base xs:text-lg sm:text-xl font-medium leading-relaxed font-in"
+      className='mt-12 text-base xs:text-lg sm:text-xl font-medium leading-relaxed font-in'
     >
-      Hello! My name is{" "}
+      Hello! My name is{' '}
       <input
-        type="text"
-        placeholder="your name"
-        {...register("name", {
-          required: "Name is required",
-          maxLength: { value: 120, message: "Keep it under 120 characters" },
+        type='text'
+        placeholder='your name'
+        {...register('name', {
+          required: 'Name is required',
+          maxLength: { value: 120, message: 'Keep it under 120 characters' },
         })}
-        className="outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed"
+        className='outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed'
         disabled={isSubmitting}
-        aria-invalid={errors.name ? "true" : "false"}
+        aria-invalid={errors.name ? 'true' : 'false'}
       />
       and I want to discuss a potential project. You can email me at
       <input
-        type="email"
-        placeholder="your@email"
-        {...register("email", {
-          required: "Email is required",
+        type='email'
+        placeholder='your@email'
+        {...register('email', {
+          required: 'Email is required',
           pattern: {
             value:
               /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\\.,;:\s@"]+\.)+[^<>()[\]\\.,;:\s@"]{2,})$/i,
-            message: "Please enter a valid email",
+            message: 'Please enter a valid email',
           },
         })}
-        className="outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed"
+        className='outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed'
         disabled={isSubmitting}
-        aria-invalid={errors.email ? "true" : "false"}
+        aria-invalid={errors.email ? 'true' : 'false'}
       />
       or reach out to me on
       <input
-        type="tel"
-        placeholder="your phone"
-        {...register("phone", {
-          maxLength: { value: 30, message: "Phone number looks too long" },
+        type='tel'
+        placeholder='your phone'
+        {...register('phone', {
+          maxLength: { value: 30, message: 'Phone number looks too long' },
         })}
-        className="outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed"
+        className='outline-none border-0 p-0 mx-2 focus:ring-0 placeholder:text-center placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed'
         disabled={isSubmitting}
       />
       Here are some details about my project: <br />
       <textarea
-        {...register("details", {
+        {...register('details', {
           maxLength: {
             value: 1500,
-            message: "Keep the briefing under 1500 characters",
+            message: 'Keep the briefing under 1500 characters',
           },
         })}
-        placeholder="My project is about..."
+        placeholder='My project is about...'
         rows={3}
-        className="w-full outline-none border-0 p-0 mx-0 focus:ring-0 placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed"
+        className='w-full outline-none border-0 p-0 mx-0 focus:ring-0 placeholder:text-lg border-b border-gray focus:border-gray bg-transparent disabled:cursor-not-allowed'
         disabled={isSubmitting}
       />
-      <div className="mt-4 space-y-2 text-sm font-normal text-red-500">
+      <div className='mt-4 space-y-2 text-sm font-normal text-red-500'>
         {errors.name && <p>{errors.name.message}</p>}
         {errors.email && <p>{errors.email.message}</p>}
         {errors.phone && <p>{errors.phone.message}</p>}
         {errors.details && <p>{errors.details.message}</p>}
         {serverError && <p>{serverError}</p>}
-        {serverSuccess && (
-          <p className="text-emerald-500">{serverSuccess}</p>
-        )}
+        {serverSuccess && <p className='text-emerald-500'>{serverSuccess}</p>}
       </div>
       <button
-        type="submit"
-        className="mt-8 font-medium inline-block capitalize text-lg sm:text-xl py-2 sm:py-3 px-6 sm:px-8 border-2 border-solid border-dark dark:border-light rounded transition-colors duration-200 hover:bg-dark hover:text-light dark:hover:bg-light dark:hover:text-dark disabled:cursor-not-allowed disabled:opacity-70"
+        type='submit'
+        className='mt-8 font-medium inline-block capitalize text-lg sm:text-xl py-2 sm:py-3 px-6 sm:px-8 border-2 border-solid border-dark dark:border-light rounded transition-colors duration-200 hover:bg-dark hover:text-light dark:hover:bg-light dark:hover:text-dark disabled:cursor-not-allowed disabled:opacity-70'
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Sending..." : "Send request"}
+        {isSubmitting ? 'Sending...' : 'Send request'}
       </button>
     </form>
   );

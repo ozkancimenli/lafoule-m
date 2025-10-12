@@ -34,10 +34,10 @@ const BackToTop = () => {
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 z-50 group"
-      aria-label="Back to top"
+      className='fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 z-50 group'
+      aria-label='Back to top'
     >
-      <ArrowUpIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+      <ArrowUpIcon className='w-5 h-5 group-hover:scale-110 transition-transform duration-300' />
     </button>
   );
 };

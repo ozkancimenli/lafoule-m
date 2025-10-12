@@ -1,10 +1,10 @@
-import { allBlogs } from 'contentlayer/generated';
-import siteMetadata from '@/src/utils/siteMetaData';
+import { getAllBlogs } from '../lib/blog';
+import siteMetadata from '../utils/siteMetaData';
 import { slug } from 'github-slugger';
 
 export default function sitemap() {
   const siteUrl = siteMetadata.siteUrl;
-  
+
   // Static pages
   const staticPages = [
     {
@@ -40,7 +40,8 @@ export default function sitemap() {
   ];
 
   // Blog posts
-  const blogPages = allBlogs.map((blog) => ({
+  const allBlogs = getAllBlogs();
+  const blogPages = allBlogs.map(blog => ({
     url: `${siteUrl}${blog.url}`,
     lastModified: new Date(blog.updatedAt || blog.publishedAt),
     changeFrequency: 'weekly',
@@ -50,12 +51,10 @@ export default function sitemap() {
   // Categories
   const categorySlugs = [
     ...new Set(
-      allBlogs.flatMap((blog) =>
-        (blog.tags ?? []).map((tag) => slug(tag))
-      )
+      allBlogs.flatMap(blog => (blog.tags ?? []).map(tag => slug(tag)))
     ),
   ];
-  const categoryPages = categorySlugs.map((category) => ({
+  const categoryPages = categorySlugs.map(category => ({
     url: `${siteUrl}/categories/${category}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
