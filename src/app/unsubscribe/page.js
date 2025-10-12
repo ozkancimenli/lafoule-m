@@ -98,8 +98,8 @@ const UnsubscribeContent = () => {
         {status === 'success' && (
           <div className='space-y-4'>
             <p className='text-sm text-gray-500 dark:text-gray-400'>
-              We're sorry to see you go! If you change your mind, you can always
-              subscribe again.
+              We&apos;re sorry to see you go! If you change your mind, you can
+              always subscribe again.
             </p>
             <a
               href='/'

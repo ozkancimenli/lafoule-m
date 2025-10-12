@@ -75,7 +75,7 @@ const BlogSearch = () => {
             </div>
           ) : (
             <div className='p-4 text-center text-gray-500'>
-              No results found for "{searchTerm}"
+              No results found for &quot;{searchTerm}&quot;
             </div>
           )}
         </div>

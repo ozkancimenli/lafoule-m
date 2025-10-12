@@ -20,11 +20,12 @@ const AboutCoverSection = () => {
           Building Ideas Into Reality.
         </h2>
         <p className='font-medium capitalize mt-4 text-base'>
-          I'm Ozkan Cimenli, a Software Engineer based in New York. I specialize
-          in developing modern full-stack web applications using Next.js, React,
-          and Flask. Driven by curiosity and discipline, I enjoy turning complex
-          problems into clean, efficient solutions. Every project I build
-          reflects my focus on usability, performance, and design.
+          I&apos;m Ozkan Cimenli, a Software Engineer based in New York. I
+          specialize in developing modern full-stack web applications using
+          Next.js, React, and Flask. Driven by curiosity and discipline, I enjoy
+          turning complex problems into clean, efficient solutions. Every
+          project I build reflects my focus on usability, performance, and
+          design.
         </p>
       </div>
     </section>
