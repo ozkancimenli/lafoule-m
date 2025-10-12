@@ -6,13 +6,15 @@ process.env.NEXT_PUBLIC_SUPABASE_URL = 'test-supabase-url';
 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'test-supabase-key';
 
 // Mock Supabase
+const mockSupabase = {
+  from: jest.fn(() => ({
+    insert: jest.fn().mockResolvedValue({ error: null }),
+  })),
+};
+
 jest.mock('../../utils/supabaseServerClient', () => ({
   __esModule: true,
-  default: jest.fn(() => ({
-    from: jest.fn(() => ({
-      insert: jest.fn().mockResolvedValue({ error: null }),
-    })),
-  })),
+  default: jest.fn(() => mockSupabase),
 }));
 
 // Mock email functions
@@ -20,6 +22,9 @@ jest.mock('../../utils/brevoEmail', () => ({
   sendContactNotificationEmail: jest.fn().mockResolvedValue(true),
   sendContactAutoReplyEmail: jest.fn().mockResolvedValue(true),
 }));
+
+// Mock fetch
+global.fetch = jest.fn();
 
 describe('/api/contact', () => {
   beforeEach(() => {
@@ -79,10 +84,7 @@ describe('/api/contact', () => {
 
   it('should handle Supabase insert error', async () => {
     // Mock Supabase to return an error
-    const mockSupabase = require('../../utils/supabaseServerClient').default();
-    mockSupabase
-      .from()
-      .insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
+    mockSupabase.from().insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
 
     const mockRequest = {
       json: jest.fn().mockResolvedValue({
