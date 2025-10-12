@@ -1,4 +1,4 @@
-import { sortBlogs } from '../utils';
+import { sortBlogs, cx } from '../utils';
 
 describe('Utils', () => {
   describe('sortBlogs', () => {
@@ -50,6 +50,59 @@ describe('Utils', () => {
       const result = sortBlogs(blogs);
       expect(result).toHaveLength(1);
       expect(result[0].title).toBe('Single Post');
+    });
+
+    it('should filter out invalid blogs', () => {
+      const blogs = [
+        {
+          title: 'Valid Post',
+          publishedAt: '2023-01-01',
+          slug: 'valid-post',
+          tags: ['test'],
+        },
+        {
+          title: 'Invalid Post - No Tags',
+          publishedAt: '2023-01-02',
+          slug: 'invalid-post',
+          tags: null,
+        },
+        {
+          title: 'Invalid Post - No PublishedAt',
+          slug: 'invalid-post-2',
+          tags: ['test'],
+        },
+      ];
+
+      const result = sortBlogs(blogs);
+      expect(result).toHaveLength(1);
+      expect(result[0].title).toBe('Valid Post');
+    });
+  });
+
+  describe('cx', () => {
+    it('should combine class names correctly', () => {
+      const result = cx('class1', 'class2', 'class3');
+      expect(result).toBe('class1 class2 class3');
+    });
+
+    it('should filter out falsy values', () => {
+      const result = cx('class1', null, 'class2', undefined, 'class3');
+      expect(result).toBe('class1 class2 class3');
+    });
+
+    it('should handle object syntax', () => {
+      const result = cx('class1', { class2: true, class3: false, class4: true });
+      expect(result).toBe('class1 class2 class4');
+    });
+
+    it('should handle mixed syntax', () => {
+      const result = cx('class1', { class2: true }, 'class3', { class4: false });
+      expect(result).toBe('class1 class2 class3');
+    });
+
+    it('should return empty string for no arguments', () => {
+      const result = cx();
+      expect(result).toBe('');
     });
   });
 });

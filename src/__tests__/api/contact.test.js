@@ -59,4 +59,54 @@ describe('/api/contact', () => {
     expect(response.status).toBe(422);
     expect(data.error).toBe('Name and email are required.');
   });
+
+  it('should handle missing email field', async () => {
+    const mockRequest = {
+      json: jest.fn().mockResolvedValue({
+        name: 'Test User',
+        email: '',
+        phone: '1234567890',
+        details: 'Test Message',
+      }),
+    };
+
+    const response = await POST(mockRequest);
+    const data = await response.json();
+
+    expect(response.status).toBe(422);
+    expect(data.error).toBe('Name and email are required.');
+  });
+
+  it('should handle Supabase insert error', async () => {
+    // Mock Supabase to return an error
+    const mockSupabase = require('../../utils/supabaseServerClient').default();
+    mockSupabase.from().insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
+
+    const mockRequest = {
+      json: jest.fn().mockResolvedValue({
+        name: 'Test User',
+        email: 'test@example.com',
+        phone: '1234567890',
+        details: 'Test Message',
+      }),
+    };
+
+    const response = await POST(mockRequest);
+    const data = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(data.error).toBe('Unable to save your message right now. Please try again.');
+  });
+
+  it('should handle invalid JSON request', async () => {
+    const mockRequest = {
+      json: jest.fn().mockRejectedValue(new Error('Invalid JSON')),
+    };
+
+    const response = await POST(mockRequest);
+    const data = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(data.error).toBe('Unexpected error while submitting the form.');
+  });
 });
