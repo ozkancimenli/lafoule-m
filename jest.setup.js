@@ -56,7 +56,7 @@ global.Request = class Request {
     this.method = init?.method || 'GET';
     this.headers = new Map(Object.entries(init?.headers || {}));
   }
-  
+
   async json() {
     return {};
   }
@@ -69,7 +69,7 @@ global.Response = class Response {
     this.statusText = init?.statusText || 'OK';
     this.headers = new Map(Object.entries(init?.headers || {}));
   }
-  
+
   async json() {
     return JSON.parse(this.body);
   }
