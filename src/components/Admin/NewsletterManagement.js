@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -15,11 +15,7 @@ const NewsletterManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all'); // all, active, inactive
 
-  useEffect(() => {
-    fetchSubscribers();
-  }, [filter]);
-
-  const fetchSubscribers = async () => {
+  const fetchSubscribers = useCallback(async () => {
     try {
       let query = supabase
         .from('newsletter_subscribers')
@@ -41,7 +37,11 @@ const NewsletterManagement = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    fetchSubscribers();
+  }, [fetchSubscribers]);
 
   const handleToggleActive = async (subscriberId, currentStatus) => {
     try {

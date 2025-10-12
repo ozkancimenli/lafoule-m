@@ -10,15 +10,15 @@ jest.mock('../../utils/supabaseServerClient', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     from: jest.fn(() => ({
-      insert: jest.fn().mockResolvedValue({ error: null })
-    }))
-  }))
+      insert: jest.fn().mockResolvedValue({ error: null }),
+    })),
+  })),
 }));
 
 // Mock email functions
 jest.mock('../../utils/brevoEmail', () => ({
   sendContactNotificationEmail: jest.fn().mockResolvedValue(true),
-  sendContactAutoReplyEmail: jest.fn().mockResolvedValue(true)
+  sendContactAutoReplyEmail: jest.fn().mockResolvedValue(true),
 }));
 
 describe('/api/contact', () => {
