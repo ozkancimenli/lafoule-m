@@ -64,8 +64,21 @@ jobs:
       - name: Build application
         run: |
           echo "Starting Next.js build..."
+          echo "Current working directory: $(pwd)"
+          echo "Contents of current directory:"
+          ls -la
           npm run build
           echo "Build completed successfully"
+          echo "Contents after build:"
+          ls -la
+          echo "Checking for .next directory:"
+          if [ -d ".next" ]; then
+            echo "✅ .next directory found"
+            ls -la .next/
+          else
+            echo "❌ .next directory not found"
+            exit 1
+          fi
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
@@ -86,6 +99,23 @@ jobs:
           ls -la .next/
           echo "Build size:"
           du -sh .next/
+
+      - name: Prepare for artifact upload
+        run: |
+          echo "Preparing to upload artifacts..."
+          echo "Current working directory: $(pwd)"
+          echo "Contents of current directory:"
+          ls -la
+          if [ -d ".next" ]; then
+            echo "✅ .next directory exists, proceeding with upload"
+            echo "Contents of .next directory:"
+            ls -la .next/
+            echo "Size of .next directory:"
+            du -sh .next/
+          else
+            echo "❌ .next directory not found, cannot upload"
+            exit 1
+          fi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
