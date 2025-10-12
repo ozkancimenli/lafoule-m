@@ -91,12 +91,18 @@ describe('Utils', () => {
     });
 
     it('should handle object syntax', () => {
-      const result = cx('class1', { class2: true, class3: false, class4: true });
+      const result = cx('class1', {
+        class2: true,
+        class3: false,
+        class4: true,
+      });
       expect(result).toBe('class1 class2 class4');
     });
 
     it('should handle mixed syntax', () => {
-      const result = cx('class1', { class2: true }, 'class3', { class4: false });
+      const result = cx('class1', { class2: true }, 'class3', {
+        class4: false,
+      });
       expect(result).toBe('class1 class2 class3');
     });
 

@@ -80,7 +80,9 @@ describe('/api/contact', () => {
   it('should handle Supabase insert error', async () => {
     // Mock Supabase to return an error
     const mockSupabase = require('../../utils/supabaseServerClient').default();
-    mockSupabase.from().insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
+    mockSupabase
+      .from()
+      .insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
 
     const mockRequest = {
       json: jest.fn().mockResolvedValue({
@@ -95,7 +97,9 @@ describe('/api/contact', () => {
     const data = await response.json();
 
     expect(response.status).toBe(500);
-    expect(data.error).toBe('Unable to save your message right now. Please try again.');
+    expect(data.error).toBe(
+      'Unable to save your message right now. Please try again.'
+    );
   });
 
   it('should handle invalid JSON request', async () => {

@@ -19,7 +19,7 @@ jest.mock('../../lib/blog', () => ({
       toc: [],
     },
   ]),
-  getBlogBySlug: jest.fn((slug) => {
+  getBlogBySlug: jest.fn(slug => {
     if (slug === 'test-blog') {
       return {
         slug: 'test-blog',
@@ -30,7 +30,12 @@ jest.mock('../../lib/blog', () => ({
         author: 'Test Author',
         tags: ['test'],
         url: '/blogs/test-blog',
-        readingTime: { text: '1 min read', minutes: 1, time: 60000, words: 200 },
+        readingTime: {
+          text: '1 min read',
+          minutes: 1,
+          time: 60000,
+          words: 200,
+        },
         isPublished: true,
         content: 'Test content',
         toc: [],
@@ -57,7 +62,7 @@ describe('/api/blogs/[slug]', () => {
   it('should return specific blog data', async () => {
     const mockRequest = {};
     const mockParams = { params: Promise.resolve({ slug: 'test-blog' }) };
-    
+
     const response = await getBlogBySlug(mockRequest, mockParams);
     const data = await response.json();
 
@@ -69,7 +74,7 @@ describe('/api/blogs/[slug]', () => {
   it('should return 404 for missing blog', async () => {
     const mockRequest = {};
     const mockParams = { params: Promise.resolve({ slug: 'non-existent' }) };
-    
+
     const response = await getBlogBySlug(mockRequest, mockParams);
     const data = await response.json();
 

@@ -48,7 +48,7 @@ const BlogsPage = () => {
           Insights Are On Their Way
         </h1>
         <p className='mt-4 text-lg text-dark/70 dark:text-light/70 max-w-2xl'>
-          I'm curating the first batch of stories. Check back soon for deep
+          I&apos;m curating the first batch of stories. Check back soon for deep
           dives on Next.js, Supabase, and developer experience.
         </p>
       </section>
