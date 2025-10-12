@@ -17,18 +17,18 @@ describe('/api/contact', () => {
         name: 'Test User',
         email: 'test@example.com',
         subject: 'Test Subject',
-        message: 'Test Message'
-      })
+        message: 'Test Message',
+      }),
     };
 
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ messageId: 'test-message-id' })
+      json: () => Promise.resolve({ messageId: 'test-message-id' }),
     });
 
     const response = await POST(mockRequest);
     const data = await response.json();
-    
+
     expect(response.status).toBe(200);
     expect(data.success).toBe(true);
   });
@@ -39,13 +39,13 @@ describe('/api/contact', () => {
         name: '',
         email: 'test@example.com',
         subject: 'Test Subject',
-        message: 'Test Message'
-      })
+        message: 'Test Message',
+      }),
     };
 
     const response = await POST(mockRequest);
     const data = await response.json();
-    
+
     expect(response.status).toBe(400);
     expect(data.success).toBe(false);
   });

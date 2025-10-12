@@ -7,22 +7,22 @@ describe('Utils', () => {
         {
           title: 'Old Post',
           publishedAt: '2023-01-01',
-          slug: 'old-post'
+          slug: 'old-post',
         },
         {
           title: 'New Post',
           publishedAt: '2023-12-01',
-          slug: 'new-post'
+          slug: 'new-post',
         },
         {
           title: 'Middle Post',
           publishedAt: '2023-06-01',
-          slug: 'middle-post'
-        }
+          slug: 'middle-post',
+        },
       ];
 
       const sorted = sortBlogs(blogs);
-      
+
       expect(sorted[0].title).toBe('New Post');
       expect(sorted[1].title).toBe('Middle Post');
       expect(sorted[2].title).toBe('Old Post');
@@ -38,8 +38,8 @@ describe('Utils', () => {
         {
           title: 'Single Post',
           publishedAt: '2023-01-01',
-          slug: 'single-post'
-        }
+          slug: 'single-post',
+        },
       ];
 
       const result = sortBlogs(blogs);

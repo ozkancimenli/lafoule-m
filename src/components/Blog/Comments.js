@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -22,11 +22,7 @@ const Comments = ({ blogSlug }) => {
     content: '',
   });
 
-  useEffect(() => {
-    fetchComments();
-  }, [blogSlug]);
-
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('comments')
@@ -42,7 +38,11 @@ const Comments = ({ blogSlug }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [blogSlug]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   const handleSubmit = async e => {
     e.preventDefault();

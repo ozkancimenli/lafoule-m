@@ -15,16 +15,16 @@ jest.mock('../../lib/blog', () => ({
       readingTime: { text: '1 min read', minutes: 1, time: 60000, words: 200 },
       isPublished: true,
       content: 'Test content',
-      toc: []
-    }
-  ])
+      toc: [],
+    },
+  ]),
 }));
 
 describe('/api/blogs', () => {
   it('should return blogs data', async () => {
     const response = await GET();
     const data = await response.json();
-    
+
     expect(response.status).toBe(200);
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBeGreaterThan(0);

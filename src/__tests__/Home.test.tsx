@@ -14,15 +14,15 @@ jest.mock('../lib/blog', () => ({
       author: 'Ozkan Cimenli',
       tags: ['test', 'blog'],
       url: '/blogs/test-blog-post',
-      readingTime: { 
+      readingTime: {
         text: '5 min read',
         minutes: 5,
         time: 300000,
-        words: 1000
+        words: 1000,
       },
       isPublished: true,
       content: 'Test content',
-      toc: []
+      toc: [],
     },
   ]),
 }));
