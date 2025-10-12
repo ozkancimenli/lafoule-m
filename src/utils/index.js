@@ -19,7 +19,7 @@ export const sortBlogs = blogs => {
   if (!Array.isArray(blogs)) {
     return [];
   }
-  
+
   return blogs
     .filter(blog => blog && blog.publishedAt)
     .slice()

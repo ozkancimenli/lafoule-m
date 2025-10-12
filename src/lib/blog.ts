@@ -69,7 +69,7 @@ export function getAllBlogs(): BlogPost[] {
           content: content || '',
         };
       })
-      .filter(post => post.isPublished)
+      .filter(post => post && post.isPublished)
       .sort(
         (a, b) =>
           new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
