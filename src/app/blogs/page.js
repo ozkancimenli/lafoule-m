@@ -13,15 +13,17 @@ export const metadata = {
     'Explore every article by Ozkan Cimenli on web development, Next.js, accessibility, performance and productivity.',
 };
 
-// const buildCategoryList = blogs => {
-//   const set = new Set(['all']);
+const buildCategoryList = blogs => {
+  const set = new Set(['all']);
 
-//   blogs.forEach(blog => {
-//     (blog.tags || []).forEach(tag => set.add(slug(tag)));
-//   });
+  blogs.forEach(blog => {
+    if (blog && blog.tags && Array.isArray(blog.tags)) {
+      blog.tags.forEach(tag => set.add(slug(tag)));
+    }
+  });
 
-//   return Array.from(set);
-// };
+  return Array.from(set);
+};
 
 const BlogsPage = () => {
   const allBlogs = getAllBlogs();
