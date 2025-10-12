@@ -8,21 +8,25 @@ describe('Utils', () => {
           title: 'Old Post',
           publishedAt: '2023-01-01',
           slug: 'old-post',
+          tags: ['test'],
         },
         {
           title: 'New Post',
           publishedAt: '2023-12-01',
           slug: 'new-post',
+          tags: ['test'],
         },
         {
           title: 'Middle Post',
           publishedAt: '2023-06-01',
           slug: 'middle-post',
+          tags: ['test'],
         },
       ];
 
       const sorted = sortBlogs(blogs);
 
+      expect(sorted).toHaveLength(3);
       expect(sorted[0].title).toBe('New Post');
       expect(sorted[1].title).toBe('Middle Post');
       expect(sorted[2].title).toBe('Old Post');
@@ -39,6 +43,7 @@ describe('Utils', () => {
           title: 'Single Post',
           publishedAt: '2023-01-01',
           slug: 'single-post',
+          tags: ['test'],
         },
       ];
 
