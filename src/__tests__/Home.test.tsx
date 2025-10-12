@@ -2,26 +2,30 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from '../app/page';
 
-// Mock contentlayer
-jest.mock(
-  'contentlayer/generated',
-  () => ({
-    allBlogs: [
-      {
-        title: 'Test Blog Post',
-        description: 'A test blog post description',
-        publishedAt: '2023-01-01',
-        updatedAt: '2023-01-01',
-        author: 'Ozkan Cimenli',
-        tags: ['test', 'blog'],
-        url: '/blogs/test-blog-post',
-        readingTime: { text: '5 min read' },
-        isPublished: true,
+// Mock the blog utility functions
+jest.mock('../lib/blog', () => ({
+  getAllBlogs: jest.fn(() => [
+    {
+      slug: 'test-blog-post',
+      title: 'Test Blog Post',
+      description: 'A test blog post description',
+      publishedAt: '2023-01-01',
+      updatedAt: '2023-01-01',
+      author: 'Ozkan Cimenli',
+      tags: ['test', 'blog'],
+      url: '/blogs/test-blog-post',
+      readingTime: { 
+        text: '5 min read',
+        minutes: 5,
+        time: 300000,
+        words: 1000
       },
-    ],
-  }),
-  { virtual: true }
-);
+      isPublished: true,
+      content: 'Test content',
+      toc: []
+    },
+  ]),
+}));
 
 // Mock components
 jest.mock('../components/Home/HomeCoverSection', () => {

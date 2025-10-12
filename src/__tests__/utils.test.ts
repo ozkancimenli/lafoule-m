@@ -1,30 +1,50 @@
-import { cx } from '../utils';
+import { sortBlogs } from '../utils';
 
-describe('Utility Functions', () => {
-  describe('cx function', () => {
-    it('combines class names correctly', () => {
-      expect(cx('class1', 'class2')).toBe('class1 class2');
+describe('Utils', () => {
+  describe('sortBlogs', () => {
+    it('should sort blogs by publishedAt date', () => {
+      const blogs = [
+        {
+          title: 'Old Post',
+          publishedAt: '2023-01-01',
+          slug: 'old-post'
+        },
+        {
+          title: 'New Post',
+          publishedAt: '2023-12-01',
+          slug: 'new-post'
+        },
+        {
+          title: 'Middle Post',
+          publishedAt: '2023-06-01',
+          slug: 'middle-post'
+        }
+      ];
+
+      const sorted = sortBlogs(blogs);
+      
+      expect(sorted[0].title).toBe('New Post');
+      expect(sorted[1].title).toBe('Middle Post');
+      expect(sorted[2].title).toBe('Old Post');
     });
 
-    it('handles conditional classes', () => {
-      expect(cx('class1', { class2: true, class3: false })).toBe(
-        'class1 class2'
-      );
+    it('should handle empty array', () => {
+      const result = sortBlogs([]);
+      expect(result).toEqual([]);
     });
 
-    it('handles mixed types', () => {
-      expect(cx('class1', { class2: true }, 'class3')).toBe(
-        'class1 class2 class3'
-      );
-    });
+    it('should handle single blog', () => {
+      const blogs = [
+        {
+          title: 'Single Post',
+          publishedAt: '2023-01-01',
+          slug: 'single-post'
+        }
+      ];
 
-    it('handles empty inputs', () => {
-      expect(cx()).toBe('');
-      expect(cx('')).toBe('');
-    });
-
-    it('handles undefined and null values', () => {
-      expect(cx('class1', undefined, null, 'class2')).toBe('class1 class2');
+      const result = sortBlogs(blogs);
+      expect(result).toHaveLength(1);
+      expect(result[0].title).toBe('Single Post');
     });
   });
 });
