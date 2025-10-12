@@ -29,7 +29,7 @@ const AdminPanel = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Simple password check - in production, use proper auth
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === 'admin123') {
+    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === 'yeni_guvenli_sifreniz') {
       setIsAuthenticated(true);
       localStorage.setItem('admin_authenticated', 'true');
     } else {
