@@ -197,7 +197,7 @@ async function fetchUnsplashImage(topic, slug) {
 
     return {
       src: `/blogs/${fileName}`,
-      frontMatterPath: `../../public/blogs/${fileName}`,
+      frontMatterPath: `/blogs/${fileName}`,
       credit: photoCredit,
     };
   } catch (error) {
@@ -217,7 +217,7 @@ async function createFallbackImage(slug) {
 
   return {
     src: `/blogs/${fileName}`,
-    frontMatterPath: `../../public/blogs/${fileName}`,
+    frontMatterPath: `/blogs/${fileName}`,
     credit: {
       name: "Placeholder Image",
       profileUrl:
@@ -238,7 +238,14 @@ async function optionalAiSection(topic) {
   }
 
   try {
-    const prompt = `Write two concise paragraphs (max 180 words total) explaining why "${topic}" matters for modern web developers. Use an inclusive, encouraging tone.`;
+    // Improved prompt for better technical content
+    const prompt = `As a senior web developer, write two detailed paragraphs (max 200 words total) about "${topic}". 
+    
+    First paragraph: Explain the technical importance and real-world applications for modern developers.
+    Second paragraph: Provide specific implementation strategies and best practices.
+    
+    Include practical examples, common pitfalls to avoid, and actionable insights. Use a professional, technical tone.`;
+
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -247,8 +254,10 @@ async function optionalAiSection(topic) {
       },
       body: JSON.stringify({
         inputs: prompt,
-        max_new_tokens: 220,
-        temperature: 0.7,
+        max_new_tokens: 300,
+        temperature: 0.6,
+        top_p: 0.9,
+        repetition_penalty: 1.1,
       }),
     });
 

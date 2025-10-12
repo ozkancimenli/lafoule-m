@@ -65,8 +65,9 @@ export function getAllBlogs(): BlogPost[] {
           tags: Array.isArray(data.tags)
             ? data.tags.filter((tag: any) => typeof tag === 'string')
             : [],
-          image: data.image,
+          image: data.image ? data.image.replace('../../public', '') : undefined,
           isPublished: data.isPublished !== false,
+          toc: data.toc || [],
           readingTime: {
             text: `${minutes} min read`,
             minutes,
@@ -190,7 +191,7 @@ export function getBlogBySlug(slug: string): BlogPost | null {
   }
 
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    const fullPath = path.join(postsDirectory, slug, 'index.mdx');
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 
@@ -208,8 +209,9 @@ export function getBlogBySlug(slug: string): BlogPost | null {
       tags: Array.isArray(data.tags)
         ? data.tags.filter((tag: any) => typeof tag === 'string')
         : [],
-      image: data.image,
+      image: data.image ? data.image.replace('../../public', '') : undefined,
       isPublished: data.isPublished !== false,
+      toc: data.toc || [],
       readingTime: {
         text: `${minutes} min read`,
         minutes,

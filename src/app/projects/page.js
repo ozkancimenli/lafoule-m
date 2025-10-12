@@ -2,6 +2,16 @@ import Link from 'next/link';
 
 const projects = [
   {
+    title: 'EchoMind',
+    description:
+      'AI-powered note-taking and knowledge management platform with intelligent search, automatic categorization, and cross-platform synchronization. Built with Next.js and advanced AI integration.',
+    tech: ['Next.js', 'TypeScript', 'AI/ML', 'Supabase', 'OpenAI API'],
+    github: 'https://github.com/ozkancimenli/echomind',
+    live: 'https://echomind.vercel.app',
+    year: '2025',
+    status: 'Featured',
+  },
+  {
     title: 'CollabCanvas',
     description:
       'Real-time collaboration canvas built with Next.js, Liveblocks, and Clerk Auth. Enables multiplayer drawing, shared cursors, and synced sessions with cloud persistence.',
@@ -9,7 +19,7 @@ const projects = [
     github: 'https://github.com/ozkancimenli/collabcanvas',
     live: 'https://colcanvas.vercel.app/',
     year: '2024',
-    status: 'Featured',
+    status: 'Live',
   },
   {
     title: 'TeamSync',

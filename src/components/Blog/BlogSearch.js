@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-// import { getAllBlogs } from '../../lib/blog';
 import Link from 'next/link';
 
 const BlogSearch = () => {
@@ -10,15 +9,26 @@ const BlogSearch = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    if (searchTerm.length > 2) {
-      setIsSearching(true);
-      // For client-side, we'll need to fetch blogs from an API
-      // For now, we'll use an empty array
-      setSearchResults([]);
-      setIsSearching(false);
-    } else {
-      setSearchResults([]);
-    }
+    const searchBlogs = async () => {
+      if (searchTerm.length > 2) {
+        setIsSearching(true);
+        try {
+          const response = await fetch(`/api/search-blogs?q=${encodeURIComponent(searchTerm)}`);
+          const data = await response.json();
+          setSearchResults(data.blogs || []);
+        } catch (error) {
+          console.error('Search error:', error);
+          setSearchResults([]);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setSearchResults([]);
+      }
+    };
+
+    const debounceTimer = setTimeout(searchBlogs, 300);
+    return () => clearTimeout(debounceTimer);
   }, [searchTerm]);
 
   return (
@@ -56,7 +66,7 @@ const BlogSearch = () => {
             <div className='py-2'>
               {searchResults.map(blog => (
                 <Link
-                  key={blog._id}
+                  key={blog.slug}
                   href={blog.url}
                   className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-dark dark:text-light'
                   onClick={() => setSearchTerm('')}

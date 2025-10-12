@@ -80,7 +80,7 @@ export default function ContactForm() {
       Hello! My name is{' '}
       <input
         type='text'
-        placeholder='your name'
+        placeholder='Your name'
         {...register('name', {
           required: 'Name is required',
           maxLength: { value: 120, message: 'Keep it under 120 characters' },
@@ -92,7 +92,7 @@ export default function ContactForm() {
       and I want to discuss a potential project. You can email me at
       <input
         type='email'
-        placeholder='your@email'
+        placeholder='your@email.com'
         {...register('email', {
           required: 'Email is required',
           pattern: {
@@ -108,7 +108,7 @@ export default function ContactForm() {
       or reach out to me on
       <input
         type='tel'
-        placeholder='your phone'
+        placeholder='Your phone number'
         {...register('phone', {
           maxLength: { value: 30, message: 'Phone number looks too long' },
         })}

@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GithubIcon, LinkedinIcon, TwitterIcon } from '../Icons';
 
 const SocialShare = ({ title, url, description }) => {
   const [copied, setCopied] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
 
-  const shareUrl =
-    typeof window !== 'undefined' ? window.location.origin + url : '';
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setShareUrl(window.location.origin + url);
+    }
+  }, [url]);
+
   const shareText = `${title} - ${description}`;
 
   const shareLinks = {

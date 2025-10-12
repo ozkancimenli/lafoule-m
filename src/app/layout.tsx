@@ -65,13 +65,14 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={cx(
           inter.variable,
           manrope.variable,
           'font-mr bg-light dark:bg-dark'
         )}
+        suppressHydrationWarning
       >
         <Script id='theme-switcher' strategy='beforeInteractive'>
           {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

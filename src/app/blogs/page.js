@@ -121,7 +121,7 @@ const BlogsPage = () => {
         <section className='px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 sm:mt-20 md:mt-24 space-y-12'>
           <h2 className='text-xl font-semibold'>Latest deep dives</h2>
           {archive.map(blog => (
-            <article key={blog._id}>
+            <article key={blog.slug}>
               <BlogLayoutTwo blog={blog} />
             </article>
           ))}

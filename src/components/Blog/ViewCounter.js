@@ -15,16 +15,10 @@ const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
         });
 
         if (error) {
-          console.error(
-            'Error incrementing view count inside try block:',
-            error
-          );
+          console.error('Error incrementing view count:', error);
         }
       } catch (error) {
-        console.error(
-          'An error occurred while incrementing the view count:',
-          error
-        );
+        console.error('Error incrementing view count:', error);
       }
     };
 
@@ -43,18 +37,12 @@ const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
           .single();
 
         if (error) {
-          console.error(
-            'Error incrementing view count inside try block:',
-            error
-          );
+          console.error('Error fetching view count:', error);
         }
 
         setViews(data ? data.count : 0);
       } catch (error) {
-        console.error(
-          'An error occurred while incrementing the view count:',
-          error
-        );
+        console.error('Error fetching view count:', error);
       }
     };
 

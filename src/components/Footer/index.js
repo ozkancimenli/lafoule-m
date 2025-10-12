@@ -155,7 +155,12 @@ const Footer = () => {
         <span className='text-center'>
           &copy;2023 ozkancimenli. All rights reserved.
         </span>
-        <div className='text-center'>Made with &hearts; by ozkancimenli</div>
+        <div className='text-center'>
+          Made with &hearts; by ozkancimenli
+          <a href='/admin' className='ml-2 text-xs opacity-0 hover:opacity-100 transition-opacity' title='Admin Panel'>
+            🔧
+          </a>
+        </div>
       </div>
     </footer>
   );
