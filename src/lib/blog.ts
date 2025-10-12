@@ -47,13 +47,15 @@ export function getAllBlogs(): BlogPost[] {
         const minutes = Math.ceil(words / wordsPerMinute);
 
         return {
-          slug,
-          title: data.title || '',
+          slug: slug || 'untitled',
+          title: data.title || 'Untitled',
           description: data.description || '',
-          publishedAt: data.publishedAt || '',
-          updatedAt: data.updatedAt || data.publishedAt || '',
+          publishedAt: data.publishedAt || new Date().toISOString(),
+          updatedAt: data.updatedAt || data.publishedAt || new Date().toISOString(),
           author: data.author || 'Ozkan Cimenli',
-          tags: Array.isArray(data.tags) ? data.tags.filter(tag => typeof tag === 'string') : [],
+          tags: Array.isArray(data.tags)
+            ? data.tags.filter(tag => typeof tag === 'string')
+            : [],
           image: data.image,
           isPublished: data.isPublished !== false,
           readingTime: {
@@ -63,7 +65,7 @@ export function getAllBlogs(): BlogPost[] {
             words,
           },
           url: `/blogs/${slug}`,
-          content,
+          content: content || '',
         };
       })
       .filter(post => post.isPublished)
@@ -95,13 +97,15 @@ export function getBlogBySlug(slug: string): BlogPost | null {
     const minutes = Math.ceil(words / wordsPerMinute);
 
     return {
-      slug,
-      title: data.title || '',
+      slug: slug || 'untitled',
+      title: data.title || 'Untitled',
       description: data.description || '',
-      publishedAt: data.publishedAt || '',
-      updatedAt: data.updatedAt || data.publishedAt || '',
+      publishedAt: data.publishedAt || new Date().toISOString(),
+      updatedAt: data.updatedAt || data.publishedAt || new Date().toISOString(),
       author: data.author || 'Ozkan Cimenli',
-      tags: Array.isArray(data.tags) ? data.tags.filter(tag => typeof tag === 'string') : [],
+      tags: Array.isArray(data.tags)
+        ? data.tags.filter(tag => typeof tag === 'string')
+        : [],
       image: data.image,
       isPublished: data.isPublished !== false,
       readingTime: {
@@ -111,7 +115,7 @@ export function getBlogBySlug(slug: string): BlogPost | null {
         words,
       },
       url: `/blogs/${slug}`,
-      content,
+      content: content || '',
     };
   } catch (error) {
     console.error('Error reading blog post:', error);
@@ -134,5 +138,7 @@ export function getAllTags(): string[] {
 
 export function getBlogsByTag(tag: string): BlogPost[] {
   const blogs = getAllBlogs();
-  return blogs.filter(blog => blog.tags && Array.isArray(blog.tags) && blog.tags.includes(tag));
+  return blogs.filter(
+    blog => blog.tags && Array.isArray(blog.tags) && blog.tags.includes(tag)
+  );
 }
