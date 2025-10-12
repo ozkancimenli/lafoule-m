@@ -12,7 +12,8 @@ export const cx = (...classNames) => {
       }
       return className;
     })
-    .join(' ');
+    .join(' ')
+    .trim();
 };
 
 export const sortBlogs = blogs => {
