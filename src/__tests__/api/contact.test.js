@@ -89,7 +89,9 @@ describe('/api/contact', () => {
   it('should handle Supabase insert error', async () => {
     // Reset and mock Supabase to return an error
     mockSupabase.from.mockReturnValue({
-      insert: jest.fn().mockResolvedValue({ error: { message: 'Database error' } }),
+      insert: jest
+        .fn()
+        .mockResolvedValue({ error: { message: 'Database error' } }),
     });
 
     const mockRequest = {
