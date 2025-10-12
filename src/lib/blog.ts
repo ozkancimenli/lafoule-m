@@ -22,6 +22,11 @@ export interface BlogPost {
   };
   url: string;
   content: string;
+  toc?: Array<{
+    level: string;
+    text: string;
+    slug: string;
+  }>;
 }
 
 export function getAllBlogs(): BlogPost[] {
