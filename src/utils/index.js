@@ -16,9 +16,19 @@ export const cx = (...classNames) => {
 };
 
 export const sortBlogs = blogs => {
+  if (!Array.isArray(blogs)) {
+    return [];
+  }
+  
   return blogs
+    .filter(blog => blog && blog.publishedAt)
     .slice()
-    .sort((a, b) =>
-      compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt))
-    );
+    .sort((a, b) => {
+      try {
+        return compareDesc(parseISO(a.publishedAt), parseISO(b.publishedAt));
+      } catch (error) {
+        console.error('Error sorting blogs:', error);
+        return 0;
+      }
+    });
 };

@@ -51,7 +51,8 @@ export function getAllBlogs(): BlogPost[] {
           title: data.title || 'Untitled',
           description: data.description || '',
           publishedAt: data.publishedAt || new Date().toISOString(),
-          updatedAt: data.updatedAt || data.publishedAt || new Date().toISOString(),
+          updatedAt:
+            data.updatedAt || data.publishedAt || new Date().toISOString(),
           author: data.author || 'Ozkan Cimenli',
           tags: Array.isArray(data.tags)
             ? data.tags.filter(tag => typeof tag === 'string')
