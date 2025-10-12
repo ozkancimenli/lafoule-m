@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const postsDirectory = path.join(process.cwd(), 'content');
+const postsDirectory = path.join(process.cwd(), 'src/content');
 
 export interface BlogPost {
   slug: string;
@@ -36,38 +36,43 @@ export function getAllBlogs(): BlogPost[] {
     const allPostsData = fileNames
       .filter(fileName => fileName.endsWith('.mdx'))
       .map(fileName => {
-        const slug = fileName.replace(/\.mdx$/, '');
-        const fullPath = path.join(postsDirectory, fileName);
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
-        const { data, content } = matter(fileContents);
+        try {
+          const slug = fileName.replace(/\.mdx$/, '');
+          const fullPath = path.join(postsDirectory, fileName);
+          const fileContents = fs.readFileSync(fullPath, 'utf8');
+          const { data, content } = matter(fileContents);
 
-        // Calculate reading time
-        const wordsPerMinute = 200;
-        const words = content.split(/\s+/).length;
-        const minutes = Math.ceil(words / wordsPerMinute);
+          // Calculate reading time
+          const wordsPerMinute = 200;
+          const words = content.split(/\s+/).length;
+          const minutes = Math.ceil(words / wordsPerMinute);
 
-        return {
-          slug: slug || 'untitled',
-          title: data.title || 'Untitled',
-          description: data.description || '',
-          publishedAt: data.publishedAt || new Date().toISOString(),
-          updatedAt:
-            data.updatedAt || data.publishedAt || new Date().toISOString(),
-          author: data.author || 'Ozkan Cimenli',
-          tags: Array.isArray(data.tags)
-            ? data.tags.filter(tag => typeof tag === 'string')
-            : [],
-          image: data.image,
-          isPublished: data.isPublished !== false,
-          readingTime: {
-            text: `${minutes} min read`,
-            minutes,
-            time: minutes * 60 * 1000,
-            words,
-          },
-          url: `/blogs/${slug}`,
-          content: content || '',
-        };
+          return {
+            slug: slug || 'untitled',
+            title: data.title || 'Untitled',
+            description: data.description || '',
+            publishedAt: data.publishedAt || new Date().toISOString(),
+            updatedAt:
+              data.updatedAt || data.publishedAt || new Date().toISOString(),
+            author: data.author || 'Ozkan Cimenli',
+            tags: Array.isArray(data.tags)
+              ? data.tags.filter(tag => typeof tag === 'string')
+              : [],
+            image: data.image,
+            isPublished: data.isPublished !== false,
+            readingTime: {
+              text: `${minutes} min read`,
+              minutes,
+              time: minutes * 60 * 1000,
+              words,
+            },
+            url: `/blogs/${slug}`,
+            content: content || '',
+          };
+        } catch (fileError) {
+          console.error(`Error processing file ${fileName}:`, fileError);
+          return null;
+        }
       })
       .filter(post => post && post.isPublished)
       .sort(
@@ -75,6 +80,7 @@ export function getAllBlogs(): BlogPost[] {
           new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       );
 
+    console.log('All posts data:', allPostsData.length, allPostsData[0]);
     return allPostsData;
   } catch (error) {
     console.error('Error reading blog posts:', error);
