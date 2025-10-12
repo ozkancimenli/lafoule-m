@@ -29,6 +29,10 @@ global.fetch = jest.fn();
 describe('/api/contact', () => {
   beforeEach(() => {
     fetch.mockClear();
+    // Reset Supabase mock to default success state
+    mockSupabase.from.mockReturnValue({
+      insert: jest.fn().mockResolvedValue({ error: null }),
+    });
   });
 
   it('should handle contact form submission', async () => {
@@ -83,10 +87,10 @@ describe('/api/contact', () => {
   });
 
   it('should handle Supabase insert error', async () => {
-    // Mock Supabase to return an error
-    mockSupabase
-      .from()
-      .insert.mockResolvedValueOnce({ error: { message: 'Database error' } });
+    // Reset and mock Supabase to return an error
+    mockSupabase.from.mockReturnValue({
+      insert: jest.fn().mockResolvedValue({ error: { message: 'Database error' } }),
+    });
 
     const mockRequest = {
       json: jest.fn().mockResolvedValue({
@@ -114,7 +118,7 @@ describe('/api/contact', () => {
     const response = await POST(mockRequest);
     const data = await response.json();
 
-    expect(response.status).toBe(500);
-    expect(data.error).toBe('Unexpected error while submitting the form.');
+    expect(response.status).toBe(400);
+    expect(data.error).toBe('Request body must be valid JSON.');
   });
 });

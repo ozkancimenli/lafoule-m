@@ -62,6 +62,15 @@ export async function POST(request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Contact form submission error:', error);
+    
+    // Handle JSON parsing errors specifically
+    if (error.message && error.message.includes('Invalid JSON')) {
+      return NextResponse.json(
+        { error: 'Request body must be valid JSON.' },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
       { error: 'Unexpected error while submitting the form.' },
       { status: 500 }
