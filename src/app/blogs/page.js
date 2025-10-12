@@ -16,27 +16,39 @@ export const metadata = {
 const buildCategoryList = blogs => {
   const set = new Set(['all']);
 
-  blogs.forEach(blog => {
-    if (blog && blog.tags && Array.isArray(blog.tags)) {
-      blog.tags.forEach(tag => set.add(slug(tag)));
-    }
-  });
+  if (Array.isArray(blogs)) {
+    blogs.forEach(blog => {
+      if (blog && blog.tags && Array.isArray(blog.tags)) {
+        blog.tags.forEach(tag => {
+          if (tag && typeof tag === 'string') {
+            try {
+              set.add(slug(tag));
+            } catch (error) {
+              console.error('Error processing tag:', tag, error);
+            }
+          }
+        });
+      }
+    });
+  }
 
   return Array.from(set);
 };
 
 const BlogsPage = () => {
   const allBlogs = getAllBlogs();
-  const publishedBlogs = sortBlogs(allBlogs.filter(blog => blog.isPublished));
+  const publishedBlogs = sortBlogs(
+    allBlogs.filter(blog => blog && blog.isPublished)
+  );
 
-  if (!publishedBlogs.length) {
+  if (!publishedBlogs || !publishedBlogs.length) {
     return (
       <section className='mt-16 px-5 sm:px-10 md:px-24 sxl:px-32 text-dark dark:text-light'>
         <h1 className='text-3xl md:text-5xl font-semibold'>
           Insights Are On Their Way
         </h1>
         <p className='mt-4 text-lg text-dark/70 dark:text-light/70 max-w-2xl'>
-          I’m curating the first batch of stories. Check back soon for deep
+          I'm curating the first batch of stories. Check back soon for deep
           dives on Next.js, Supabase, and developer experience.
         </p>
       </section>
@@ -46,7 +58,14 @@ const BlogsPage = () => {
   const [featured, ...others] = publishedBlogs;
   const spotlight = others.slice(0, 3);
   const archive = others.slice(3);
-  const categories = buildCategoryList(publishedBlogs);
+
+  // Safely build category list with extra validation
+  let categories = ['all'];
+  try {
+    categories = buildCategoryList(publishedBlogs);
+  } catch (error) {
+    console.error('Error building category list:', error);
+  }
 
   return (
     <article className='mt-12 flex flex-col text-dark dark:text-light'>

@@ -18,12 +18,9 @@ const BlogLayoutOne = ({ blog }) => {
             '
       />
       <Image
-        src={blog.image.filePath.replace('../public', '')}
-        placeholder='blur'
-        blurDataURL={blog.image.blurhashDataUrl}
+        src={blog.image || '/blogs/default-blog.jpg'}
         alt={blog.title}
-        width={blog.image.width}
-        height={blog.image.height}
+        fill
         className='w-full h-full object-center object-cover rounded-xl group-hover:scale-105 transition-all ease duration-300'
         sizes='(max-width: 1180px) 100vw, 50vw'
       />

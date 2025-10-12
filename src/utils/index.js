@@ -21,7 +21,9 @@ export const sortBlogs = blogs => {
   }
 
   return blogs
-    .filter(blog => blog && blog.publishedAt)
+    .filter(
+      blog => blog && blog.publishedAt && blog.tags && Array.isArray(blog.tags)
+    )
     .slice()
     .sort((a, b) => {
       try {

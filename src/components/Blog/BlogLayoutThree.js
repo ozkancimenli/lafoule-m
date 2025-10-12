@@ -14,12 +14,10 @@ const BlogLayoutThree = ({ blog }) => {
     <div className='group flex flex-col items-center text-dark dark:text-light'>
       <Link href={blog.url} className='h-full rounded-xl overflow-hidden'>
         <Image
-          src={blog.image.filePath.replace('../public', '')}
-          placeholder='blur'
-          blurDataURL={blog.image.blurhashDataUrl}
+          src={blog.image || '/blogs/default-blog.jpg'}
           alt={blog.title}
-          width={blog.image.width}
-          height={blog.image.height}
+          width={400}
+          height={300}
           className=' aspect-[4/3] w-full h-full object-cover object-center  group-hover:scale-105 transition-all ease duration-300 '
           sizes='(max-width: 640px) 100vw,(max-width: 1024px) 50vw, 33vw'
         />

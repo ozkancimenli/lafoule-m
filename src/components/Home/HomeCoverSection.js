@@ -27,9 +27,7 @@ const HomeCoverSection = ({ blogs }) => {
             '
         />
         <Image
-          src={blog.image.filePath.replace('../public', '')}
-          placeholder='blur'
-          blurDataURL={blog.image.blurhashDataUrl}
+          src={blog.image || '/blogs/default-blog.jpg'}
           alt={blog.title}
           fill
           className='w-full h-full object-center object-cover rounded-3xl -z-10'
