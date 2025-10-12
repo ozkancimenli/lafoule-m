@@ -33,9 +33,10 @@ export function getAllBlogs(): BlogPost[] {
   try {
     const fileNames = fs.readdirSync(postsDirectory);
 
-    const allPostsData = fileNames
-      .filter(fileName => fileName.endsWith('.mdx'))
-      .map(fileName => {
+    const allPostsData: BlogPost[] = [];
+
+    for (const fileName of fileNames) {
+      if (fileName.endsWith('.mdx')) {
         try {
           const slug = fileName.replace(/\.mdx$/, '');
           const fullPath = path.join(postsDirectory, fileName);
@@ -47,7 +48,7 @@ export function getAllBlogs(): BlogPost[] {
           const words = content.split(/\s+/).length;
           const minutes = Math.ceil(words / wordsPerMinute);
 
-          return {
+          const blogPost: BlogPost = {
             slug: slug || 'untitled',
             title: data.title || 'Untitled',
             description: data.description || '',
@@ -69,16 +70,26 @@ export function getAllBlogs(): BlogPost[] {
             url: `/blogs/${slug}`,
             content: content || '',
           };
+
+          // Ensure tags is always an array
+          if (!Array.isArray(blogPost.tags)) {
+            blogPost.tags = [];
+          }
+
+          if (blogPost.isPublished) {
+            allPostsData.push(blogPost);
+          }
         } catch (fileError) {
           console.error(`Error processing file ${fileName}:`, fileError);
-          return null;
         }
-      })
-      .filter(post => post && post.isPublished)
-      .sort(
-        (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      }
+    }
+
+    allPostsData.sort((a, b) => {
+      return (
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
       );
+    });
 
     console.log('All posts data:', allPostsData.length, allPostsData[0]);
     return allPostsData;
