@@ -15,7 +15,7 @@ const NewsletterSignup = () => {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
@@ -27,8 +27,8 @@ const NewsletterSignup = () => {
           {
             email: email.toLowerCase().trim(),
             name: name.trim() || null,
-            source: 'website'
-          }
+            source: 'website',
+          },
         ]);
 
       if (error) {
@@ -71,17 +71,17 @@ const NewsletterSignup = () => {
               type='text'
               placeholder='Your name (optional)'
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               className='w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light'
             />
           </div>
-          
+
           <div>
             <input
               type='email'
               placeholder='Your email address'
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
               required
               className='w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light'
             />
@@ -97,11 +97,13 @@ const NewsletterSignup = () => {
         </form>
 
         {message && (
-          <div className={`mt-4 p-3 rounded-lg text-sm ${
-            isSuccess 
-              ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' 
-              : 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-          }`}>
+          <div
+            className={`mt-4 p-3 rounded-lg text-sm ${
+              isSuccess
+                ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                : 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+            }`}
+          >
             {message}
           </div>
         )}
@@ -111,4 +113,3 @@ const NewsletterSignup = () => {
 };
 
 export default NewsletterSignup;
-

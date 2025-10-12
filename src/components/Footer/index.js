@@ -157,7 +157,11 @@ const Footer = () => {
         </span>
         <div className='text-center'>
           Made with &hearts; by ozkancimenli
-          <a href='/admin' className='ml-2 text-xs opacity-0 hover:opacity-100 transition-opacity' title='Admin Panel'>
+          <a
+            href='/admin'
+            className='ml-2 text-xs opacity-0 hover:opacity-100 transition-opacity'
+            title='Admin Panel'
+          >
             🔧
           </a>
         </div>

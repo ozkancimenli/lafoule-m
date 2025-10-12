@@ -30,14 +30,12 @@ export async function GET(request) {
     // Limit results to 10 for performance
     const limitedResults = filteredBlogs.slice(0, 10);
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       blogs: limitedResults,
-      total: filteredBlogs.length 
+      total: filteredBlogs.length,
     });
   } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json({ blogs: [] }, { status: 500 });
   }
 }
-
-

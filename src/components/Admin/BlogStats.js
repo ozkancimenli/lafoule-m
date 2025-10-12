@@ -18,7 +18,7 @@ const BlogStats = () => {
     totalSubscribers: 0,
     activeSubscribers: 0,
     recentComments: [],
-    popularBlogs: []
+    popularBlogs: [],
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -53,18 +53,20 @@ const BlogStats = () => {
       const activeSubscribers = subscribers.filter(s => s.is_active).length;
 
       // Get recent comments
-      const { data: recentComments, error: recentCommentsError } = await supabase
-        .from('comments')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(5);
+      const { data: recentComments, error: recentCommentsError } =
+        await supabase
+          .from('comments')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
 
       if (recentCommentsError) throw recentCommentsError;
 
       // Calculate popular blogs (by comment count)
       const blogCommentCounts = {};
       comments.forEach(comment => {
-        blogCommentCounts[comment.blog_slug] = (blogCommentCounts[comment.blog_slug] || 0) + 1;
+        blogCommentCounts[comment.blog_slug] =
+          (blogCommentCounts[comment.blog_slug] || 0) + 1;
       });
 
       const popularBlogs = Object.entries(blogCommentCounts)
@@ -84,7 +86,7 @@ const BlogStats = () => {
         totalSubscribers: subscribers.length,
         activeSubscribers,
         recentComments: recentComments || [],
-        popularBlogs
+        popularBlogs,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -95,34 +97,34 @@ const BlogStats = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="text-lg">Loading statistics...</div>
+      <div className='flex justify-center items-center py-12'>
+        <div className='text-lg'>Loading statistics...</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <div className='space-y-6'>
+      <h2 className='text-2xl font-bold text-gray-900 dark:text-white'>
         Blog Statistics
       </h2>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">📝</span>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <div className='bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg'>
+          <div className='p-5'>
+            <div className='flex items-center'>
+              <div className='flex-shrink-0'>
+                <div className='w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center'>
+                  <span className='text-white text-sm font-medium'>📝</span>
                 </div>
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className='ml-5 w-0 flex-1'>
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                  <dt className='text-sm font-medium text-gray-500 dark:text-gray-400 truncate'>
                     Total Blogs
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className='text-lg font-medium text-gray-900 dark:text-white'>
                     {stats.totalBlogs}
                   </dd>
                 </dl>
@@ -131,20 +133,20 @@ const BlogStats = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">💬</span>
+        <div className='bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg'>
+          <div className='p-5'>
+            <div className='flex items-center'>
+              <div className='flex-shrink-0'>
+                <div className='w-8 h-8 bg-green-500 rounded-md flex items-center justify-center'>
+                  <span className='text-white text-sm font-medium'>💬</span>
                 </div>
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className='ml-5 w-0 flex-1'>
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                  <dt className='text-sm font-medium text-gray-500 dark:text-gray-400 truncate'>
                     Total Comments
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className='text-lg font-medium text-gray-900 dark:text-white'>
                     {stats.totalComments}
                   </dd>
                 </dl>
@@ -153,20 +155,20 @@ const BlogStats = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">⏳</span>
+        <div className='bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg'>
+          <div className='p-5'>
+            <div className='flex items-center'>
+              <div className='flex-shrink-0'>
+                <div className='w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center'>
+                  <span className='text-white text-sm font-medium'>⏳</span>
                 </div>
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className='ml-5 w-0 flex-1'>
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                  <dt className='text-sm font-medium text-gray-500 dark:text-gray-400 truncate'>
                     Pending Comments
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className='text-lg font-medium text-gray-900 dark:text-white'>
                     {stats.pendingComments}
                   </dd>
                 </dl>
@@ -175,20 +177,20 @@ const BlogStats = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">📧</span>
+        <div className='bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg'>
+          <div className='p-5'>
+            <div className='flex items-center'>
+              <div className='flex-shrink-0'>
+                <div className='w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center'>
+                  <span className='text-white text-sm font-medium'>📧</span>
                 </div>
               </div>
-              <div className="ml-5 w-0 flex-1">
+              <div className='ml-5 w-0 flex-1'>
                 <dl>
-                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
+                  <dt className='text-sm font-medium text-gray-500 dark:text-gray-400 truncate'>
                     Active Subscribers
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className='text-lg font-medium text-gray-900 dark:text-white'>
                     {stats.activeSubscribers}
                   </dd>
                 </dl>
@@ -199,32 +201,33 @@ const BlogStats = () => {
       </div>
 
       {/* Recent Comments */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">
+      <div className='bg-white dark:bg-gray-800 shadow rounded-lg'>
+        <div className='px-4 py-5 sm:p-6'>
+          <h3 className='text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4'>
             Recent Comments
           </h3>
           {stats.recentComments.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400">No comments yet</p>
+            <p className='text-gray-500 dark:text-gray-400'>No comments yet</p>
           ) : (
-            <div className="space-y-3">
-              {stats.recentComments.map((comment) => (
-                <div key={comment.id} className="flex items-start space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className='space-y-3'>
+              {stats.recentComments.map(comment => (
+                <div key={comment.id} className='flex items-start space-x-3'>
+                  <div className='flex-shrink-0'>
+                    <div className='w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center'>
+                      <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
                         {comment.author_name.charAt(0).toUpperCase()}
                       </span>
                     </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-900 dark:text-white">
-                      <span className="font-medium">{comment.author_name}</span> - {comment.blog_slug}
+                  <div className='flex-1 min-w-0'>
+                    <p className='text-sm text-gray-900 dark:text-white'>
+                      <span className='font-medium'>{comment.author_name}</span>{' '}
+                      - {comment.blog_slug}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                    <p className='text-sm text-gray-500 dark:text-gray-400 truncate'>
                       {comment.content}
                     </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                    <p className='text-xs text-gray-400 dark:text-gray-500'>
                       {new Date(comment.created_at).toLocaleString('tr-TR')}
                     </p>
                   </div>
@@ -236,31 +239,34 @@ const BlogStats = () => {
       </div>
 
       {/* Popular Blogs */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">
+      <div className='bg-white dark:bg-gray-800 shadow rounded-lg'>
+        <div className='px-4 py-5 sm:p-6'>
+          <h3 className='text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4'>
             Popular Blogs
           </h3>
           {stats.popularBlogs.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400">No comments yet</p>
+            <p className='text-gray-500 dark:text-gray-400'>No comments yet</p>
           ) : (
-            <div className="space-y-3">
+            <div className='space-y-3'>
               {stats.popularBlogs.map((blog, index) => (
-                <div key={blog.slug} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <div
+                  key={blog.slug}
+                  className='flex items-center justify-between'
+                >
+                  <div className='flex items-center space-x-3'>
+                    <span className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       #{index + 1}
                     </span>
                     <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className='text-sm font-medium text-gray-900 dark:text-white'>
                         {blog.title}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                      <p className='text-xs text-gray-500 dark:text-gray-400'>
                         {blog.tags.join(', ')}
                       </p>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                  <span className='text-sm font-medium text-gray-900 dark:text-white'>
                     {blog.commentCount} comments
                   </span>
                 </div>

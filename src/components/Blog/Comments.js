@@ -19,7 +19,7 @@ const Comments = ({ blogSlug }) => {
   const [formData, setFormData] = useState({
     authorName: '',
     authorEmail: '',
-    content: ''
+    content: '',
   });
 
   useEffect(() => {
@@ -44,26 +44,26 @@ const Comments = ({ blogSlug }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setIsSubmitting(true);
     setMessage('');
 
     try {
-      const { error } = await supabase
-        .from('comments')
-        .insert([
-          {
-            blog_slug: blogSlug,
-            author_name: formData.authorName.trim(),
-            author_email: formData.authorEmail.trim(),
-            content: formData.content.trim()
-          }
-        ]);
+      const { error } = await supabase.from('comments').insert([
+        {
+          blog_slug: blogSlug,
+          author_name: formData.authorName.trim(),
+          author_email: formData.authorEmail.trim(),
+          content: formData.content.trim(),
+        },
+      ]);
 
       if (error) throw error;
 
-      setMessage('Your comment has been submitted successfully! It is pending approval.');
+      setMessage(
+        'Your comment has been submitted successfully! It is pending approval.'
+      );
       setIsSuccess(true);
       setFormData({ authorName: '', authorEmail: '', content: '' });
     } catch (error) {
@@ -75,108 +75,110 @@ const Comments = ({ blogSlug }) => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   if (isLoading) {
     return (
-      <div className="mt-8 p-4 text-center text-gray-500">
+      <div className='mt-8 p-4 text-center text-gray-500'>
         Loading comments...
       </div>
     );
   }
 
   return (
-    <div className="mt-12 border-t border-dark/10 dark:border-light/10 pt-8">
-      <h3 className="text-2xl font-semibold text-dark dark:text-light mb-6">
+    <div className='mt-12 border-t border-dark/10 dark:border-light/10 pt-8'>
+      <h3 className='text-2xl font-semibold text-dark dark:text-light mb-6'>
         Comments ({comments.length})
       </h3>
 
       {/* Comment Form */}
-      <div className="mb-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className='mb-8'>
+        <form onSubmit={handleSubmit} className='space-y-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
               <input
-                type="text"
-                name="authorName"
-                placeholder="Your name"
+                type='text'
+                name='authorName'
+                placeholder='Your name'
                 value={formData.authorName}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light"
+                className='w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light'
               />
             </div>
             <div>
               <input
-                type="email"
-                name="authorEmail"
-                placeholder="Your email address"
+                type='email'
+                name='authorEmail'
+                placeholder='Your email address'
                 value={formData.authorEmail}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light"
+                className='w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light'
               />
             </div>
           </div>
-          
+
           <div>
             <textarea
-              name="content"
-              placeholder="Write your comment..."
+              name='content'
+              placeholder='Write your comment...'
               value={formData.content}
               onChange={handleInputChange}
               required
               rows={4}
-              className="w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light"
+              className='w-full px-4 py-2 bg-light dark:bg-dark border border-dark/20 dark:border-light/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent dark:focus:ring-accentDark text-dark dark:text-light'
             />
           </div>
 
           <button
-            type="submit"
+            type='submit'
             disabled={isSubmitting}
-            className="bg-accent dark:bg-accentDark text-light dark:text-dark py-2 px-6 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+            className='bg-accent dark:bg-accentDark text-light dark:text-dark py-2 px-6 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity'
           >
             {isSubmitting ? 'Submitting...' : 'Submit Comment'}
           </button>
         </form>
 
         {message && (
-          <div className={`mt-4 p-3 rounded-lg text-sm ${
-            isSuccess 
-              ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' 
-              : 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
-          }`}>
+          <div
+            className={`mt-4 p-3 rounded-lg text-sm ${
+              isSuccess
+                ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400'
+                : 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+            }`}
+          >
             {message}
           </div>
         )}
       </div>
 
       {/* Comments List */}
-      <div className="space-y-6">
+      <div className='space-y-6'>
         {comments.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+          <p className='text-gray-500 dark:text-gray-400 text-center py-8'>
             No comments yet. Be the first to comment!
           </p>
         ) : (
-          comments.map((comment) => (
+          comments.map(comment => (
             <div
               key={comment.id}
-              className="bg-light/50 dark:bg-dark/50 rounded-lg p-4 border border-dark/10 dark:border-light/10"
+              className='bg-light/50 dark:bg-dark/50 rounded-lg p-4 border border-dark/10 dark:border-light/10'
             >
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-semibold text-dark dark:text-light">
+              <div className='flex items-center justify-between mb-2'>
+                <h4 className='font-semibold text-dark dark:text-light'>
                   {comment.author_name}
                 </h4>
-                <time className="text-sm text-gray-500 dark:text-gray-400">
+                <time className='text-sm text-gray-500 dark:text-gray-400'>
                   {new Date(comment.created_at).toLocaleDateString('tr-TR')}
                 </time>
               </div>
-              <p className="text-dark/80 dark:text-light/80">
+              <p className='text-dark/80 dark:text-light/80'>
                 {comment.content}
               </p>
             </div>
@@ -188,4 +190,3 @@ const Comments = ({ blogSlug }) => {
 };
 
 export default Comments;
-

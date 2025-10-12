@@ -4,7 +4,7 @@ export async function GET(request, { params }) {
   try {
     const { slug } = await params;
     const blog = getBlogBySlug(slug);
-    
+
     if (!blog) {
       return new Response(JSON.stringify({ error: 'Blog not found' }), {
         status: 404,
@@ -24,5 +24,3 @@ export async function GET(request, { params }) {
     });
   }
 }
-
-

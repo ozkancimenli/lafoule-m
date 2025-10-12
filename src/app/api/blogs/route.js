@@ -7,8 +7,9 @@ export async function GET() {
     return NextResponse.json(blogs);
   } catch (error) {
     console.error('Error fetching blogs:', error);
-    return NextResponse.json({ error: 'Failed to fetch blogs' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch blogs' },
+      { status: 500 }
+    );
   }
 }
-
-

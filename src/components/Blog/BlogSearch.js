@@ -13,7 +13,9 @@ const BlogSearch = () => {
       if (searchTerm.length > 2) {
         setIsSearching(true);
         try {
-          const response = await fetch(`/api/search-blogs?q=${encodeURIComponent(searchTerm)}`);
+          const response = await fetch(
+            `/api/search-blogs?q=${encodeURIComponent(searchTerm)}`
+          );
           const data = await response.json();
           setSearchResults(data.blogs || []);
         } catch (error) {

@@ -73,18 +73,18 @@ export default async function BlogPage({ params }) {
   // Extract TOC from content
   const headings = [];
   const lines = blog.content.split('\n');
-  
-  lines.forEach((line) => {
+
+  lines.forEach(line => {
     const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
     if (headingMatch) {
       const level = headingMatch[1].length;
       const text = headingMatch[2].trim();
       const slugText = slugify(text);
-      
+
       headings.push({
         level: level.toString(),
         text: text,
-        slug: slugText
+        slug: slugText,
       });
     }
   });
@@ -113,7 +113,7 @@ export default async function BlogPage({ params }) {
         <div className='mb-8 text-center relative w-full h-[70vh] bg-dark'>
           <div className='w-full z-10 flex flex-col items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
             <div className='flex flex-wrap items-center justify-center gap-2'>
-              {blog.tags.map((tag) => (
+              {blog.tags.map(tag => (
                 <Tag
                   key={tag}
                   name={tag}
@@ -141,24 +141,31 @@ export default async function BlogPage({ params }) {
 
         <div className='grid grid-cols-12  gap-y-8 lg:gap-8 sxl:gap-16 mt-8 px-5 md:px-10'>
           <div className='col-span-12  lg:col-span-4'>
-            <details className='border-[1px] border-solid border-dark dark:border-light text-dark dark:text-light rounded-lg p-4 sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto' open>
+            <details
+              className='border-[1px] border-solid border-dark dark:border-light text-dark dark:text-light rounded-lg p-4 sticky top-6 max-h-[80vh] overflow-hidden overflow-y-auto'
+              open
+            >
               <summary className='text-lg font-semibold capitalize cursor-pointer'>
                 Table Of Content
               </summary>
               <ul className='mt-4 font-in text-base'>
-                {headings.length > 0 ? headings.map((heading) => {
-                  return (
-                    <li key={`#${heading.slug}`} className='py-1'>
-                      <a
-                        href={`#${heading.slug}`}
-                        data-level={heading.level}
-                        className={`data-[level=two]:pl-0  data-[level=two]:pt-2 data-[level=two]:border-t border-solid border-dark/40 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start `}
-                      >
-                        <span className='hover:underline'>{heading.text}</span>
-                      </a>
-                    </li>
-                  );
-                }) : (
+                {headings.length > 0 ? (
+                  headings.map(heading => {
+                    return (
+                      <li key={`#${heading.slug}`} className='py-1'>
+                        <a
+                          href={`#${heading.slug}`}
+                          data-level={heading.level}
+                          className={`data-[level=two]:pl-0  data-[level=two]:pt-2 data-[level=two]:border-t border-solid border-dark/40 data-[level=three]:pl-4 sm:data-[level=three]:pl-6 flex items-center justify-start `}
+                        >
+                          <span className='hover:underline'>
+                            {heading.text}
+                          </span>
+                        </a>
+                      </li>
+                    );
+                  })
+                ) : (
                   <li className='py-1 text-gray-500 dark:text-gray-400'>
                     No headings found
                   </li>
@@ -166,14 +173,12 @@ export default async function BlogPage({ params }) {
               </ul>
             </details>
           </div>
-          <RenderMdx 
-            blog={blog} 
-          />
+          <RenderMdx blog={blog} />
         </div>
-        
+
         {/* Comments Section */}
         <Comments blogSlug={slug} />
-        
+
         {/* Related Posts */}
         <RelatedPosts currentBlog={blog} />
       </article>

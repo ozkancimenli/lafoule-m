@@ -26,10 +26,13 @@ const AdminPanel = () => {
     setIsLoading(false);
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = e => {
     e.preventDefault();
     // Simple password check - in production, use proper auth
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD || password === 'yeni_guvenli_sifreniz') {
+    if (
+      password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD ||
+      password === 'yeni_guvenli_sifreniz'
+    ) {
       setIsAuthenticated(true);
       localStorage.setItem('admin_authenticated', 'true');
     } else {
@@ -44,36 +47,36 @@ const AdminPanel = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+      <div className='min-h-screen flex items-center justify-center'>
+        <div className='text-lg'>Loading...</div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+      <div className='min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900'>
+        <div className='max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6'>
+          <h1 className='text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white'>
             Admin Paneli
           </h1>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className='space-y-4'>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
                 Admin Şifresi
               </label>
               <input
-                type="password"
+                type='password'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                placeholder="Şifrenizi girin"
+                onChange={e => setPassword(e.target.value)}
+                className='w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white'
+                placeholder='Şifrenizi girin'
                 required
               />
             </div>
             <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type='submit'
+              className='w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500'
             >
               Giriş Yap
             </button>
@@ -84,17 +87,17 @@ const AdminPanel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-900'>
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+      <header className='bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='flex justify-between items-center py-4'>
+            <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>
               Admin Paneli
             </h1>
             <button
               onClick={handleLogout}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className='bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500'
             >
               Çıkış Yap
             </button>
@@ -103,9 +106,9 @@ const AdminPanel = () => {
       </header>
 
       {/* Navigation */}
-      <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+      <nav className='bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='flex space-x-8'>
             <button
               onClick={() => setActiveTab('comments')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
@@ -141,7 +144,7 @@ const AdminPanel = () => {
       </nav>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
         {activeTab === 'comments' && <CommentsManagement />}
         {activeTab === 'newsletter' && <NewsletterManagement />}
         {activeTab === 'stats' && <BlogStats />}
@@ -151,4 +154,3 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
-

@@ -65,7 +65,9 @@ export function getAllBlogs(): BlogPost[] {
           tags: Array.isArray(data.tags)
             ? data.tags.filter((tag: any) => typeof tag === 'string')
             : [],
-          image: data.image ? data.image.replace('../../public', '') : undefined,
+          image: data.image
+            ? data.image.replace('../../public', '')
+            : undefined,
           isPublished: data.isPublished !== false,
           toc: data.toc || [],
           readingTime: {
