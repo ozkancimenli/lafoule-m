@@ -53,7 +53,7 @@ export function getAllBlogs(): BlogPost[] {
           publishedAt: data.publishedAt || '',
           updatedAt: data.updatedAt || data.publishedAt || '',
           author: data.author || 'Ozkan Cimenli',
-          tags: Array.isArray(data.tags) ? data.tags : [],
+          tags: Array.isArray(data.tags) ? data.tags.filter(tag => typeof tag === 'string') : [],
           image: data.image,
           isPublished: data.isPublished !== false,
           readingTime: {
@@ -101,7 +101,7 @@ export function getBlogBySlug(slug: string): BlogPost | null {
       publishedAt: data.publishedAt || '',
       updatedAt: data.updatedAt || data.publishedAt || '',
       author: data.author || 'Ozkan Cimenli',
-      tags: Array.isArray(data.tags) ? data.tags : [],
+      tags: Array.isArray(data.tags) ? data.tags.filter(tag => typeof tag === 'string') : [],
       image: data.image,
       isPublished: data.isPublished !== false,
       readingTime: {
@@ -124,7 +124,9 @@ export function getAllTags(): string[] {
   const tags = new Set<string>();
 
   blogs.forEach(blog => {
-    blog.tags.forEach(tag => tags.add(tag));
+    if (blog.tags && Array.isArray(blog.tags)) {
+      blog.tags.forEach(tag => tags.add(tag));
+    }
   });
 
   return Array.from(tags).sort();
@@ -132,5 +134,5 @@ export function getAllTags(): string[] {
 
 export function getBlogsByTag(tag: string): BlogPost[] {
   const blogs = getAllBlogs();
-  return blogs.filter(blog => blog.tags.includes(tag));
+  return blogs.filter(blog => blog.tags && Array.isArray(blog.tags) && blog.tags.includes(tag));
 }
