@@ -33,11 +33,5 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
 
-      - name: Deploy to Vercel
-        if: github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+      - name: Build completed
+        run: echo "✅ Build completed successfully! Deploy manually or configure Vercel secrets for automatic deployment."
