@@ -8,7 +8,6 @@ const createSupabaseServerClient = () => {
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl) {
@@ -17,16 +16,13 @@ const createSupabaseServerClient = () => {
     );
   }
 
-  // Use service role key if available, otherwise fall back to anon key
-  const key = serviceRoleKey || anonKey;
-
-  if (!key) {
+  if (!anonKey) {
     throw new Error(
-      'Neither SUPABASE_SERVICE_ROLE_KEY nor NEXT_PUBLIC_SUPABASE_ANON_KEY is set.'
+      'NEXT_PUBLIC_SUPABASE_ANON_KEY is not set. Please add it to your environment configuration.'
     );
   }
 
-  cachedClient = createClient(supabaseUrl, key, {
+  cachedClient = createClient(supabaseUrl, anonKey, {
     auth: {
       persistSession: false,
     },
