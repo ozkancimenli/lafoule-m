@@ -66,18 +66,37 @@ jobs:
           pwd
           echo "Directory contents before build:"
           ls -la
-          npm run build || { echo "❌ Build failed"; exit 1; }
-          echo "✅ Build completed"
+          
+          # Run build with more verbose output
+          npm run build
+          BUILD_EXIT_CODE=$?
+          
+          echo "Build exit code: $BUILD_EXIT_CODE"
           echo "Directory contents after build:"
           ls -la
+          
           echo "Checking for .next directory:"
           if [ -d ".next" ]; then
             echo "✅ .next directory found"
+            echo "Size of .next directory:"
+            du -sh .next/
+            echo "Contents of .next directory:"
             ls -la .next/
           else
             echo "❌ .next directory not found"
+            echo "Searching for .next directory:"
             find . -name ".next" -type d 2>/dev/null || echo "No .next directory found anywhere"
+            echo "All directories containing 'next':"
+            find . -name "*next*" -type d 2>/dev/null || echo "No directories containing 'next' found"
           fi
+          
+          # Exit with build status
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "❌ Build failed with exit code $BUILD_EXIT_CODE"
+            exit $BUILD_EXIT_CODE
+          fi
+          
+          echo "✅ Build completed successfully"
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
@@ -112,7 +131,6 @@ jobs:
         with:
           name: build-files
           path: .next/
-          if-no-files-found: warn
           retention-days: 1
 
   security:
@@ -145,7 +163,6 @@ jobs:
         with:
           name: build-files
           path: .next/
-          if-no-files-found: error
 
       - name: Verify Vercel secrets
         run: |
