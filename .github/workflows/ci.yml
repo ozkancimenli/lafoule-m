@@ -34,7 +34,7 @@ jobs:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
 
       - name: Deploy to Vercel
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
