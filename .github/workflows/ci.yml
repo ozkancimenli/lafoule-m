@@ -37,7 +37,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage/lcov.info
-          flags: unittests
+          flags: unit-tests
           name: codecov-umbrella
 
   build:
@@ -62,8 +62,6 @@ jobs:
           echo "Starting Next.js build..."
           npm run build || { echo "❌ Build failed"; exit 1; }
           echo "✅ Build completed"
-          
-          
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
@@ -72,7 +70,6 @@ jobs:
           NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD || 'default_password' }}
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://ozkancimenli.com' }}
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY || '' }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || '' }}
 
       - name: Verify build output
         run: |
@@ -127,6 +124,26 @@ jobs:
           name: build-files
           path: .next/
           if-no-files-found: error
+
+      - name: Verify Vercel secrets
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "❌ VERCEL_TOKEN secret is not set"
+            exit 1
+          fi
+          if [ -z "$VERCEL_ORG_ID" ]; then
+            echo "❌ VERCEL_ORG_ID secret is not set"
+            exit 1
+          fi
+          if [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "❌ VERCEL_PROJECT_ID secret is not set"
+            exit 1
+          fi
+          echo "✅ All Vercel secrets are configured"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || '' }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || '' }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || '' }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25

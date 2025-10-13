@@ -12,8 +12,8 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || '' }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || '' }}
 
     steps:
       - name: Checkout repository
@@ -33,8 +33,8 @@ jobs:
       - name: Generate blog post
         run: node scripts/generate-blog.js
         env:
-          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-          HF_ACCESS_TOKEN: ${{ secrets.HF_ACCESS_TOKEN }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY || '' }}
+          HF_ACCESS_TOKEN: ${{ secrets.HF_ACCESS_TOKEN || '' }}
 
       - name: Build site to validate content
         run: npm run build
