@@ -60,6 +60,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build application
+        id: build
         run: |
           echo "Starting Next.js build..."
           echo "Current working directory:"
@@ -96,7 +97,15 @@ jobs:
             exit $BUILD_EXIT_CODE
           fi
           
+          # Check if .next directory exists after successful build
+          if [ ! -d ".next" ]; then
+            echo "❌ Build completed but .next directory not found"
+            echo "This indicates a build configuration issue"
+            exit 1
+          fi
+          
           echo "✅ Build completed successfully"
+          echo "✅ .next directory verified"
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
@@ -126,7 +135,21 @@ jobs:
           ls -la .next/
 
       - name: Upload build artifacts
-        if: success()
+        if: steps.build.outcome == 'success'
+        run: |
+          echo "Checking if .next directory exists before upload..."
+          if [ -d ".next" ]; then
+            echo "✅ .next directory found, proceeding with upload"
+            echo "Size of .next directory:"
+            du -sh .next/
+          else
+            echo "❌ .next directory not found, cannot upload artifacts"
+            exit 1
+          fi
+        continue-on-error: false
+
+      - name: Upload .next directory
+        if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: build-files
