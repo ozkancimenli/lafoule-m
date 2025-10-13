@@ -10,6 +10,7 @@ import SchemaMarkup from '../components/SEO/SchemaMarkup';
 import PWAInstallPrompt from '../components/PWA/PWAInstallPrompt';
 import BackToTop from '../components/UI/BackToTop';
 import { usePerformance } from '../hooks/usePerformance';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ReactNode } from 'react';
 
 const inter = Inter({
@@ -98,6 +99,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Footer />
         <PWAInstallPrompt />
         <BackToTop />
+        <SpeedInsights />
       </body>
     </html>
   );
