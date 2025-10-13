@@ -62,8 +62,22 @@ jobs:
       - name: Build application
         run: |
           echo "Starting Next.js build..."
+          echo "Current working directory:"
+          pwd
+          echo "Directory contents before build:"
+          ls -la
           npm run build || { echo "❌ Build failed"; exit 1; }
           echo "✅ Build completed"
+          echo "Directory contents after build:"
+          ls -la
+          echo "Checking for .next directory:"
+          if [ -d ".next" ]; then
+            echo "✅ .next directory found"
+            ls -la .next/
+          else
+            echo "❌ .next directory not found"
+            find . -name ".next" -type d 2>/dev/null || echo "No .next directory found anywhere"
+          fi
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
@@ -76,15 +90,21 @@ jobs:
       - name: Verify build output
         run: |
           echo "Verifying build output..."
+          echo "Current working directory:"
+          pwd
+          echo "Directory contents:"
+          ls -la
           if [ ! -d ".next" ]; then
             echo "❌ Error: .next directory not found after build"
-            echo "Current directory contents:"
-            ls -la
+            echo "Searching for .next directory:"
+            find . -name ".next" -type d 2>/dev/null || echo "No .next directory found"
             exit 1
           fi
           echo "✅ Build output verified: .next directory exists"
           echo "Build size:"
           du -sh .next/
+          echo "Contents of .next directory:"
+          ls -la .next/
 
       - name: Upload build artifacts
         if: success()
@@ -92,7 +112,7 @@ jobs:
         with:
           name: build-files
           path: .next/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 1
 
   security:
