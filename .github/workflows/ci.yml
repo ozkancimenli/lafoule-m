@@ -59,14 +59,31 @@ jobs:
         run: npm ci
 
       - name: Build application
-        run: npm run build
+        run: |
+          echo "Starting Next.js build..."
+          npm run build
+          echo "Build completed successfully"
         env:
           NODE_ENV: production
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || '' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || '' }}
 
+      - name: Verify build output
+        run: |
+          echo "Verifying build output..."
+          if [ ! -d ".next" ]; then
+            echo "❌ Error: .next directory not found after build"
+            echo "Current directory contents:"
+            ls -la
+            exit 1
+          fi
+          echo "✅ Build output verified: .next directory exists"
+          echo "Build size:"
+          du -sh .next/
+
       - name: Upload build artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: build-files

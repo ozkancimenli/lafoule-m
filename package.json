@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@dotlottie/react-player": "^1.2.1",
+    "@mdx-js/esbuild": "^3.1.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.4",
