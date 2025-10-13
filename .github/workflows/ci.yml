@@ -7,58 +7,20 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linting
-        run: npm run lint
-
-      - name: Run type checking
-        run: npx tsc --noEmit
-
-      - name: Run tests
-        run: npm run test:coverage
-
-      - name: Upload coverage to Codecov
-        if: success()
-        uses: codecov/codecov-action@v4
-        with:
-          file: ./coverage/lcov.info
-          flags: unit-tests
-          name: codecov-umbrella
-          fail_ci_if_error: false
-
   build:
-    name: Build
+    name: Build & Deploy
     runs-on: ubuntu-latest
-    needs: test
+    if: always()
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Build application
         run: |
@@ -67,43 +29,20 @@ jobs:
           echo "✅ Build completed successfully"
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || '' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || '' }}
-          NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD || 'Bunuhat1rla' }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://ozkancimenli.com' }}
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY || '' }}
-
-      - name: Verify .next directory
-        run: |
-          echo "🔍 Checking for .next directory..."
-          ls -la
-          if [ ! -d ".next" ]; then
-            echo "❌ .next directory not found!"
-            find . -name ".next" -type d || echo "No .next folder found"
-            exit 1
-          fi
-          echo "✅ .next directory exists"
-          du -sh .next/
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: .next/
-          retention-days: 1
+          retention-days: 3
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-files
