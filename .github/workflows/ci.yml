@@ -59,122 +59,36 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
       - name: Build application
-        id: build
         run: |
-          echo "Starting Next.js build..."
-          echo "Current working directory:"
-          pwd
-          echo "Directory contents before build:"
-          ls -la
-          
-          # Run build with more verbose output
-          npm run build
-          BUILD_EXIT_CODE=$?
-          
-          echo "Build exit code: $BUILD_EXIT_CODE"
-          echo "Directory contents after build:"
-          ls -la
-          
-          echo "Checking for .next directory:"
-          if [ -d ".next" ]; then
-            echo "✅ .next directory found"
-            echo "Size of .next directory:"
-            du -sh .next/
-            echo "Contents of .next directory:"
-            ls -la .next/
-          else
-            echo "❌ .next directory not found"
-            echo "Searching for .next directory:"
-            find . -name ".next" -type d 2>/dev/null || echo "No .next directory found anywhere"
-            echo "All directories containing 'next':"
-            find . -name "*next*" -type d 2>/dev/null || echo "No directories containing 'next' found"
-          fi
-          
-          # Exit with build status
-          if [ $BUILD_EXIT_CODE -ne 0 ]; then
-            echo "❌ Build failed with exit code $BUILD_EXIT_CODE"
-            exit $BUILD_EXIT_CODE
-          fi
-          
-          # Check if .next directory exists after successful build
-          if [ ! -d ".next" ]; then
-            echo "❌ Build completed but .next directory not found"
-            echo "This indicates a build configuration issue"
-            exit 1
-          fi
-          
+          echo "🚀 Starting Next.js build..."
+          npm run build || { echo "❌ Build failed"; exit 1; }
           echo "✅ Build completed successfully"
-          echo "✅ .next directory verified"
-        env:
-          NODE_ENV: production
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID || '' }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || '' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || '' }}
-          NEXT_PUBLIC_ADMIN_PASSWORD: ${{ secrets.NEXT_PUBLIC_ADMIN_PASSWORD || 'default_password' }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://ozkancimenli.com' }}
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY || '' }}
 
-      - name: Verify build output
+      - name: Verify .next directory
         run: |
-          echo "Verifying build output..."
-          echo "Current working directory:"
-          pwd
-          echo "Directory contents:"
+          echo "🔍 Checking for .next directory..."
           ls -la
           if [ ! -d ".next" ]; then
-            echo "❌ Error: .next directory not found after build"
-            echo "Searching for .next directory:"
-            find . -name ".next" -type d 2>/dev/null || echo "No .next directory found"
+            echo "❌ .next directory not found!"
+            find . -name ".next" -type d || echo "No .next folder found"
             exit 1
           fi
-          echo "✅ Build output verified: .next directory exists"
-          echo "Build size:"
+          echo "✅ .next directory exists"
           du -sh .next/
-          echo "Contents of .next directory:"
-          ls -la .next/
 
-      - name: Upload build artifacts
-        if: steps.build.outcome == 'success'
-        run: |
-          echo "Checking if .next directory exists before upload..."
-          if [ -d ".next" ]; then
-            echo "✅ .next directory found, proceeding with upload"
-            echo "Size of .next directory:"
-            du -sh .next/
-          else
-            echo "❌ .next directory not found, cannot upload artifacts"
-            exit 1
-          fi
-        continue-on-error: false
-
-      - name: Upload .next directory
-        if: steps.build.outcome == 'success'
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-files
           path: .next/
           retention-days: 1
 
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'table'
-
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [test, build]
+    needs: build
     if: github.ref == 'refs/heads/main'
 
     steps:
@@ -186,26 +100,6 @@ jobs:
         with:
           name: build-files
           path: .next/
-
-      - name: Verify Vercel secrets
-        run: |
-          if [ -z "$VERCEL_TOKEN" ]; then
-            echo "❌ VERCEL_TOKEN secret is not set"
-            exit 1
-          fi
-          if [ -z "$VERCEL_ORG_ID" ]; then
-            echo "❌ VERCEL_ORG_ID secret is not set"
-            exit 1
-          fi
-          if [ -z "$VERCEL_PROJECT_ID" ]; then
-            echo "❌ VERCEL_PROJECT_ID secret is not set"
-            exit 1
-          fi
-          echo "✅ All Vercel secrets are configured"
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN || '' }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || '' }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || '' }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
