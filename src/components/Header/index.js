@@ -151,7 +151,7 @@ const Header = () => {
           href={siteMetadata.twitter}
           rel='noopener noreferrer'
           className='inline-block w-6 h-6 mr-4'
-          aria-label='Reach out to me via Twitter'
+          aria-label='Reach out to me via X'
           target='_blank'
         >
           <TwitterIcon className='hover:scale-125 transition-all ease duration-200' />

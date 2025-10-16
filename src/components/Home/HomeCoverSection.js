@@ -20,7 +20,7 @@ const HomeCoverSection = ({ blogs }) => {
 
   return (
     <div className='w-full inline-block'>
-      <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh]'>
+      <article className='flex flex-col items-start justify-end mx-5 sm:mx-10 relative h-[60vh] sm:h-[85vh] rounded-3xl overflow-hidden'>
         <div
           className='absolute top-0 left-0 bottom-0 right-0 h-full
             bg-gradient-to-b from-transparent from-0% to-dark/90 rounded-3xl z-0
@@ -30,7 +30,7 @@ const HomeCoverSection = ({ blogs }) => {
           src={blog.image || '/blogs/default-blog.jpg'}
           alt={blog.title}
           fill
-          className='w-full h-full object-center object-cover rounded-3xl -z-10'
+          className='w-full h-full object-center object-cover -z-10'
           sizes='100vw'
           priority
         />

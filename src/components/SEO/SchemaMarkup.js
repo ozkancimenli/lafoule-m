@@ -33,7 +33,7 @@ const SchemaMarkup = ({
         sameAs: [
           'https://github.com/ozkancimenli',
           'https://linkedin.com/in/ozkancimenli',
-          'https://twitter.com/ozkancimenli',
+          'https://x.com/ozkancimenli',
         ],
       };
     }

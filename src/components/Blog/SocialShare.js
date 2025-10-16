@@ -16,7 +16,7 @@ const SocialShare = ({ title, url, description }) => {
   const shareText = `${title} - ${description}`;
 
   const shareLinks = {
-    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
+    twitter: `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
     github: `https://github.com/ozkancimenli`,
   };
@@ -42,7 +42,7 @@ const SocialShare = ({ title, url, description }) => {
         target='_blank'
         rel='noopener noreferrer'
         className='text-gray-600 dark:text-gray-400 hover:text-primary transition-colors'
-        aria-label='Share on Twitter'
+        aria-label='Share on X'
       >
         <TwitterIcon className='w-5 h-5' />
       </a>

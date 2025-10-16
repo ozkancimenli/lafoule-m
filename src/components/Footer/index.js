@@ -134,7 +134,7 @@ const Footer = () => {
         <a
           href={siteMetadata.twitter}
           className='inline-block w-6 h-6 mr-4'
-          aria-label='Reach out to me via Twitter'
+          aria-label='Reach out to me via X'
           target='_blank'
           rel='noopener noreferrer'
         >
