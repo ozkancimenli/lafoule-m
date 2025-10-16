@@ -1,15 +1,15 @@
 import "./globals.css";
-import { cx } from "@/src/utils";
+import { cx } from "../utils";
 import { Inter, Manrope } from "next/font/google";
-import Header from "@/src/components/Header";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 import siteMetadata from "../utils/siteMetaData";
 import Script from "next/script";
-import GoogleAnalytics from "@/src/components/Analytics/GoogleAnalytics";
-import SchemaMarkup from "@/src/components/SEO/SchemaMarkup";
-import PWAInstallPrompt from "@/src/components/PWA/PWAInstallPrompt";
-import BackToTop from "@/src/components/UI/BackToTop";
-import { usePerformance } from "@/src/hooks/usePerformance";
+import GoogleAnalytics from "../components/Analytics/GoogleAnalytics";
+import SchemaMarkup from "../components/SEO/SchemaMarkup";
+import PWAInstallPrompt from "../components/PWA/PWAInstallPrompt";
+import BackToTop from "../components/UI/BackToTop";
+import { usePerformance } from "../hooks/usePerformance";
 
 const inter = Inter({
   subsets: ["latin"],
