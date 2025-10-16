@@ -1,12 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Logo from './Logo';
-import {
-  GithubIcon,
-  LinkedinIcon,
-  MoonIcon,
-  SunIcon,
-} from '../Icons';
+import { GithubIcon, LinkedinIcon, MoonIcon, SunIcon } from '../Icons';
 import siteMetadata from '../../utils/siteMetaData';
 import { useThemeSwitch } from '../Hooks/useThemeSwitch';
 import { useState } from 'react';
