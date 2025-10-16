@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from '../Icons';
+import { GithubIcon, LinkedinIcon } from '../Icons';
 
 const SocialShare = ({ title, url, description }) => {
   const [copied, setCopied] = useState(false);
@@ -16,7 +16,6 @@ const SocialShare = ({ title, url, description }) => {
   const shareText = `${title} - ${description}`;
 
   const shareLinks = {
-    twitter: `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
     github: `https://github.com/ozkancimenli`,
   };
@@ -37,15 +36,7 @@ const SocialShare = ({ title, url, description }) => {
         Share:
       </span>
 
-      <a
-        href={shareLinks.twitter}
-        target='_blank'
-        rel='noopener noreferrer'
-        className='text-gray-600 dark:text-gray-400 hover:text-primary transition-colors'
-        aria-label='Share on X'
-      >
-        <TwitterIcon className='w-5 h-5' />
-      </a>
+      {/* X/Twitter share removed per request */}
 
       <a
         href={shareLinks.linkedin}

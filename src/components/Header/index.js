@@ -6,7 +6,6 @@ import {
   LinkedinIcon,
   MoonIcon,
   SunIcon,
-  TwitterIcon,
 } from '../Icons';
 import siteMetadata from '../../utils/siteMetaData';
 import { useThemeSwitch } from '../Hooks/useThemeSwitch';
@@ -147,15 +146,7 @@ const Header = () => {
         >
           <LinkedinIcon className='hover:scale-125 transition-all ease duration-200' />
         </a>
-        <a
-          href={siteMetadata.twitter}
-          rel='noopener noreferrer'
-          className='inline-block w-6 h-6 mr-4'
-          aria-label='Reach out to me via X'
-          target='_blank'
-        >
-          <TwitterIcon className='hover:scale-125 transition-all ease duration-200' />
-        </a>
+        {/* X/Twitter removed per request */}
         <a
           href={siteMetadata.github}
           rel='noopener noreferrer'

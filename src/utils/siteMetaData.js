@@ -11,7 +11,7 @@ const siteMetadata = {
   socialBanner: '/social-banner.png', // should be in /public folder
   email: 'cimenliozkan1@gmail.com',
   github: 'https://github.com/ozkancimenli',
-  twitter: 'https://x.com/cimenliozkan1',
+  twitter: '',
   linkedin: 'https://www.linkedin.com/in/ozkancimenli/',
   locale: 'en-US',
   keywords: [

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from '../Icons';
+import { GithubIcon, LinkedinIcon } from '../Icons';
 import siteMetadata from '../../utils/siteMetaData';
 import { supabase } from '../../utils/supabaseClient';
 import { sendNewsletterWelcomeEmail } from '../../utils/brevoEmail';
@@ -131,15 +131,7 @@ const Footer = () => {
         >
           <LinkedinIcon className='hover:scale-125 transition-all ease duration-200' />
         </a>
-        <a
-          href={siteMetadata.twitter}
-          className='inline-block w-6 h-6 mr-4'
-          aria-label='Reach out to me via X'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <TwitterIcon className='hover:scale-125 transition-all ease duration-200' />
-        </a>
+        {/* X/Twitter removed per request */}
         <a
           href={siteMetadata.github}
           className='inline-block w-6 h-6 mr-4 fill-light'
