@@ -12,6 +12,26 @@ const projects = [
     status: 'Featured',
   },
   {
+    title: 'RateSetter Admin',
+    description:
+      'Professional admin dashboard for managing hourly rates by project and role. Features real-time search, inline editing, bulk operations, and comprehensive testing with Vitest and Playwright.',
+    tech: ['Next.js', 'TypeScript', 'TanStack Query', 'shadcn/ui', 'React Hook Form', 'Zod'],
+    github: 'https://github.com/ozkancimenli/ratesetter-admin',
+    live: 'https://ratesetter-admin.vercel.app',
+    year: '2025',
+    status: 'Live',
+  },
+  {
+    title: 'ozkanUI Showcase',
+    description:
+      'Professional showcase website for the @ozkan/ui component library. Interactive component demonstrations with fully responsive design, showcasing all premium effects and real-world usage examples.',
+    tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'App Router'],
+    github: 'https://github.com/ozkancimenli/showcase',
+    live: 'https://ozkanui.vercel.app',
+    year: '2025',
+    status: 'Live',
+  },
+  {
     title: 'CollabCanvas',
     description:
       'Real-time collaboration canvas built with Next.js, Liveblocks, and Clerk Auth. Enables multiplayer drawing, shared cursors, and synced sessions with cloud persistence.',
