@@ -15,7 +15,14 @@ const projects = [
     title: 'RateSetter Admin',
     description:
       'Professional admin dashboard for managing hourly rates by project and role. Features real-time search, inline editing, bulk operations, and comprehensive testing with Vitest and Playwright.',
-    tech: ['Next.js', 'TypeScript', 'TanStack Query', 'shadcn/ui', 'React Hook Form', 'Zod'],
+    tech: [
+      'Next.js',
+      'TypeScript',
+      'TanStack Query',
+      'shadcn/ui',
+      'React Hook Form',
+      'Zod',
+    ],
     github: 'https://github.com/ozkancimenli/ratesetter-admin',
     live: 'https://ratesetter-admin.vercel.app',
     year: '2025',
