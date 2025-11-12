@@ -4,7 +4,6 @@ import { Inter, Manrope } from 'next/font/google';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import siteMetadata from '../utils/siteMetaData';
-import Script from 'next/script';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics';
 import SchemaMarkup from '../components/SEO/SchemaMarkup';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -80,8 +79,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
         suppressHydrationWarning
       >
-        <Script id='theme-switcher' strategy='beforeInteractive'>
-          {`(function() {
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
   try {
     const theme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -89,8 +89,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       document.documentElement.classList.add('dark');
     }
   } catch (e) {}
-})();`}
-        </Script>
+})();`,
+          }}
+        />
         <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
         <SchemaMarkup
           type='Person'
