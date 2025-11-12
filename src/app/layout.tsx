@@ -2,24 +2,14 @@ import './globals.css';
 import { cx } from '../utils';
 import { Inter, Manrope } from 'next/font/google';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import siteMetadata from '../utils/siteMetaData';
 import Script from 'next/script';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics';
 import SchemaMarkup from '../components/SEO/SchemaMarkup';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ReactNode } from 'react';
-import dynamic from 'next/dynamic';
-
-// Dynamic imports for below-the-fold components
-const Footer = dynamic(() => import('../components/Footer'), {
-  ssr: true,
-});
-const PWAInstallPrompt = dynamic(() => import('../components/PWA/PWAInstallPrompt'), {
-  ssr: false,
-});
-const BackToTop = dynamic(() => import('../components/UI/BackToTop'), {
-  ssr: false,
-});
+import ClientOnlyComponents from './ClientOnlyComponents';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -116,8 +106,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Header />
         {children}
         <Footer />
-        <PWAInstallPrompt />
-        <BackToTop />
+        <ClientOnlyComponents />
         <SpeedInsights />
       </body>
     </html>
