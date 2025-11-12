@@ -2,27 +2,39 @@ import './globals.css';
 import { cx } from '../utils';
 import { Inter, Manrope } from 'next/font/google';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import siteMetadata from '../utils/siteMetaData';
 import Script from 'next/script';
 import GoogleAnalytics from '../components/Analytics/GoogleAnalytics';
 import SchemaMarkup from '../components/SEO/SchemaMarkup';
-import PWAInstallPrompt from '../components/PWA/PWAInstallPrompt';
-import BackToTop from '../components/UI/BackToTop';
-import { usePerformance } from '../hooks/usePerformance';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ReactNode } from 'react';
+import dynamic from 'next/dynamic';
+
+// Dynamic imports for below-the-fold components
+const Footer = dynamic(() => import('../components/Footer'), {
+  ssr: true,
+});
+const PWAInstallPrompt = dynamic(() => import('../components/PWA/PWAInstallPrompt'), {
+  ssr: false,
+});
+const BackToTop = dynamic(() => import('../components/UI/BackToTop'), {
+  ssr: false,
+});
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-in',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const manrope = Manrope({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-mr',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata = {
@@ -58,6 +70,9 @@ export const metadata = {
     title: siteMetadata.title,
     images: [siteMetadata.socialBanner],
   },
+  other: {
+    'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com',
+  },
 };
 
 interface RootLayoutProps {
@@ -75,12 +90,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
         suppressHydrationWarning
       >
-        <Script id='theme-switcher' strategy='afterInteractive'>
-          {`if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }`}
+        <Script id='theme-switcher' strategy='beforeInteractive'>
+          {`(function() {
+  try {
+    const theme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (theme === 'dark' || (!theme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (e) {}
+})();`}
         </Script>
         <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
         <SchemaMarkup
