@@ -5,7 +5,9 @@ import BlogLayoutThree from '../../components/Blog/BlogLayoutThree';
 import BlogLayoutTwo from '../../components/Blog/BlogLayoutTwo';
 import Categories from '../../components/Blog/Categories';
 import BlogSearch from '../../components/Blog/BlogSearch';
+import AdsterraAd from '../../components/Ads/AdsterraAd';
 import { slug } from 'github-slugger';
+import React from 'react';
 
 export const metadata = {
   title: 'All Blog Posts',
@@ -120,10 +122,18 @@ const BlogsPage = () => {
       {archive.length > 0 && (
         <section className='px-5 sm:px-10 md:px-24 sxl:px-32 mt-16 sm:mt-20 md:mt-24 space-y-12'>
           <h2 className='text-xl font-semibold'>Latest deep dives</h2>
-          {archive.map(blog => (
-            <article key={blog.slug}>
-              <BlogLayoutTwo blog={blog} />
-            </article>
+          {archive.map((blog, index) => (
+            <React.Fragment key={blog.slug}>
+              <article>
+                <BlogLayoutTwo blog={blog} />
+              </article>
+              {/* Ad after every 3rd blog post */}
+              {(index + 1) % 3 === 0 && index < archive.length - 1 && (
+                <div className='py-4'>
+                  <AdsterraAd />
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </section>
       )}
