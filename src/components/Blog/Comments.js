@@ -84,20 +84,20 @@ const Comments = ({ blogSlug }) => {
 
   if (isLoading) {
     return (
-      <div className='mt-8 p-4 text-center text-gray-500'>
+      <div className='mt-8 p-4 text-center text-dark/70 dark:text-light/70'>
         Loading comments...
       </div>
     );
   }
 
   return (
-    <div className='mt-12 border-t border-dark/10 dark:border-light/10 pt-8'>
+    <div className='mt-12 border-t border-dark/10 dark:border-light/10 pt-8 px-5 md:px-10'>
       <h3 className='text-2xl font-semibold text-dark dark:text-light mb-6'>
         Comments ({comments.length})
       </h3>
 
       {/* Comment Form */}
-      <div className='mb-8'>
+      <div className='mb-8 max-w-2xl mx-auto'>
         <form onSubmit={handleSubmit} className='space-y-4'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
             <div>
@@ -159,9 +159,9 @@ const Comments = ({ blogSlug }) => {
       </div>
 
       {/* Comments List */}
-      <div className='space-y-6'>
+      <div className='space-y-6 max-w-2xl mx-auto'>
         {comments.length === 0 ? (
-          <p className='text-gray-500 dark:text-gray-400 text-center py-8'>
+          <p className='text-dark/70 dark:text-light/70 text-center py-8 text-lg'>
             No comments yet. Be the first to comment!
           </p>
         ) : (
