@@ -44,4 +44,3 @@ const AdsterraAd = () => {
 };
 
 export default AdsterraAd;
-
