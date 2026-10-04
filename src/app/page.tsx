@@ -68,6 +68,12 @@ export default function Home(): JSX.Element {
                 >
                   Contact
                 </a>
+                <a
+                  href='https://calendly.com/ozkan'
+                  className='rounded-full border border-solid border-dark/20 dark:border-light/20 px-6 py-3 text-dark dark:text-light font-semibold transition-colors hover:bg-dark/5 dark:hover:bg-light/10'
+                >
+                  Book a Consultation
+                </a>
               </div>
             </div>
 
