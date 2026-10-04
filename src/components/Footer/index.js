@@ -26,6 +26,10 @@ const Footer = () => {
       setFeedbackMessage('');
       setFeedbackVariant('neutral');
 
+      if (!supabase) {
+        throw new Error('Newsletter service is temporarily unavailable.');
+      }
+
       const { error } = await supabase
         .from('newsletter_subscriptions')
         .insert({ email: data.email });

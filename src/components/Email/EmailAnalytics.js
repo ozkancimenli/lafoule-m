@@ -15,6 +15,11 @@ const EmailAnalytics = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        if (!supabase) {
+          setLoading(false);
+          return;
+        }
+
         // Newsletter stats
         const { count: totalNewsletter } = await supabase
           .from('newsletter_subscriptions')

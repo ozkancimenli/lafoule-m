@@ -19,6 +19,10 @@ const UnsubscribeContent = () => {
       }
 
       try {
+        if (!supabase) {
+          throw new Error('Newsletter service is temporarily unavailable.');
+        }
+
         const { error } = await supabase
           .from('newsletter_subscriptions')
           .delete()

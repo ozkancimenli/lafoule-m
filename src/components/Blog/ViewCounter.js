@@ -1,13 +1,14 @@
 'use client';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import React, { useEffect, useState } from 'react';
 
-const supabase = createClientComponentClient();
+import React, { useEffect, useState } from 'react';
+import { supabase } from '../../utils/supabaseClient';
 
 const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
   const [views, setViews] = useState(0);
 
   useEffect(() => {
+    if (!supabase) return;
+
     const incrementView = async () => {
       try {
         const { error } = await supabase.rpc('increment', {
@@ -28,6 +29,8 @@ const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
   }, [slug, noCount]);
 
   useEffect(() => {
+    if (!supabase) return;
+
     const getViews = async () => {
       try {
         const { data, error } = await supabase
@@ -51,9 +54,9 @@ const ViewCounter = ({ slug, noCount = false, showCount = true }) => {
 
   if (showCount) {
     return <div>{views} views</div>;
-  } else {
-    return null;
   }
+
+  return null;
 };
 
 export default ViewCounter;

@@ -30,6 +30,10 @@ export default function ContactForm() {
       setServerError('');
       setServerSuccess('');
 
+      if (!supabase) {
+        throw new Error('Contact form storage is temporarily unavailable.');
+      }
+
       const { error } = await supabase.from('contact_requests').insert({
         name: data.name,
         email: data.email,
