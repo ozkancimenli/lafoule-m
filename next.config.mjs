@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+const redirectList = JSON.parse(readFileSync(new URL('./redirects.json', import.meta.url), 'utf8'));
 import createMDX from '@next/mdx';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -27,6 +29,10 @@ const nextConfig = {
         hostname: '**.unsplash.com',
       },
     ],
+  },
+  async redirects() {
+    // Silinen otomatik kopya yazılar asıl yazıya kalıcı yönlenir (2026-11-07).
+    return redirectList;
   },
   compress: true,
   poweredByHeader: false,

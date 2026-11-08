@@ -71,8 +71,7 @@ const Footer = () => {
         Interesting Stories | Updates | Guides
       </h3>
       <p className='mt-5 px-4 text-center w-full sm:w-3/5 font-light dark:font-medium text-sm sm:text-base'>
-        Subscribe to learn about new technology and updates. Join over 5000+
-        members community to stay up to date with latest news.
+        Subscribe to get new projects, build notes and updates by email.
       </p>
 
       <form
@@ -149,7 +148,7 @@ const Footer = () => {
 
       <div className='w-full  mt-16 md:mt-24 relative font-medium border-t border-solid border-light py-6 px-8 flex  flex-col md:flex-row items-center justify-between'>
         <span className='text-center'>
-          &copy;2023 ozkancimenli. All rights reserved.
+          &copy;{new Date().getFullYear()} ozkancimenli. All rights reserved.
         </span>
         <div className='text-center'>
           Made with &hearts; by ozkancimenli
