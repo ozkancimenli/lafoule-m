@@ -16,16 +16,23 @@ const AboutCoverSection = () => {
       </div>
 
       <div className='w-full md:w-1/2 flex flex-col text-left items-start justify-center px-5 xs:p-10 pb-10 lg:px-16'>
-        <h1 className='font-bold capitalize text-4xl xs:text-5xl sxl:text-6xl text-center lg:text-left'>
-          Building Ideas Into Reality.
+        <h1 className='font-bold text-4xl xs:text-5xl sxl:text-6xl text-center lg:text-left'>
+          I build things, then run them.
         </h1>
-        <p className='font-medium capitalize mt-4 text-base'>
-          I&apos;m Ozkan Cimenli, a Software Engineer based in New York. I
-          specialize in developing modern full-stack web applications using
-          Next.js, React, and Flask. Driven by curiosity and discipline, I enjoy
-          turning complex problems into clean, efficient solutions. Every
-          project I build reflects my focus on usability, performance, and
-          design.
+        <p className='font-medium mt-4 text-base'>
+          I&apos;m Ozkan Cimenli, a software engineer turned builder. I design
+          products and the systems that keep them running: OmniToolset, a set of
+          free tools that work entirely in the browser; a YouTube channel of
+          optical illusions generated in Blender and narrated by local AI; and
+          the private production system on a single Mac Studio that ties it all
+          together.
+        </p>
+        <p className='font-medium mt-4 text-base'>
+          My background is full-stack web development — Next.js, React and
+          Python — and I still write most of the code myself. I care about
+          things that work without me in the loop: fast, private tools,
+          repeatable pipelines and honest numbers. This site is where I document
+          what I build and what I learn along the way.
         </p>
       </div>
     </section>

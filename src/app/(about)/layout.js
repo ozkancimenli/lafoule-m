@@ -1,14 +1,14 @@
 import InsightRoll from '../../components/About/InsightRoll';
 
 const insights = [
-  '5+ Full-Stack Projects Deployed',
+  'Founder & builder',
   'Software Engineering Graduate 🎓',
-  'Focused on Next.js, React & Flask',
-  'Portfolio-Driven Developer 💻',
-  'Building Real-World SaaS & API Projects',
-  'Passionate About Clean Code & UI Design',
-  'Currently Seeking Software Engineer Roles 🚀',
-  'Based in New York 🇺🇸',
+  'Next.js, React & Python',
+  'Local AI production systems',
+  'Procedural 3D with Blender',
+  'Free tools at OmniToolset',
+  'Daily illusion Shorts on YouTube',
+  'Ship, measure, rebuild',
 ];
 
 export default function AboutLayout({ children }) {
