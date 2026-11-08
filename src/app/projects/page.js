@@ -2,7 +2,8 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Projects',
-  description: 'Full-stack projects by Ozkan Cimenli — Next.js, TypeScript, Supabase and real-time apps, with live demos and source code.',
+  description:
+    'Full-stack projects by Ozkan Cimenli — Next.js, TypeScript, Supabase and real-time apps, with live demos and source code.',
   alternates: { canonical: '/projects' },
 };
 

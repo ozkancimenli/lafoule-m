@@ -4,7 +4,8 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'About',
-  description: 'About Ozkan Cimenli — a builder who designs and runs software, automation and AI production systems.',
+  description:
+    'About Ozkan Cimenli — a builder who designs and runs software, automation and AI production systems.',
   alternates: { canonical: '/about' },
 };
 
