@@ -4,7 +4,6 @@ import Tag from '../../../components/Elements/Tag';
 import Comments from '../../../components/Blog/Comments';
 import RelatedPosts from '../../../components/Blog/RelatedPosts';
 import ReadingProgress from '../../../components/Blog/ReadingProgress';
-import AdsterraAd from '../../../components/Ads/AdsterraAd';
 import siteMetadata from '../../../utils/siteMetaData';
 import { getBlogBySlug } from '../../../lib/blog';
 import { slug as slugify } from 'github-slugger';
@@ -124,7 +123,7 @@ export default async function BlogPage({ params }) {
                 />
               ))}
             </div>
-            <h1 className='inline-block mt-6 font-semibold capitalize text-light text-2xl md:text-3xl lg:text-5xl !leading-normal relative w-5/6'>
+            <h1 className='inline-block mt-6 font-semibold text-light text-2xl md:text-3xl lg:text-5xl !leading-normal relative w-5/6'>
               {blog.title}
             </h1>
           </div>
@@ -174,17 +173,8 @@ export default async function BlogPage({ params }) {
                 )}
               </ul>
             </details>
-            {/* Adsterra Ad in Sidebar */}
-            <div className='mt-6 hidden lg:block'>
-              <AdsterraAd />
-            </div>
           </div>
           <RenderMdx blog={blog} />
-        </div>
-
-        {/* Adsterra Ad after content (mobile) */}
-        <div className='lg:hidden px-5 md:px-10'>
-          <AdsterraAd />
         </div>
 
         {/* Comments Section */}

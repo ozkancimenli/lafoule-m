@@ -50,7 +50,7 @@ const HomeCoverSection = ({ blogs }) => {
             ))}
           </div>
           <Link href={blog.url} className='mt-6'>
-            <h2 className='font-bold capitalize text-lg sm:text-xl md:text-3xl lg:text-4xl'>
+            <h2 className='font-bold text-lg sm:text-xl md:text-3xl lg:text-4xl'>
               <span
                 className='bg-gradient-to-r from-accent to-accent dark:from-accentDark/50 
                 dark:to-accentDark/50 bg-[length:0px_6px]

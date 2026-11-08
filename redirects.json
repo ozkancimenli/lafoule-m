@@ -1,252 +1,292 @@
 [
  {
   "source": "/blogs/ai-tools-for-frontend-developers-1",
-  "destination": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ai-tools-for-frontend-developers-2",
-  "destination": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ai-tools-for-frontend-developers-3",
-  "destination": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ai-tools-for-frontend-developers-4",
-  "destination": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ai-tools-for-frontend-developers-5",
-  "destination": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-1",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-2",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-3",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-4",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-5",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/building-accessible-pwas-6",
-  "destination": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/design-systems-for-remote-teams-1",
-  "destination": "/blogs/design-systems-for-remote-teams",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/design-systems-for-remote-teams-2",
-  "destination": "/blogs/design-systems-for-remote-teams",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/design-systems-for-remote-teams-3",
-  "destination": "/blogs/design-systems-for-remote-teams",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/design-systems-for-remote-teams-4",
-  "destination": "/blogs/design-systems-for-remote-teams",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-1",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-10",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-2",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-3",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-4",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-5",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-6",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-7",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-8",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/developer-productivity-workflows-9",
-  "destination": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-1",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-2",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-3",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-4",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-5",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-6",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-7",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-8",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/ethical-ai-guidelines-for-indie-hackers-9",
-  "destination": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-1",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-2",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-3",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-4",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-5",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-6",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-7",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-8",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/modern-javascript-optimization-patterns-9",
-  "destination": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/next-js-seo-playbook-for-2024-1",
-  "destination": "/blogs/next-js-seo-playbook-for-2024",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/next-js-seo-playbook-for-2024-2",
-  "destination": "/blogs/next-js-seo-playbook-for-2024",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/next-js-seo-playbook-for-2024-3",
-  "destination": "/blogs/next-js-seo-playbook-for-2024",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/supabase-vs-firebase-for-side-projects-1",
-  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/supabase-vs-firebase-for-side-projects-2",
-  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/supabase-vs-firebase-for-side-projects-3",
-  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "destination": "/blogs",
   "permanent": true
  },
  {
   "source": "/blogs/supabase-vs-firebase-for-side-projects-4",
-  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/ai-tools-for-frontend-developers",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/building-accessible-pwas",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/design-systems-for-remote-teams",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/developer-productivity-workflows",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/ethical-ai-guidelines-for-indie-hackers",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/modern-javascript-optimization-patterns",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/next-js-seo-playbook-for-2024",
+  "destination": "/blogs",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/supabase-vs-firebase-for-side-projects",
+  "destination": "/blogs",
   "permanent": true
  }
 ]
