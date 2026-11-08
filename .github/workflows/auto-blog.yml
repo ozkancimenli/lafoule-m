@@ -1,8 +1,7 @@
 name: Auto Blog Generator
 
 on:
-  schedule:
-    - cron: '0 8 * * 1' # Every Monday at 08:00 UTC
+  # Haftalık zamanlama kapatıldı (2026-11-07): aynı başlıkların 5-11 kopyasını üretiyordu.
   workflow_dispatch:
 
 permissions:
