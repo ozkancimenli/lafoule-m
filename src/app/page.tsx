@@ -18,6 +18,13 @@ const ventures = [
       'Branded catalog and product-visual systems designed to give product lines one consistent visual language.',
   },
   {
+    name: 'Optical Illusion Shorts',
+    href: 'https://www.youtube.com/@ozkaninthehouse',
+    label: 'YouTube channel',
+    description:
+      'Forced-perspective and anamorphic illusions built procedurally in Blender and narrated by a local voice model.',
+  },
+  {
     name: 'OmniToolset',
     href: 'https://www.omnitoolset.com',
     label: 'Free online tools',
@@ -63,16 +70,10 @@ export default function Home(): JSX.Element {
                   GitHub
                 </a>
                 <a
-                  href='mailto:info@ozkancimenli.com'
+                  href='/contact'
                   className='rounded-full border border-solid border-dark/20 dark:border-light/20 px-6 py-3 text-dark dark:text-light font-semibold transition-colors hover:bg-dark/5 dark:hover:bg-light/10'
                 >
                   Contact
-                </a>
-                <a
-                  href='https://calendly.com/ozkan'
-                  className='rounded-full border border-solid border-dark/20 dark:border-light/20 px-6 py-3 text-dark dark:text-light font-semibold transition-colors hover:bg-dark/5 dark:hover:bg-light/10'
-                >
-                  Book a Consultation
                 </a>
               </div>
             </div>
@@ -92,7 +93,7 @@ export default function Home(): JSX.Element {
             </div>
           </div>
 
-          <div className='mt-12 grid gap-4 md:grid-cols-3'>
+          <div className='mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
             {ventures.map(venture => (
               <a
                 key={venture.name}
