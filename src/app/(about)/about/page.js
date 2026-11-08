@@ -3,8 +3,10 @@ import Skills from '../../../components/About/Skills';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'About Me',
-  description: `Here are some details about my self.`,
+  title: 'About',
+  description:
+    'About Ozkan Cimenli — a builder who designs and runs software, automation and AI production systems.',
+  alternates: { canonical: '/about' },
 };
 
 export default function About() {

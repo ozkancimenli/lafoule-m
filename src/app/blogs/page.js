@@ -10,7 +10,8 @@ import { slug } from 'github-slugger';
 import React from 'react';
 
 export const metadata = {
-  title: 'All Blog Posts',
+  title: 'Blog',
+  alternates: { canonical: '/blogs' },
   description:
     'Explore every article by Ozkan Cimenli on web development, Next.js, accessibility, performance and productivity.',
 };

@@ -228,5 +228,25 @@
   "source": "/blogs/next-js-seo-playbook-for-2024-3",
   "destination": "/blogs/next-js-seo-playbook-for-2024",
   "permanent": true
+ },
+ {
+  "source": "/blogs/supabase-vs-firebase-for-side-projects-1",
+  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/supabase-vs-firebase-for-side-projects-2",
+  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/supabase-vs-firebase-for-side-projects-3",
+  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "permanent": true
+ },
+ {
+  "source": "/blogs/supabase-vs-firebase-for-side-projects-4",
+  "destination": "/blogs/supabase-vs-firebase-for-side-projects",
+  "permanent": true
  }
 ]

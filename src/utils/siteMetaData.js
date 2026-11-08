@@ -6,7 +6,7 @@ const siteMetadata = {
     'Ozkan Cimenli builds and operates software, automation, and product-presentation businesses including OZ Solutions, CatalogOG, and OmniToolset. Explore the ventures, systems, and writing behind the work.',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://ozkancimenli.com',
+  siteUrl: 'https://www.ozkancimenli.com',
   siteLogo: '/logo.png',
   socialBanner: '/social-banner.png', // should be in /public folder
   email: 'cimenliozkan1@gmail.com',

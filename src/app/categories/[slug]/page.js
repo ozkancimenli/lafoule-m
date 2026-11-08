@@ -26,9 +26,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
+  const { slug: category } = await params;
   return {
-    title: `${params.slug.replaceAll('-', ' ')} Blogs`,
-    description: `Learn more about ${params.slug === 'all' ? 'web development' : params.slug} through our collection of expert blogs and tutorials`,
+    title: `${category.replaceAll('-', ' ')} articles`,
+    description: `Articles by Ozkan Cimenli about ${category === 'all' ? 'web development' : category.replaceAll('-', ' ')}.`,
+    alternates: { canonical: `/categories/${category}` },
+    // Etiket sayfaları ince içerik: dizinlenmesin, bağlantıları izlensin (2026-11-08).
+    robots: { index: false, follow: true },
   };
 }
 
