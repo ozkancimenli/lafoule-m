@@ -37,7 +37,7 @@ const BlogLayoutOne = ({ blog }) => {
           ))}
         </div>
         <Link href={blog.url} className='mt-6'>
-          <h2 className='font-bold capitalize text-sm xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4'>
+          <h2 className='font-bold text-sm xs:text-base sm:text-xl md:text-2xl text-light mt-2 sm:mt-4'>
             <span
               className='bg-gradient-to-r from-accent to-accent bg-[length:0px_6px] dark:from-accentDark/50 dark:to-accentDark/50
                 group-hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 '

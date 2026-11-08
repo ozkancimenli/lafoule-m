@@ -5,7 +5,6 @@ import BlogLayoutThree from '../../components/Blog/BlogLayoutThree';
 import BlogLayoutTwo from '../../components/Blog/BlogLayoutTwo';
 import Categories from '../../components/Blog/Categories';
 import BlogSearch from '../../components/Blog/BlogSearch';
-import AdsterraAd from '../../components/Ads/AdsterraAd';
 import { slug } from 'github-slugger';
 import React from 'react';
 
@@ -128,12 +127,6 @@ const BlogsPage = () => {
               <article>
                 <BlogLayoutTwo blog={blog} />
               </article>
-              {/* Ad after every 3rd blog post */}
-              {(index + 1) % 3 === 0 && index < archive.length - 1 && (
-                <div className='py-4'>
-                  <AdsterraAd />
-                </div>
-              )}
             </React.Fragment>
           ))}
         </section>
