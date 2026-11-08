@@ -1,5 +1,11 @@
 import Link from 'next/link';
 
+export const metadata = {
+  title: 'Projects',
+  description: 'Full-stack projects by Ozkan Cimenli — Next.js, TypeScript, Supabase and real-time apps, with live demos and source code.',
+  alternates: { canonical: '/projects' },
+};
+
 const projects = [
   {
     title: 'EchoMind',
@@ -7,7 +13,7 @@ const projects = [
       'AI-powered note-taking and knowledge management platform with intelligent search, automatic categorization, and cross-platform synchronization. Built with Next.js and advanced AI integration.',
     tech: ['Next.js', 'TypeScript', 'AI/ML', 'Supabase', 'OpenAI API'],
     github: 'https://github.com/ozkancimenli/echomind',
-    live: 'https://echomind.vercel.app',
+    // live demo 500 veriyor (2026-11-08); düzelene kadar yalnızca kod linki
     year: '2025',
     status: 'Featured',
   },

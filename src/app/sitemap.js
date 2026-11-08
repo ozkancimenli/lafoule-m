@@ -61,5 +61,6 @@ export default function sitemap() {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogPages, ...categoryPages];
+  // Kategori sayfaları noindex olduğu için site haritasına girmez.
+  return [...staticPages, ...blogPages];
 }

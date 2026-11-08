@@ -16,9 +16,9 @@ const AboutCoverSection = () => {
       </div>
 
       <div className='w-full md:w-1/2 flex flex-col text-left items-start justify-center px-5 xs:p-10 pb-10 lg:px-16'>
-        <h2 className='font-bold capitalize text-4xl xs:text-5xl sxl:text-6xl text-center lg:text-left'>
+        <h1 className='font-bold capitalize text-4xl xs:text-5xl sxl:text-6xl text-center lg:text-left'>
           Building Ideas Into Reality.
-        </h2>
+        </h1>
         <p className='font-medium capitalize mt-4 text-base'>
           I&apos;m Ozkan Cimenli, a Software Engineer based in New York. I
           specialize in developing modern full-stack web applications using

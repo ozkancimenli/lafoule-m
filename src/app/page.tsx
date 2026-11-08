@@ -19,10 +19,10 @@ const ventures = [
   },
   {
     name: 'OmniToolset',
-    href: 'https://omnitoolset.com',
-    label: 'Automation platform',
+    href: 'https://www.omnitoolset.com',
+    label: 'Free online tools',
     description:
-      'A modular suite for customer communication, workflow automation, and reusable operator tooling.',
+      'Free image, PDF, QR and developer tools that run entirely in the browser — no uploads, no sign-up.',
   },
 ];
 
