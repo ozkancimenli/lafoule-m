@@ -1,0 +1,96 @@
+---
+title: "How I Build Optical-Illusion Shorts With Blender and Local AI"
+description: "The geometry behind forced-perspective and anamorphic illusions, and the local pipeline that turns them into a new YouTube Short every day — without stock footage or cloud APIs."
+publishedAt: "2026-11-08"
+updatedAt: "2026-11-08"
+author: "Ozkan Cimenli"
+isPublished: true
+tags:
+  - blender
+  - ai
+  - automation
+  - youtube
+image: "/blogs/how-i-build-optical-illusion-shorts.jpg"
+---
+
+<Image
+  src="/blogs/how-i-build-optical-illusion-shorts.jpg"
+  width="1200"
+  height="557"
+  alt="Three frames from an illusion Short: a solid triangle that splits into three floating bars as the camera moves"
+  priority
+  sizes="100vw"
+/>
+
+My YouTube channel [@ozkaninthehouse](https://www.youtube.com/@ozkaninthehouse) publishes short optical illusions: a triangle that looks solid until the camera moves, a tunnel that seems endless but is barely a meter deep. Every scene is generated in Blender by code, narrated by a voice model running on my own computer, and assembled automatically. This post explains how it works — the geometry first, then the pipeline.
+
+---
+
+## The trick: every illusion is a lie told to one camera
+
+A photograph throws away depth. A point one meter away and a point ten meters away land on the same pixel if they sit on the same line of sight. Every illusion in the channel exploits exactly that.
+
+### Anamorphic sculptures
+
+Take a flat drawing — a triangle, a heart, a star — placed in front of the camera. Cut it into a few pieces. Now slide each piece along its own line of sight, closer or farther, and scale it by the same factor. From the camera’s position nothing changes: each piece still covers exactly the same pixels. From anywhere else, the pieces are scattered across the scene.
+
+In code that is one line. For a point on the drawing at `(x, z)` and a depth factor `f`:
+
+```python
+def to_world(u, v, f):
+    x, z = u * SIZE, CENTER_HEIGHT + v * SIZE
+    return (f * x, -D0 + f * D0, CAMERA_HEIGHT + f * (z - CAMERA_HEIGHT))
+```
+
+Pick neighboring pieces with clearly different depth factors and the reveal is dramatic: when the camera orbits, the “solid” shape falls apart. This is the same idea as real anamorphic sculptures such as the Penrose triangle in Perth, Australia.
+
+### Forced-perspective tunnels
+
+The second family does the opposite. Copies of a frame — a ring, an arch, a hexagon — are stacked within about one meter, each one smaller than the last. The shrink factor is chosen so that, from the camera, frame *i* looks exactly like a full-size frame standing *i × 3 meters* away. The result reads as a long corridor until the camera swings to the side.
+
+---
+
+## The reveal
+
+The camera holds still for the first four seconds — the only position where the lie works — with a slow zoom (changing focal length doesn’t break the alignment, moving the camera does). Then it orbits around the real center of the geometry and rises, so the viewer sees the pieces separate. Thin support poles under each piece make the real layout readable in the second half.
+
+---
+
+## Never the same video twice
+
+My first version had a handful of hand-built scenes and only changed colors and captions. The result was obvious repetition — viewers saw the same scene with a new voice. So the generator was rebuilt around combinations:
+
+- **2 illusion principles** — anamorphic pieces and forced-perspective tunnels
+- **16 shapes** — Penrose triangle, impossible cube, heart, infinity sign, spiral and more
+- **12 settings** — snowfield, desert dunes, neon alley, museum hall, harbor pier, lavender field…
+- **6 materials** — polished brass, neon tube, white marble, timber and others
+
+Before planning a video, the system loads every combination it has already used and only picks an unused shape–setting–principle combination, favoring shapes and places that have appeared least. That leaves roughly 300 distinct scenes before anything repeats.
+
+---
+
+## The local pipeline
+
+Everything runs on a single Mac Studio:
+
+1. **Concept and script** — a local language model (Qwen, served through LM Studio) receives the scene description and writes a title, two short caption pairs and a color palette. Captions are hard-limited to what can be spoken in about four seconds; longer drafts are rejected and rewritten.
+2. **Render** — Blender builds the scene from scratch in background mode and renders 240 frames at 1080 × 1920 with EEVEE.
+3. **Voice** — a local text-to-speech model reads the captions; a speech-recognition model checks that the audio fits its time slot.
+4. **Sound** — a short synthesized music bed whose notes are seeded from the scene, so each video sounds slightly different.
+5. **Assembly and review** — ffmpeg combines frames, captions and audio; an automated review checks the result before it enters the publishing queue.
+
+The heavy steps take turns: the language model is unloaded from memory before Blender starts, because both at once do not fit in RAM.
+
+---
+
+## A lesson from the phone screen
+
+The first videos had their captions near the bottom of the frame. On a phone, that is exactly where YouTube Shorts, TikTok and Reels draw the channel name, title and buttons — the captions were unreadable. Captions now sit in a safe band near the top of the frame, on a solid dark box with a thick outline, and shrink automatically if a line is too long.
+
+---
+
+## What’s next
+
+The scenes are still simple, and the obvious next step is richer environments and materials. The underlying idea — exact geometry plus a generator that refuses to repeat itself — is what makes a daily series possible without a production team.
+
+You can watch the results on [YouTube](https://www.youtube.com/@ozkaninthehouse).
