@@ -62,6 +62,7 @@ export const metadata = {
   },
   other: {
     'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com',
+    'google-adsense-account': 'ca-pub-5191848106800958',
   },
 };
 
@@ -72,6 +73,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <script
+          async
+          crossOrigin='anonymous'
+          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5191848106800958'
+        />
+      </head>
       <body
         className={cx(
           inter.variable,
