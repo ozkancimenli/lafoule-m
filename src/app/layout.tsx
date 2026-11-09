@@ -62,7 +62,7 @@ export const metadata = {
   },
   other: {
     'dns-prefetch': 'https://fonts.googleapis.com https://fonts.gstatic.com',
-    'google-adsense-account': 'ca-pub-5191848106800958',
+    'google-adsense-account': 'ca-pub-8640955536193345',
   },
 };
 
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <script
           async
           crossOrigin='anonymous'
-          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5191848106800958'
+          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8640955536193345'
         />
       </head>
       <body
