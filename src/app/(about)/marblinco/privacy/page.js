@@ -14,7 +14,9 @@ export default function MarblincoPrivacy() {
       <p className='mb-4'>
         Marblinco (&quot;the game&quot;) is made by Ozkan Cimenli.
       </p>
-      <h2 className='font-semibold text-xl mt-8 mb-3'>What we do not collect</h2>
+      <h2 className='font-semibold text-xl mt-8 mb-3'>
+        What we do not collect
+      </h2>
       <p className='mb-4'>
         The game has no accounts, no sign-in and no chat. We do not ask for your
         name, email address, contacts, photos or location, and the game does not
@@ -35,8 +37,8 @@ export default function MarblincoPrivacy() {
       <p className='mb-4'>
         The free version of the game may show ads from Google AdMob. To show and
         measure ads, Google may use information such as your device&apos;s
-        advertising identifier, IP address and ad interaction data. If you do not
-        allow tracking when iOS asks, ads are shown without the advertising
+        advertising identifier, IP address and ad interaction data. If you do
+        not allow tracking when iOS asks, ads are shown without the advertising
         identifier. See how Google uses this data at{' '}
         <a
           className='underline'
@@ -46,7 +48,9 @@ export default function MarblincoPrivacy() {
         </a>
         . Buying &quot;No Ads&quot; turns these ads off.
       </p>
-      <h2 className='font-semibold text-xl mt-8 mb-3'>Brands inside the game</h2>
+      <h2 className='font-semibold text-xl mt-8 mb-3'>
+        Brands inside the game
+      </h2>
       <p className='mb-4'>
         Some billboards and vehicles in the game show partner brand names. They
         are part of the game&apos;s artwork and do not collect any information.

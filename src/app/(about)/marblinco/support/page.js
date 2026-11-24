@@ -22,8 +22,8 @@ export default function MarblincoSupport() {
       </p>
       <p className='mb-2'>
         <strong>How do I get more hacks?</strong> Pick up chips on the road,
-        open the daily mission chest, keep your login streak, or get them in
-        the Shop.
+        open the daily mission chest, keep your login streak, or get them in the
+        Shop.
       </p>
       <p className='mb-2'>
         <strong>Where is my progress saved?</strong> On your device. Deleting
