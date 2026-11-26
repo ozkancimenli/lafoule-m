@@ -31,6 +31,7 @@ export async function POST(request) {
     // Two places, so one failing never loses a signup: Supabase (contact_requests)
     // and a Brevo contact (Brevo can send the launch email later).
     let saved = false;
+    const why = [];
     try {
       const supabase = createSupabaseServerClient();
       const { error } = await supabase.from('contact_requests').insert({
@@ -39,6 +40,7 @@ export async function POST(request) {
         details: `${TAG}${platform ? ` | platform: ${platform}` : ''}`,
       });
       if (error) {
+        why.push(`db:${error.code || error.message}`);
         console.error(
           'Andre waitlist supabase error:',
           error.code,
@@ -48,6 +50,7 @@ export async function POST(request) {
         saved = true;
       }
     } catch (dbError) {
+      why.push(`db-x:${String(dbError?.message).slice(0, 60)}`);
       console.error('Andre waitlist supabase exception:', dbError?.message);
     }
 
@@ -65,6 +68,7 @@ export async function POST(request) {
         if (res.ok || res.status === 204) {
           saved = true;
         } else {
+          why.push(`mail:${res.status}`);
           console.error(
             'Andre waitlist brevo error:',
             res.status,
@@ -72,13 +76,17 @@ export async function POST(request) {
           );
         }
       } catch (brevoError) {
+        why.push('mail-x');
         console.error('Andre waitlist brevo exception:', brevoError?.message);
       }
     }
 
     if (!saved) {
       return NextResponse.json(
-        { error: "We couldn't save your email. Please try again." },
+        {
+          error: "We couldn't save your email. Please try again.",
+          code: why.join(','),
+        },
         { status: 500 }
       );
     }
