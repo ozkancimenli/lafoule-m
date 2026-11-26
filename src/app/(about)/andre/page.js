@@ -15,9 +15,18 @@ export const metadata = {
 };
 
 const shots = [
-  { src: '/andre/fight1.jpg', alt: 'Andre blocks an ink monster with his shield' },
-  { src: '/andre/fight2.jpg', alt: 'Andre fights two ink creatures in the square' },
-  { src: '/andre/rift.jpg', alt: 'Andre in front of the rift to the broken world' },
+  {
+    src: '/andre/fight1.jpg',
+    alt: 'Andre blocks an ink monster with his shield',
+  },
+  {
+    src: '/andre/fight2.jpg',
+    alt: 'Andre fights two ink creatures in the square',
+  },
+  {
+    src: '/andre/rift.jpg',
+    alt: 'Andre in front of the rift to the broken world',
+  },
 ];
 
 export default function AndrePage() {
@@ -41,10 +50,10 @@ export default function AndrePage() {
         Andre: Dimension Shift
       </h1>
       <p className='text-lg mb-8 max-w-3xl'>
-        A hitman wakes up in a city that is tearing itself apart. Ink crawls
-        out of the asphalt, the streets break into floating islands, and
-        something is watching from under the square. Andre fights his way
-        through with his fists and a shield.
+        A hitman wakes up in a city that is tearing itself apart. Ink crawls out
+        of the asphalt, the streets break into floating islands, and something
+        is watching from under the square. Andre fights his way through with his
+        fists and a shield.
       </p>
 
       <div className='max-w-3xl mb-12'>
@@ -58,17 +67,16 @@ export default function AndrePage() {
           Find the boss key, open the big door, go down.
         </li>
         <li>
-          <strong>The Periscopes</strong> — a predatory boss that combos,
-          leaps and charges. Parry it, bait it into the pillars, break its
-          armor.
+          <strong>The Periscopes</strong> — a predatory boss that combos, leaps
+          and charges. Parry it, bait it into the pillars, break its armor.
         </li>
         <li>
           <strong>The Bulwark</strong> — a shield-bearing mid-boss that only
           opens up when it attacks.
         </li>
         <li>
-          Reworked combat camera, hit reactions and enemy attacks on both
-          sides of every fight.
+          Reworked combat camera, hit reactions and enemy attacks on both sides
+          of every fight.
         </li>
       </ul>
 
