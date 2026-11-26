@@ -28,15 +28,55 @@ export async function POST(request) {
       );
     }
 
-    const supabase = createSupabaseServerClient();
-    const { error } = await supabase.from('contact_requests').insert({
-      name: 'Andre waitlist',
-      email,
-      details: `${TAG}${platform ? ` | platform: ${platform}` : ''}`,
-    });
+    // Two places, so one failing never loses a signup: Supabase (contact_requests)
+    // and a Brevo contact (Brevo can send the launch email later).
+    let saved = false;
+    try {
+      const supabase = createSupabaseServerClient();
+      const { error } = await supabase.from('contact_requests').insert({
+        name: 'Andre waitlist',
+        email,
+        details: `${TAG}${platform ? ` | platform: ${platform}` : ''}`,
+      });
+      if (error) {
+        console.error(
+          'Andre waitlist supabase error:',
+          error.code,
+          error.message
+        );
+      } else {
+        saved = true;
+      }
+    } catch (dbError) {
+      console.error('Andre waitlist supabase exception:', dbError?.message);
+    }
 
-    if (error) {
-      console.error('Supabase insert error (andre waitlist):', error);
+    if (process.env.BREVO_API_KEY) {
+      try {
+        const res = await fetch('https://api.brevo.com/v3/contacts', {
+          method: 'POST',
+          headers: {
+            accept: 'application/json',
+            'api-key': process.env.BREVO_API_KEY,
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify({ email, updateEnabled: true }),
+        });
+        if (res.ok || res.status === 204) {
+          saved = true;
+        } else {
+          console.error(
+            'Andre waitlist brevo error:',
+            res.status,
+            await res.text()
+          );
+        }
+      } catch (brevoError) {
+        console.error('Andre waitlist brevo exception:', brevoError?.message);
+      }
+    }
+
+    if (!saved) {
       return NextResponse.json(
         { error: "We couldn't save your email. Please try again." },
         { status: 500 }
