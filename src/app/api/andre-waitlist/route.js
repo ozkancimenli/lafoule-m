@@ -28,8 +28,8 @@ export async function POST(request) {
       );
     }
 
-    // Two places, so one failing never loses a signup: Supabase (contact_requests)
-    // and a Brevo contact (Brevo can send the launch email later).
+    // Saved to Supabase (contact_requests) when it is reachable and always to a
+    // private Vercel Blob store, so one failing never loses a signup.
     let saved = false;
     const why = [];
     try {
@@ -54,30 +54,41 @@ export async function POST(request) {
       console.error('Andre waitlist supabase exception:', dbError?.message);
     }
 
-    if (process.env.BREVO_API_KEY) {
+    // Primary store: private Vercel Blob (andre-waitlist), one small JSON per signup.
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
       try {
-        const res = await fetch('https://api.brevo.com/v3/contacts', {
-          method: 'POST',
-          headers: {
-            accept: 'application/json',
-            'api-key': process.env.BREVO_API_KEY,
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify({ email, updateEnabled: true }),
-        });
-        if (res.ok || res.status === 204) {
+        const pathname = `andre-waitlist/${Date.now()}.json`;
+        const res = await fetch(
+          `https://blob.vercel-storage.com/?pathname=${encodeURIComponent(pathname)}`,
+          {
+            method: 'PUT',
+            headers: {
+              authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+              'x-api-version': '11',
+              'x-vercel-blob-access': 'private',
+              'x-content-type': 'application/json',
+              'x-add-random-suffix': '1',
+            },
+            body: JSON.stringify({
+              email,
+              platform,
+              at: new Date().toISOString(),
+            }),
+          }
+        );
+        if (res.ok) {
           saved = true;
         } else {
-          why.push(`mail:${res.status}`);
+          why.push(`blob:${res.status}`);
           console.error(
-            'Andre waitlist brevo error:',
+            'Andre waitlist blob error:',
             res.status,
             await res.text()
           );
         }
-      } catch (brevoError) {
-        why.push('mail-x');
-        console.error('Andre waitlist brevo exception:', brevoError?.message);
+      } catch (blobError) {
+        why.push('blob-x');
+        console.error('Andre waitlist blob exception:', blobError?.message);
       }
     }
 
